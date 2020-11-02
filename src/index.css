@@ -50,3 +50,11 @@ h1 {
 h2 {
 	font-size: 3rem;
 }
+
+a {
+	color: white;
+}
+
+a:hover {
+	color: var(--primary-color);
+}

@@ -3,6 +3,7 @@ import { Router } from "@reach/router";
 import Home from "./pages/Home";
 import Exp from "./pages/Exp";
 import Projects from "./pages/Projects";
+import NotFound from "./pages/404";
 
 function App() {
 	return (
@@ -10,6 +11,8 @@ function App() {
 			<Home path="/" />
 			<Exp path="/experience" />
 			<Projects path="/projects" />
+
+			<NotFound path="*" />
 		</Router>
 	);
 }
