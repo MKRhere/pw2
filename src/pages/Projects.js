@@ -46,7 +46,7 @@ const exp = [
 	},
 ];
 
-const ExpUnit = ({ title, url, description, cat, tags }) => {
+const ProjectUnit = ({ title, url, description, cat, tags }) => {
 	return (
 		<div
 			className={css`
@@ -132,7 +132,7 @@ function Exp() {
 					}
 				`}>
 				{exp.map(unit => (
-					<ExpUnit {...unit} />
+					<ProjectUnit {...unit} />
 				))}
 			</div>
 		</Container>

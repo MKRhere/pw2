@@ -1,7 +1,8 @@
 import { css } from "emotion";
 import Container from "../components/Container";
+import Heading from "../components/Heading";
 
-const Em = props => (
+const Dashed = props => (
 	<span
 		className={css`
 			border-bottom: 1px dashed #fff;
@@ -13,26 +14,10 @@ const Em = props => (
 function Home() {
 	return (
 		<Container>
-			<h1
-				className={css`
-					line-height: 1em;
-					margin-bottom: 0;
-
-					h1& {
-						margin-bottom: 0;
-					}
-				`}>
-				MKRhere
-			</h1>
+			<Heading>MKRhere</Heading>
 			<p>
-				Web home of <Em>designer</Em>, <Em>developer</Em>, and <Em>architect</Em>{" "}
-				<span
-					className={css`
-						font-weight: 800;
-						/* color: var(--primary-color); */
-					`}>
-					Muthu Kumar.
-				</span>
+				Web home of <Dashed>designer</Dashed>, <Dashed>developer</Dashed>, and{" "}
+				<Dashed>architect</Dashed> <b>Muthu Kumar.</b>
 			</p>
 		</Container>
 	);
