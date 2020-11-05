@@ -73,10 +73,21 @@ const ExpUnit = ({ title, location, position, year }) => {
 	);
 };
 
+const getAge = date => {
+	var today = new Date();
+	var birthDate = new Date(date);
+	var age = today.getFullYear() - birthDate.getFullYear();
+	var m = today.getMonth() - birthDate.getMonth();
+	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) return age - 1;
+	return age;
+};
+
+const age = getAge("27 May 1995");
+
 function Exp() {
 	return (
 		<Container next="/projects">
-			<h2>I’m a 25 year old developer from Chennai, India.</h2>
+			<h2>I’m a {age} year old developer from Chennai, India.</h2>
 			<p>Here are some places I’ve worked at:</p>
 			<div
 				className={css`
