@@ -1,24 +1,14 @@
-import { css } from "emotion";
+import { Link } from "@reach/router";
 import Container from "../components/Container";
-import Heading from "../components/Heading";
-
-const Dashed = props => (
-	<span
-		className={css`
-			border-bottom: 1px dashed #fff;
-		`}>
-		{props.children}
-	</span>
-);
 
 function Home() {
 	return (
 		<Container>
-			<Heading>Nothing here</Heading>
+			<h1>Nothing here</h1>
 			<p>
 				404. Back to{" "}
 				<b>
-					<a href="/">MKRhere?</a>
+					<Link to="/">MKRhere?</Link>
 				</b>
 			</p>
 		</Container>

@@ -1,5 +1,5 @@
 :root {
-	--primary-color: #ff9494;
+	--background-color: #000000;
 	--primary-color: #ff5555;
 	--text-color: #d3cfc9;
 	font-weight: 500;
@@ -16,7 +16,7 @@ body {
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: #fff;
+	color: var(--text-color);
 }
 
 code {
@@ -43,6 +43,11 @@ h6 {
 	color: var(--primary-color);
 }
 
+h1,
+h2 {
+	line-height: 1.2em;
+}
+
 h1 {
 	font-size: 6rem;
 }
@@ -52,7 +57,7 @@ h2 {
 }
 
 a {
-	color: white;
+	color: var(--text-color);
 }
 
 a:hover {
