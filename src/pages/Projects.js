@@ -24,25 +24,25 @@ const exp = [
 		tags: ["minecraft", "node"],
 	},
 	{
-		title: window.location.hostname,
-		description: "This website.",
-		url: "https://github.com/mkrhere/pw2",
+		title: "mkr/bin",
+		description: "Frontend JavaScript-free code-sharing pastebin app.",
+		url: "https://github.com/mkrhere/bin",
 		cat: "web",
-		tags: ["react", "css-in-js"],
+		tags: ["mithril", "ssr", "pastebin"],
 	},
 	{
-		title: "runtype",
-		description: "Runtime-safe library to bring untyped values into TypeScript.",
-		url: "https://codefeathers.github.io/runtype",
+		title: "The Guard",
+		description: "Telegram bot to help administer networks with large number of groups.",
+		url: "https://github.com/thedevs-network/the-guard",
+		cat: "bot",
+		tags: ["telegram", "bot"],
+	},
+	{
+		title: "vy",
+		description: "(in dev) Stream-first functional utilities library.",
+		url: "https://github.com/MKRhere/vy",
 		cat: "lib",
-		tags: ["typescript", "runtime"],
-	},
-	{
-		title: "Telecraft",
-		description: "Pluggable Minecraft server management utils.",
-		url: "https://github.com/telecraft",
-		cat: "tool",
-		tags: ["minecraft", "node"],
+		tags: ["typescript", "stream", "functional-programming"],
 	},
 ];
 
@@ -103,7 +103,7 @@ const ProjectUnit = ({ title, url, description, cat, tags }) => {
 						right: 1rem;
 						bottom: 1rem;
 						font-weight: bold;
-						color: #bbb;
+						color: #bbbbbb;
 						font-size: 0.8rem;
 					`}>
 					{cat}
@@ -115,7 +115,7 @@ const ProjectUnit = ({ title, url, description, cat, tags }) => {
 
 function Exp() {
 	return (
-		<Container>
+		<Container next="/contact">
 			<h2>What else have I built?</h2>
 			<p>Some tools, libraries, and apps over time:</p>
 			<div
@@ -132,7 +132,7 @@ function Exp() {
 					}
 				`}>
 				{exp.map(unit => (
-					<ProjectUnit {...unit} />
+					<ProjectUnit {...unit} key={unit.title} />
 				))}
 			</div>
 		</Container>

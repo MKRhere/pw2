@@ -1,20 +1,10 @@
-import { css } from "emotion";
 import Container from "../components/Container";
-import Heading from "../components/Heading";
-
-const Dashed = props => (
-	<span
-		className={css`
-			border-bottom: 1px dashed #fff;
-		`}>
-		{props.children}
-	</span>
-);
+import Dashed from "../components/Dashed";
 
 function Home() {
 	return (
-		<Container>
-			<Heading>MKRhere</Heading>
+		<Container next="/experience">
+			<h1>MKRhere</h1>
 			<p>
 				Web home of <Dashed>designer</Dashed>, <Dashed>developer</Dashed>, and{" "}
 				<Dashed>architect</Dashed> <b>Muthu Kumar.</b>

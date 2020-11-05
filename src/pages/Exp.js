@@ -75,7 +75,7 @@ const ExpUnit = ({ title, location, position, year }) => {
 
 function Exp() {
 	return (
-		<Container>
+		<Container next="/projects">
 			<h2>I’m a 25 year old developer from Chennai, India.</h2>
 			<p>Here are some places I’ve worked at:</p>
 			<div
@@ -92,7 +92,7 @@ function Exp() {
 					}
 				`}>
 				{exp.map(unit => (
-					<ExpUnit {...unit} />
+					<ExpUnit {...unit} key={unit.title} />
 				))}
 			</div>
 		</Container>
