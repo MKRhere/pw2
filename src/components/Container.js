@@ -7,11 +7,11 @@ import { ReactComponent as Right } from "../assets/arrow-right.svg";
 
 const flash = css`
 	span& {
-		width: 5.6rem;
-		height: 5.6rem;
+		width: 5.4rem;
+		height: 5.4rem;
 		opacity: 100%;
-		top: -0.3rem;
-		left: -0.3rem;
+		top: -0.2rem;
+		left: -0.2rem;
 	}
 `;
 
@@ -31,11 +31,6 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 	});
 
 	useEffect(() => {
-		/* to prevent the scrollbar janking while animating;
-			doesn't work consistently; must investigate */
-		document.body.style.maxHeight = "100vh";
-		document.body.style.overflow = "hidden";
-
 		if (highlightCircle.current) {
 			highlightCircle.current.classList.add(flash);
 			clearable.add(
@@ -92,6 +87,8 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 				child.style.opacity = "0";
 			});
 		}
+		document.body.style.maxHeight = "100vh";
+		document.body.style.overflow = "hidden";
 		e.currentTarget.style.width = 0;
 		setTimeout(() => navigate(next), 300);
 	};
