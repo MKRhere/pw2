@@ -49,7 +49,7 @@ h2 {
 }
 
 h1 {
-	font-size: 6rem;
+	font-size: min(15vw, 6rem);
 }
 
 h2 {

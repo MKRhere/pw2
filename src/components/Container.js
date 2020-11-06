@@ -18,7 +18,14 @@ const flash = css`
 
 const [timer, clear] = getTimeout();
 
-const Container = ({ children, hideNav = false, next, ...props }) => {
+const Container = ({
+	children,
+	hideNav = false,
+	arrowReversed = false,
+	next,
+	className,
+	...props
+}) => {
 	const logoContainer = useRef();
 	const logo = useRef();
 	const highlightCircle = useRef();
@@ -107,7 +114,8 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 						top: 8rem;
 						left: 5rem;
 
-						&:hover .logo-highlight {
+						&:hover .logo-highlight,
+						&:active .logo-highlight {
 							width: 5.2rem;
 							height: 5.2rem;
 							opacity: 100%;
@@ -163,6 +171,8 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 						transition: all 300ms;
 						overflow: hidden;
 
+						${arrowReversed ? "rotate: 180deg;" : ""}
+
 						&:hover * {
 							fill: var(--primary-color);
 						}
@@ -171,16 +181,19 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 				</button>
 			)}
 			<div
-				className={css`
-					width: 100%;
-					max-width: 60rem;
-					min-height: 100%;
-					margin: auto;
+				className={cx(
+					css`
+						width: 100%;
+						max-width: 60rem;
+						min-height: 100%;
+						margin: auto;
 
-					& > * {
-						margin-bottom: 2rem;
-					}
-				`}
+						& > * {
+							margin-bottom: 2rem;
+						}
+					`,
+					className,
+				)}
 				ref={containerChild}
 				{...props}>
 				{children}
