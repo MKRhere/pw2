@@ -4,6 +4,7 @@ import { Link, navigate } from "@reach/router";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
+import { getTimeout } from "../util";
 
 const flash = css`
 	span& {
@@ -15,7 +16,7 @@ const flash = css`
 	}
 `;
 
-const clearable = new Set();
+const [timer, clear] = getTimeout();
 
 const Container = ({ children, hideNav = false, next, ...props }) => {
 	const logoContainer = useRef();
@@ -33,36 +34,31 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 	useEffect(() => {
 		if (highlightCircle.current) {
 			highlightCircle.current.classList.add(flash);
-			clearable.add(
-				setTimeout(
-					() => highlightCircle.current && highlightCircle.current.classList.remove(flash),
-					1500,
-				),
-			);
+			timer(() => highlightCircle.current && highlightCircle.current.classList.remove(flash), 1500);
 		}
 
 		if (nextBtn.current) {
 			nextBtn.current.style.width = "4rem";
-			setTimeout(() => nextBtn.current && (nextBtn.current.style.right = "10vw"), 300);
+			timer(() => nextBtn.current && (nextBtn.current.style.right = "10vw"), 300);
 		}
 
 		if (containerChild.current) {
 			const containerChildren = [...containerChild.current.children];
 			containerChildren.forEach((child, idx) => {
-				setTimeout(() => {
+				timer(() => {
 					child.style.removeProperty("opacity");
 					child.style.removeProperty("margin-bottom");
 				}, 100 * idx);
 			});
 
-			setTimeout(() => {
+			timer(() => {
 				document.body.style.maxHeight = "auto";
 				document.body.style.overflow = "auto";
 			}, containerChildren.length * 100);
 		}
 
 		// cleanup
-		return () => (clearable.forEach(item => clearTimeout(item)), clearable.clear());
+		return clear;
 	}, []);
 
 	const handleResize = () => {
@@ -90,7 +86,7 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 		document.body.style.maxHeight = "100vh";
 		document.body.style.overflow = "hidden";
 		e.currentTarget.style.width = 0;
-		setTimeout(() => navigate(next), 300);
+		timer(() => navigate(next), 300);
 	};
 
 	return (
@@ -131,7 +127,7 @@ const Container = ({ children, hideNav = false, next, ...props }) => {
 								z-index: 0;
 								opacity: 0%;
 
-								transition: all 300ms;
+								transition: all 600ms;
 							`,
 							"logo-highlight",
 						)}></span>
