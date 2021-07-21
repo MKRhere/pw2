@@ -8,7 +8,14 @@ const exp = [
 		description: "This website.",
 		url: "https://github.com/mkrhere/pw2",
 		cat: "web",
-		tags: ["react", "css-in-js"],
+		tags: ["react", "vite"],
+	},
+	{
+		title: "hyperactive",
+		description: "(in dev) Fully reactive UI framework.",
+		url: "https://github.com/codefeathers/hyperactive",
+		cat: "lib",
+		tags: ["reactive", "ui-framework"],
 	},
 	{
 		title: "runtype",
@@ -38,13 +45,6 @@ const exp = [
 		cat: "bot",
 		tags: ["telegram", "bot"],
 	},
-	{
-		title: "vy",
-		description: "(in dev) Stream-first functional utilities library.",
-		url: "https://github.com/MKRhere/vy",
-		cat: "lib",
-		tags: ["typescript", "stream", "functional-programming"],
-	},
 ];
 
 type Project = {
@@ -60,25 +60,20 @@ const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description
 		<div
 			className={css`
 				position: relative;
-				border: 0.2rem solid var(--primary-color);
-				padding: 1rem;
+				background: var(--card-bg);
+				padding: 1.5rem;
 				cursor: default;
+				border-radius: 0.5rem;
 
 				display: flex;
 				flex-direction: column;
-				transition: filter;
+				transition: all 200ms;
 
 				:hover {
-					filter: hue-rotate(30deg);
+					filter: hue-rotate(30deg) invert(0.05);
+					transform: translateY(-0.2rem);
 				}
 			`}>
-			<div
-				className={css`
-					position: absolute;
-					border-top: 0.5rem solid var(--primary-color);
-					top: 0;
-					left: 0;
-				`}></div>
 			<a
 				className={css`
 					display: block;
@@ -97,13 +92,32 @@ const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description
 				</p>
 				<p
 					className={css`
-						font-weight: 800;
+						font-weight: 500;
 						color: #9f9f9f;
 						font-size: 0.8rem;
 						margin-top: auto;
 					`}>
 					{tags.map(tag => (
-						<span key={tag}>#{tag} </span>
+						<span
+							key={tag}
+							className={css`
+								display: inline-block;
+								padding: 0.2rem 0.4rem;
+								background: var(--card-tags);
+								color: white;
+								border-radius: 0.2rem;
+								transition: all 200ms;
+
+								:hover {
+									transform: translateY(-0.1rem);
+								}
+
+								& + & {
+									margin-left: 0.6rem;
+								}
+							`}>
+							{tag}
+						</span>
 					))}
 				</p>
 				<span

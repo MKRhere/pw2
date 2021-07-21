@@ -114,7 +114,7 @@ const Container: React.FunctionComponent<{
 	return (
 		<div
 			className={css`
-				background: var(--background-color);
+				background: var(--background-colour);
 				padding: 15rem calc(100vw / 8) 8rem calc(100vw / 8);
 				overflow-x: hidden;
 				min-height: 100vh;
@@ -146,7 +146,7 @@ const Container: React.FunctionComponent<{
 								width: 5rem;
 								height: 5rem;
 								border-radius: 100%;
-								background: var(--primary-color);
+								background: var(--primary-colour);
 								z-index: 0;
 								opacity: 0%;
 
@@ -190,7 +190,7 @@ const Container: React.FunctionComponent<{
 						${arrowReversed ? "rotate: 180deg;" : ""}
 
 						&:hover * {
-							fill: var(--primary-color);
+							fill: var(--primary-colour);
 						}
 					`}>
 					<Right />

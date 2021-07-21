@@ -1,7 +1,9 @@
 :root {
-	--background-color: #000000;
-	--primary-color: #ff5555;
-	--text-color: #d3cfc9;
+	--background-colour: rgb(0, 0, 0);
+	--card-bg: rgb(18, 18, 18);
+	--card-tags: rgb(34, 34, 34);
+	--primary-colour: rgb(255, 85, 85);
+	--text-colour: rgb(211, 207, 201);
 	font-weight: 500;
 	font-size: 16px;
 }
@@ -16,7 +18,7 @@ body {
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	color: var(--text-color);
+	color: var(--text-colour);
 }
 
 code {
@@ -40,7 +42,7 @@ h3,
 h4,
 h5,
 h6 {
-	color: var(--primary-color);
+	color: var(--primary-colour);
 }
 
 h1,
@@ -57,9 +59,9 @@ h2 {
 }
 
 a {
-	color: var(--text-color);
+	color: var(--text-colour);
 }
 
 a:hover {
-	color: var(--primary-color);
+	color: var(--primary-colour);
 }
