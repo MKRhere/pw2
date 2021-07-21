@@ -14,11 +14,17 @@ const exp = [
 	{ title: "Klenty", location: "Chennai", position: "Full stack developer", year: "2018" },
 	{
 		title: "Hugo's Way",
-		location: "Ireland (remote)",
+		location: "Remote",
 		position: "Full stack developer",
 		year: "2018-19",
 	},
 	{ title: "Feathers Studio", location: "Chennai", position: "Founder", year: "2019-present" },
+	{
+		title: "Navana Tech",
+		location: "Remote",
+		position: "Lead web dev",
+		year: "2021-present",
+	},
 ];
 
 const Circle: React.FunctionComponent = () => (
@@ -61,9 +67,7 @@ const ExpUnit: React.FunctionComponent<Experience> = ({ title, location, positio
 				position: relative;
 			`}>
 			<Circle />
-			<h3>
-				{title}, {location}
-			</h3>
+			<h3>{[title, location].filter(Boolean).join(", ")}</h3>
 			<span
 				className={css`
 					color: #bdbdbd;
@@ -73,7 +77,7 @@ const ExpUnit: React.FunctionComponent<Experience> = ({ title, location, positio
 			{" . "}
 			<span
 				className={css`
-					font-weight: 100;
+					font-weight: 300;
 				`}>
 				{year}
 			</span>
@@ -111,7 +115,7 @@ const Exp: React.FunctionComponent = () => {
 					}
 				`}>
 				{exp.map(unit => (
-					<ExpUnit {...unit} key={unit.title} />
+					<ExpUnit key={unit.title} {...unit} />
 				))}
 			</div>
 		</Container>
