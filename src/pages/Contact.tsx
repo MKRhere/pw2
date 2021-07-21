@@ -1,3 +1,4 @@
+import React from "react";
 import { css } from "emotion";
 import { useEffect, useState } from "react";
 import Container from "../components/Container";
@@ -6,41 +7,48 @@ const A = css`
 	text-decoration: none;
 `;
 
-function Home() {
-	const [contact, setContact] = useState({
-		Twitter: { value: "MKRhere", link: "https://twitter.com/MKRhere" },
-		GitHub: { value: "MKRhere", link: "https://github.com/MKRhere" },
-		Email: {
-			value: "mυthυkυmαr@thεfεαthεrs.in",
-			link: "mailto:mυthυkυmαr@thεfεαthεrs.in",
-			replacer: {
-				υ: "u",
-				ε: "e",
-				α: "a",
-			},
+type Contact = {
+	[k: string]: { value: string; link?: string; replacer?: Record<string, string> };
+};
+
+const CONTACT: Contact = {
+	Twitter: { value: "MKRhere", link: "https://twitter.com/MKRhere" },
+	GitHub: { value: "MKRhere", link: "https://github.com/MKRhere" },
+	Email: {
+		value: "mυthυkυmαr@thεfεαthεrs.in",
+		link: "mailto:mυthυkυmαr@thεfεαthεrs.in",
+		replacer: {
+			υ: "u",
+			ε: "e",
+			α: "a",
 		},
-		Phone: {
-			value: "+9Ι Γ8Δ5 Γ9 8Δ88",
-			link: "tel:+91Γ8Δ5Γ98Δ88",
-			replacer: {
-				Ι: "1",
-				Δ: "4",
-				Γ: "7",
-			},
+	},
+	Phone: {
+		value: "+9Ι Γ8Δ5 Γ9 8Δ88",
+		link: "tel:+91Γ8Δ5Γ98Δ88",
+		replacer: {
+			Ι: "1",
+			Δ: "4",
+			Γ: "7",
 		},
-	});
+	},
+};
+
+const Home: React.FunctionComponent = () => {
+	const [contact, setContact] = useState<Contact>(CONTACT);
 
 	useEffect(() => {
 		const deob = () => {
 			Object.keys(contact).forEach(key => {
-				const replacers = contact[key].replacer;
+				const sect = contact[key];
+				const replacers = sect.replacer;
 				if (replacers) {
-					contact[key].value = contact[key].value.replace(
+					sect.value = sect.value.replace(
 						new RegExp(Object.keys(replacers).join("|"), "g"),
 						r => replacers[r] || r,
 					);
-					if (contact[key].link)
-						contact[key].link = contact[key].link.replace(
+					if (sect.link)
+						sect.link = sect.link.replace(
 							new RegExp(Object.keys(replacers).join("|"), "g"),
 							r => replacers[r] || r,
 						);
@@ -117,6 +125,6 @@ function Home() {
 			</div>
 		</Container>
 	);
-}
+};
 
 export default Home;

@@ -1,3 +1,4 @@
+import React from "react";
 import { css } from "emotion";
 import Container from "../components/Container";
 
@@ -46,7 +47,15 @@ const exp = [
 	},
 ];
 
-const ProjectUnit = ({ title, url, description, cat, tags }) => {
+type Project = {
+	title: string;
+	url: string;
+	description: string;
+	cat: string;
+	tags: string[];
+};
+
+const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description, cat, tags }) => {
 	return (
 		<div
 			className={css`
@@ -113,7 +122,7 @@ const ProjectUnit = ({ title, url, description, cat, tags }) => {
 	);
 };
 
-function Exp() {
+const Exp: React.FunctionComponent = () => {
 	return (
 		<Container next="/contact">
 			<h2>What else have I built?</h2>
@@ -137,6 +146,6 @@ function Exp() {
 			</div>
 		</Container>
 	);
-}
+};
 
 export default Exp;

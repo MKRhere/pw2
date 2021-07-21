@@ -1,3 +1,4 @@
+import React from "react";
 import { css } from "emotion";
 import Container from "../components/Container";
 
@@ -20,7 +21,7 @@ const exp = [
 	{ title: "Feathers Studio", location: "Chennai", position: "Founder", year: "2019-present" },
 ];
 
-const Circle = () => (
+const Circle: React.FunctionComponent = () => (
 	<div>
 		<div
 			className={css`
@@ -46,7 +47,14 @@ const Circle = () => (
 	</div>
 );
 
-const ExpUnit = ({ title, location, position, year }) => {
+type Experience = {
+	title: string;
+	location: string;
+	position: string;
+	year: string;
+};
+
+const ExpUnit: React.FunctionComponent<Experience> = ({ title, location, position, year }) => {
 	return (
 		<div
 			className={css`
@@ -73,7 +81,7 @@ const ExpUnit = ({ title, location, position, year }) => {
 	);
 };
 
-const getAge = date => {
+const getAge = (date: string) => {
 	var today = new Date();
 	var birthDate = new Date(date);
 	var age = today.getFullYear() - birthDate.getFullYear();
@@ -84,7 +92,7 @@ const getAge = date => {
 
 const age = getAge("27 May 1995");
 
-function Exp() {
+const Exp: React.FunctionComponent = () => {
 	return (
 		<Container next="/projects">
 			<h2>I’m a {age} year old developer from Chennai, India.</h2>
@@ -108,6 +116,6 @@ function Exp() {
 			</div>
 		</Container>
 	);
-}
+};
 
 export default Exp;

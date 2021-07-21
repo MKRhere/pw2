@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useLayoutEffect } from "react";
 import { css, cx } from "emotion";
-import { Link, navigate } from "@reach/router";
+import { Link, useHistory } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
@@ -18,25 +18,37 @@ const flash = css`
 
 const [timer, clear] = getTimeout();
 
-const Container = ({
-	children,
+const Container: React.FunctionComponent<{
+	children: (string | React.DetailedReactHTMLElement<any, HTMLElement> | React.ReactElement)[];
+	hideNav?: boolean;
+	arrowReversed?: boolean;
+	next?: string;
+	className?: string;
+}> = ({
+	children: _children,
 	hideNav = false,
 	arrowReversed = false,
 	next,
 	className,
 	...props
 }) => {
-	const logoContainer = useRef();
-	const logo = useRef();
-	const highlightCircle = useRef();
-	const containerChild = useRef();
-	const nextBtn = useRef();
+	const history = useHistory();
 
-	children = React.Children.map(children, child => {
-		return React.cloneElement(child, {
-			style: { opacity: 0, marginBottom: "5rem", transition: "all 300ms" },
-		});
-	});
+	const logoContainer = useRef<HTMLAnchorElement>(null);
+	const logo = useRef<SVGSVGElement>(null);
+	const highlightCircle = useRef<HTMLSpanElement>(null);
+	const containerChild = useRef<HTMLDivElement>(null);
+	const nextBtn = useRef<HTMLButtonElement>(null);
+
+	const children = React.Children.map(
+		_children,
+		(child: string | React.DetailedReactHTMLElement<any, HTMLElement> | React.ReactElement) =>
+			!child || typeof child === "string"
+				? child
+				: React.cloneElement(child, {
+						style: { opacity: 0, marginBottom: "5rem", transition: "all 300ms" },
+				  }),
+	);
 
 	useEffect(() => {
 		if (highlightCircle.current) {
@@ -50,7 +62,10 @@ const Container = ({
 		}
 
 		if (containerChild.current) {
-			const containerChildren = [...containerChild.current.children];
+			const containerChildren = [...containerChild.current.children] as (
+				| HTMLElement
+				| SVGElement
+			)[];
 			containerChildren.forEach((child, idx) => {
 				timer(() => {
 					child.style.removeProperty("opacity");
@@ -69,7 +84,7 @@ const Container = ({
 	}, []);
 
 	const handleResize = () => {
-		if (logoContainer.current)
+		if (containerChild.current && logoContainer.current)
 			logoContainer.current.style.left = `${containerChild.current.getBoundingClientRect().x}px`;
 	};
 
@@ -83,17 +98,17 @@ const Container = ({
 	// on first render
 	useLayoutEffect(handleResize, []);
 
-	const handleNext = e => {
+	const handleNext: React.MouseEventHandler<HTMLButtonElement> = e => {
 		if (containerChild.current) {
-			[...containerChild.current.children].forEach(child => {
+			([...containerChild.current.children] as (HTMLElement | SVGElement)[]).forEach(child => {
 				child.style.marginBottom = "2rem";
 				child.style.opacity = "0";
 			});
 		}
 		document.body.style.maxHeight = "100vh";
 		document.body.style.overflow = "hidden";
-		e.currentTarget.style.width = 0;
-		timer(() => navigate(next), 300);
+		e.currentTarget.style.width = "0";
+		timer(() => next && history.push(next), 300);
 	};
 
 	return (
@@ -107,8 +122,8 @@ const Container = ({
 			`}>
 			{!hideNav && (
 				<Link
-					to={"/" + Math.random().toString(16).slice(2)}
-					ref={logoContainer}
+					to={"/"}
+					innerRef={logoContainer}
 					className={css`
 						position: absolute;
 						top: 8rem;
@@ -141,6 +156,7 @@ const Container = ({
 						)}></span>
 					<Logo
 						ref={logo}
+						viewBox="0 0 264 264"
 						className={css`
 							position: absolute;
 							height: 5rem;
