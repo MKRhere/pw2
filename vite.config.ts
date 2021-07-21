@@ -1,7 +1,6 @@
 import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import svgr from "@svgr/rollup";
-import reactJsx from "vite-react-jsx";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,12 +11,9 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		reactJsx(),
 		reactRefresh(),
 		Object.assign(
 			svgr({
-				// memo: true,
-				// icon: true,
 				ref: true,
 				svgo: false,
 			}),
