@@ -5,9 +5,9 @@ import svgr from "@svgr/rollup";
 // https://vitejs.dev/config/
 export default defineConfig({
 	server: {
-		port: 10000,
+		port: 12000,
 		hmr: {
-			port: 10000,
+			port: 12000,
 		},
 	},
 	plugins: [

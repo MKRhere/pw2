@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { css, cx } from "emotion";
 import { Link, useHistory } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
 import { getTimeout } from "../util";
+import Menu from "./Menu";
 
 const flash = css`
 	span& {
@@ -39,6 +40,8 @@ const Container: React.FunctionComponent<{
 	const highlightCircle = useRef<HTMLSpanElement>(null);
 	const containerChild = useRef<HTMLDivElement>(null);
 	const nextBtn = useRef<HTMLButtonElement>(null);
+
+	const [showMenu, setShowMenu] = useState(false);
 
 	const children = React.Children.map(
 		_children,
@@ -140,7 +143,9 @@ const Container: React.FunctionComponent<{
 							top: -0.1rem;
 							left: -0.1rem;
 						}
-					`}>
+					`}
+					onMouseOver={() => setShowMenu(true)}
+					onMouseOut={() => setShowMenu(false)}>
 					<span
 						ref={highlightCircle}
 						className={cx(
@@ -168,6 +173,7 @@ const Container: React.FunctionComponent<{
 							box-shadow: 0px 0px 50px 0px rgba(100, 100, 100, 0.65);
 						`}
 					/>
+					<Menu show={showMenu} />
 				</Link>
 			)}
 			{next && (
@@ -196,7 +202,7 @@ const Container: React.FunctionComponent<{
 							fill: var(--primary-colour);
 						}
 					`}>
-					<Right />
+					<Right height="2rem" width="2rem" />
 				</button>
 			)}
 			<div

@@ -70,7 +70,7 @@ const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description
 				transition: all 200ms;
 
 				:hover {
-					filter: hue-rotate(30deg) invert(0.05);
+					filter: hue-rotate(30deg) invert(0.04);
 					transform: translateY(-0.2rem);
 				}
 			`}>
@@ -109,7 +109,7 @@ const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description
 								transition: all 200ms;
 
 								:hover {
-									transform: translateY(-0.1rem);
+									background: var(--card-tags-hover);
 								}
 
 								& + & {

@@ -2,10 +2,11 @@
 	--background-colour: rgb(0, 0, 0);
 	--card-bg: rgb(18, 18, 18);
 	--card-tags: rgb(34, 34, 34);
+	--card-tags-hover: rgb(25, 25, 25);
 	--primary-colour: rgb(255, 85, 85);
 	--text-colour: rgb(211, 207, 201);
 	font-weight: 500;
-	font-size: 16px;
+	font-size: max(16px, 0.8vw);
 }
 
 * {
