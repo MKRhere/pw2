@@ -14,6 +14,7 @@ const RevealChildren: React.FunctionComponent<{
 		<>
 			{items.map((item, i) => (
 				<Comp
+					key={i}
 					initial={{ opacity: 0, y: -2 }}
 					animate={{
 						opacity,

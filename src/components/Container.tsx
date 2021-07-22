@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { css, cx } from "emotion";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
 import { getTimeout } from "../util";
 import Menu from "./Menu";
+import useMediaQuery from "../util/useMediaQuery";
 
 const flash = css`
 	span& {
-		width: 5.4rem;
-		height: 5.4rem;
-		opacity: 100%;
+		width: 5.6rem;
+		height: 5.6rem;
 		top: -0.2rem;
-		left: -0.2rem;
+		left: -0.05rem;
+		opacity: 1;
 	}
 `;
 
@@ -35,7 +36,9 @@ const Container: React.FunctionComponent<{
 }) => {
 	const history = useHistory();
 
-	const logoContainer = useRef<HTMLAnchorElement>(null);
+	const mobile = useMediaQuery("(max-width: 50rem)");
+
+	const logoContainer = useRef<HTMLButtonElement>(null);
 	const logo = useRef<SVGSVGElement>(null);
 	const highlightCircle = useRef<HTMLSpanElement>(null);
 	const containerChild = useRef<HTMLDivElement>(null);
@@ -127,25 +130,27 @@ const Container: React.FunctionComponent<{
 				position: relative;
 			`}>
 			{!hideNav && (
-				<Link
-					to={"/"}
-					innerRef={logoContainer}
+				<button
+					ref={logoContainer}
 					className={css`
 						position: absolute;
 						top: 8rem;
 						left: 5rem;
+						background: none;
+						border: 0;
+						font-size: 1rem;
 
 						&:hover .logo-highlight,
 						&:active .logo-highlight {
 							width: 5.2rem;
 							height: 5.2rem;
-							opacity: 100%;
-							top: -0.1rem;
-							left: -0.1rem;
+							opacity: 1;
+							top: -0.05rem;
+							left: 0.15rem;
 						}
 					`}
-					onMouseOver={() => setShowMenu(true)}
-					onMouseOut={() => setShowMenu(false)}>
+					onMouseOver={() => !mobile && setShowMenu(true)}
+					onMouseOut={() => !mobile && setShowMenu(false)}>
 					<span
 						ref={highlightCircle}
 						className={cx(
@@ -156,7 +161,8 @@ const Container: React.FunctionComponent<{
 								border-radius: 100%;
 								background: var(--primary-colour);
 								z-index: 0;
-								opacity: 0%;
+								opacity: 0;
+								cursor: pointer;
 
 								transition: all 600ms;
 							`,
@@ -171,10 +177,12 @@ const Container: React.FunctionComponent<{
 							width: 5rem;
 							border-radius: 100%;
 							box-shadow: 0px 0px 50px 0px rgba(100, 100, 100, 0.65);
+							cursor: pointer;
 						`}
+						onClick={() => (mobile ? setShowMenu(true) : history.push("/"))}
 					/>
-					<Menu show={showMenu} />
-				</Link>
+					<Menu show={showMenu} setShowMenu={setShowMenu} />
+				</button>
 			)}
 			{next && (
 				<button
@@ -184,7 +192,7 @@ const Container: React.FunctionComponent<{
 						position: fixed;
 						right: 14vw;
 						bottom: 10vh;
-						z-index: 1000;
+						z-index: 500;
 						background: none;
 						padding: 0;
 						font-weight: 500;
@@ -202,7 +210,12 @@ const Container: React.FunctionComponent<{
 							fill: var(--primary-colour);
 						}
 					`}>
-					<Right height="2rem" width="2rem" />
+					<Right
+						className={css`
+							height: "2rem";
+							width: "2rem";
+						`}
+					/>
 				</button>
 			)}
 			<div
