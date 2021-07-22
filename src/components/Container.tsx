@@ -46,11 +46,14 @@ const Container: React.FunctionComponent<{
 			!child || typeof child === "string"
 				? child
 				: React.cloneElement(child, {
-						style: { opacity: 0, marginBottom: "5rem", transition: "all 300ms" },
+						style: { opacity: 0, transform: "translateY(3rem)", transition: "all 300ms" },
 				  }),
 	);
 
 	useEffect(() => {
+		// scroll back to top when new page is loaded
+		window.scrollTo({ top: 0 });
+
 		if (highlightCircle.current) {
 			highlightCircle.current.classList.add(flash);
 			timer(() => highlightCircle.current && highlightCircle.current.classList.remove(flash), 1500);
@@ -69,7 +72,7 @@ const Container: React.FunctionComponent<{
 			containerChildren.forEach((child, idx) => {
 				timer(() => {
 					child.style.removeProperty("opacity");
-					child.style.removeProperty("margin-bottom");
+					child.style.removeProperty("transform");
 				}, 100 * idx);
 			});
 
