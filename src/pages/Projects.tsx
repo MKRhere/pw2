@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "emotion";
+import { css } from "@emotion/css";
 import Container from "../components/Container";
 
 const exp = [
@@ -82,7 +82,7 @@ const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description
 				href={url}
 				target="_blank"
 				rel="noreferrer">
-				<h3>{title}</h3>
+				<h4>{title}</h4>
 				<p
 					className={css`
 						color: #bdbdbd;

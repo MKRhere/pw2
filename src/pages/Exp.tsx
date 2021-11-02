@@ -1,5 +1,5 @@
 import React from "react";
-import { css } from "emotion";
+import { css } from "@emotion/css";
 import Container from "../components/Container";
 
 const exp = [
@@ -67,7 +67,7 @@ const ExpUnit: React.FunctionComponent<Experience> = ({ title, location, positio
 				position: relative;
 			`}>
 			<Circle />
-			<h3>{[title, location].filter(Boolean).join(", ")}</h3>
+			<h4>{[title, location].filter(Boolean).join(", ")}</h4>
 			<span
 				className={css`
 					color: #bdbdbd;

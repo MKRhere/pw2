@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import { useHistory } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";

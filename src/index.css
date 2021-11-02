@@ -57,7 +57,15 @@ h1 {
 }
 
 h2 {
-	font-size: 3rem;
+	font-size: min(10vw, 3rem);
+}
+
+h3 {
+	font-size: min(7.5vw, 2.5rem);
+}
+
+h4 {
+	font-size: min(5vw, 1.2rem);
 }
 
 a {

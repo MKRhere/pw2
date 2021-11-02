@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { css, cx } from "emotion";
+import { css, cx } from "@emotion/css";
 import { motion } from "framer-motion";
 import RevealChildren from "./RevealChildren";
 import useMediaQuery from "../util/useMediaQuery";
