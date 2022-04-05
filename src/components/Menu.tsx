@@ -65,7 +65,9 @@ const Menu: React.FunctionComponent<{ show?: boolean; setShowMenu: (show: boolea
 	show = false,
 	setShowMenu,
 }) => {
+	// use same query as elsewhere for consistency
 	const mobile = useMediaQuery("(max-width: 50rem)");
+	const notmobile = !mobile;
 
 	const menuItems = menu.map(item => (
 		<Link key={item.link} to={item.link}>
@@ -73,20 +75,21 @@ const Menu: React.FunctionComponent<{ show?: boolean; setShowMenu: (show: boolea
 		</Link>
 	));
 
-	// TODO(mkr): refactor
 	return (
 		<motion.div
-			className={mobile ? offscreenNav : desktopNav}
-			{...(mobile && {
-				animate: {
-					top: show ? "0" : "-100%",
-					opacity: show ? 1 : 0,
-				},
-			})}>
-			<ul className={mobile ? cx(menuList, mobileMenu) : menuList}>
+			className={notmobile ? desktopNav : offscreenNav}
+			animate={{
+				// if resized to mobile and back, numeric value will persist but
+				// will be ignored because desktopNav isn't absolutely positioned
+				top: notmobile ? "auto" : show ? "0" : "-100%",
+				// only children need to animate on desktop, lock opacity: 1
+				opacity: notmobile ? 1 : show ? 1 : 0,
+			}}>
+			<ul className={notmobile ? menuList : cx(menuList, mobileMenu)}>
 				<RevealChildren type="li" show={show}>
-					{mobile
-						? menuItems.concat(
+					{notmobile
+						? menuItems
+						: menuItems.concat(
 								<div
 									role="button"
 									key="back"
@@ -104,8 +107,7 @@ const Menu: React.FunctionComponent<{ show?: boolean; setShowMenu: (show: boolea
 									`}>
 									←
 								</div>,
-						  )
-						: menuItems}
+						  )}
 				</RevealChildren>
 			</ul>
 		</motion.div>

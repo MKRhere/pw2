@@ -8,16 +8,6 @@ import { getTimeout } from "../util";
 import Menu from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
 
-const flash = css`
-	span& {
-		width: 5.6rem;
-		height: 5.6rem;
-		top: -0.2rem;
-		left: -0.05rem;
-		opacity: 1;
-	}
-`;
-
 const [timer, clear] = getTimeout();
 
 const Container: React.FunctionComponent<{
@@ -39,7 +29,6 @@ const Container: React.FunctionComponent<{
 	const mobile = useMediaQuery("(max-width: 50rem)");
 
 	const logoContainer = useRef<HTMLButtonElement>(null);
-	const logo = useRef<SVGSVGElement>(null);
 	const highlightCircle = useRef<HTMLSpanElement>(null);
 	const containerChild = useRef<HTMLDivElement>(null);
 	const nextBtn = useRef<HTMLButtonElement>(null);
@@ -61,8 +50,11 @@ const Container: React.FunctionComponent<{
 		window.scrollTo({ top: 0 });
 
 		if (highlightCircle.current) {
-			highlightCircle.current.classList.add(flash);
-			timer(() => highlightCircle.current && highlightCircle.current.classList.remove(flash), 1500);
+			highlightCircle.current.classList.add("highlight");
+			timer(
+				() => highlightCircle.current && highlightCircle.current.classList.remove("highlight"),
+				1500,
+			);
 		}
 
 		if (nextBtn.current) {
@@ -139,15 +131,6 @@ const Container: React.FunctionComponent<{
 						background: none;
 						border: 0;
 						font-size: 1rem;
-
-						&:hover .logo-highlight,
-						&:active .logo-highlight {
-							width: 5.2rem;
-							height: 5.2rem;
-							opacity: 1;
-							top: -0.05rem;
-							left: 0.15rem;
-						}
 					`}
 					onMouseOver={() => !mobile && setShowMenu(true)}
 					onMouseOut={() => !mobile && setShowMenu(false)}>
@@ -156,31 +139,61 @@ const Container: React.FunctionComponent<{
 						className={cx(
 							css`
 								position: absolute;
-								width: 5rem;
+								left: 0;
 								height: 5rem;
+								width: 5rem;
 								border-radius: 100%;
-								background: var(--primary-colour);
-								z-index: 0;
-								opacity: 0;
+								box-shadow: 0px 0px 50px 0px rgba(100, 100, 100, 0.65);
 								cursor: pointer;
 
-								transition: all 600ms;
+								& > svg {
+									width: 100%;
+									height: 100%;
+									position: absolute;
+									inset: 0;
+									z-index: 1;
+								}
+
+								&::before {
+									content: "";
+									position: absolute;
+									left: -0.1rem;
+									width: 5rem;
+									height: 5rem;
+									border-radius: 100%;
+									background: var(--primary-colour);
+									z-index: 0;
+									opacity: 0;
+									cursor: pointer;
+
+									transition: all 600ms;
+								}
+
+								&:hover::before,
+								&.highlight::before {
+									opacity: 1;
+								}
+
+								&:hover::before {
+									width: 5.2rem;
+									height: 5.2rem;
+									top: -0.05rem;
+									left: -0.1rem;
+								}
+
+								&.highlight::before {
+									width: 5.6rem;
+									height: 5.6rem;
+									top: -0.3rem;
+									left: -0.3rem;
+								}
 							`,
-							"logo-highlight",
-						)}></span>
-					<Logo
-						ref={logo}
-						viewBox="0 0 264 264"
-						className={css`
-							position: absolute;
-							height: 5rem;
-							width: 5rem;
-							border-radius: 100%;
-							box-shadow: 0px 0px 50px 0px rgba(100, 100, 100, 0.65);
-							cursor: pointer;
-						`}
-						onClick={() => (mobile ? setShowMenu(true) : history.push("/"))}
-					/>
+						)}>
+						<Logo
+							viewBox="0 0 264 264"
+							onClick={() => (mobile ? setShowMenu(true) : history.push("/"))}
+						/>
+					</span>
 					<Menu show={showMenu} setShowMenu={setShowMenu} />
 				</button>
 			)}
