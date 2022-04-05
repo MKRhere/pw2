@@ -13,16 +13,17 @@ import { useEffect, useState } from "react";
  *
  */
 const useMediaQuery = (mediaQuery: string) => {
-	const [isVerified, setIsVerified] = useState(!!window.matchMedia(mediaQuery).matches);
+	const [isMatch, setIsMatch] = useState(!!window.matchMedia(mediaQuery).matches);
 
 	useEffect(() => {
 		const mediaQueryList = window.matchMedia(mediaQuery);
-		const documentChangeHandler = () => setIsVerified(!!mediaQueryList.matches);
+		const documentChangeHandler = () => setIsMatch(!!mediaQueryList.matches);
 
 		try {
 			mediaQueryList.addEventListener("change", documentChangeHandler);
 		} catch (e) {
-			//Safari isn't supporting mediaQueryList.addEventListener
+			// Safari isn't supporting mediaQueryList.addEventListener,
+			// fallback to deprecated addListener
 			console.error(e);
 			mediaQueryList.addListener(documentChangeHandler);
 		}
@@ -33,14 +34,15 @@ const useMediaQuery = (mediaQuery: string) => {
 			try {
 				mediaQueryList.removeEventListener("change", documentChangeHandler);
 			} catch (e) {
-				//Safari isn't supporting mediaQueryList.removeEventListener
+				// Safari isn't supporting mediaQueryList.removeEventListener,
+				// fallback to deprecated removeListener
 				console.error(e);
 				mediaQueryList.removeListener(documentChangeHandler);
 			}
 		};
 	}, [mediaQuery]);
 
-	return isVerified;
+	return isMatch;
 };
 
 export default useMediaQuery;
