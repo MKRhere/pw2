@@ -6,9 +6,6 @@ import svgr from "@svgr/rollup";
 export default defineConfig({
 	server: {
 		port: 12000,
-		hmr: {
-			port: 12000,
-		},
 	},
 	plugins: [
 		reactRefresh(),

@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { css, cx } from "@emotion/css";
 import { format, isBefore, startOfDay } from "date-fns";
 
-type TLUnit = { title?: string; url?: string; img?: string; date: string };
-type TimelineUnits = TLUnit[];
+export type TimelineUnit = { title?: string; url?: string; img?: string; date: string };
+export type TimelineUnits = TimelineUnit[];
 
 const unit = css`
 	display: flex;
@@ -86,7 +86,7 @@ const tlcontainer = css`
 	}
 `;
 
-const TimelineUnit: React.FunctionComponent<{ contents: TLUnit }> = ({ contents }) => {
+const Unit: React.FunctionComponent<{ contents: TimelineUnit }> = ({ contents }) => {
 	const date = useMemo(() => new Date(contents.date), [contents.date]);
 
 	return (
@@ -125,7 +125,7 @@ const Timeline: React.FunctionComponent<{ contents: TimelineUnits }> = ({ conten
 				.map(unit => ({ ...unit, Date: new Date(unit.date) }))
 				.filter(unit => !isBefore(startOfDay(unit.Date), current))
 				.map(unit => (
-					<TimelineUnit key={unit.date} contents={unit} />
+					<Unit key={unit.date} contents={unit} />
 				))}
 		</div>
 	);
