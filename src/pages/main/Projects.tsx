@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/css";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 const exp = [
 	{

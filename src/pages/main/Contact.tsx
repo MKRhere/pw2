@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 const A = css`
 	text-decoration: none;

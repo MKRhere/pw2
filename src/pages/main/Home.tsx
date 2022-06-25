@@ -1,6 +1,6 @@
 import React from "react";
-import Container from "../components/Container";
-import Dashed from "../components/Dashed";
+import Container from "../../components/Container";
+import Dashed from "../../components/Dashed";
 
 const Home: React.FunctionComponent = () => {
 	return (
