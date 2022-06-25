@@ -34,7 +34,7 @@ const CONTACT: Contact = {
 	},
 };
 
-const Home: React.FunctionComponent = () => {
+const Home: React.FC = () => {
 	const [contact, setContact] = useState<Contact>(CONTACT);
 
 	useEffect(() => {

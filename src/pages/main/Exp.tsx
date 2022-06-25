@@ -27,7 +27,7 @@ const exp = [
 	},
 ];
 
-const Circle: React.FunctionComponent = () => (
+const Circle: React.FC = () => (
 	<div>
 		<div
 			className={css`
@@ -60,7 +60,7 @@ type Experience = {
 	year: string;
 };
 
-const ExpUnit: React.FunctionComponent<Experience> = ({ title, location, position, year }) => {
+const ExpUnit: React.FC<Experience> = ({ title, location, position, year }) => {
 	return (
 		<div
 			className={css`
@@ -96,7 +96,7 @@ const getAge = (date: string) => {
 
 const age = getAge("27 May 1995");
 
-const Exp: React.FunctionComponent = () => {
+const Exp: React.FC = () => {
 	return (
 		<Container next="/projects">
 			<h2>I’m a {age} year old developer from Chennai, India.</h2>

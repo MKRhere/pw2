@@ -55,7 +55,7 @@ type Project = {
 	tags: string[];
 };
 
-const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description, cat, tags }) => {
+const ProjectUnit: React.FC<Project> = ({ title, url, description, cat, tags }) => {
 	return (
 		<div
 			className={css`
@@ -136,7 +136,7 @@ const ProjectUnit: React.FunctionComponent<Project> = ({ title, url, description
 	);
 };
 
-const Exp: React.FunctionComponent = () => {
+const Exp: React.FC = () => {
 	return (
 		<Container next="/contact">
 			<h2>What else have I built?</h2>

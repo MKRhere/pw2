@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../../components/Container";
 import Dashed from "../../components/Dashed";
 
-const Home: React.FunctionComponent = () => {
+const Home: React.FC = () => {
 	return (
 		<Container next="/experience">
 			<h1>MKRhere</h1>

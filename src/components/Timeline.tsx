@@ -86,7 +86,7 @@ const tlcontainer = css`
 	}
 `;
 
-const Unit: React.FunctionComponent<{ contents: TimelineUnit }> = ({ contents }) => {
+const Unit: React.FC<{ contents: TimelineUnit }> = ({ contents }) => {
 	const date = useMemo(() => new Date(contents.date), [contents.date]);
 
 	return (
@@ -116,7 +116,7 @@ const Unit: React.FunctionComponent<{ contents: TimelineUnit }> = ({ contents })
 	);
 };
 
-const Timeline: React.FunctionComponent<{ contents: TimelineUnits }> = ({ contents }) => {
+const Timeline: React.FC<{ contents: TimelineUnits }> = ({ contents }) => {
 	const current = useMemo(() => new Date(), []);
 
 	return (

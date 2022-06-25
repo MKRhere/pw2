@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-const RevealChildren: React.FunctionComponent<{
+const RevealChildren: React.FC<{
 	type: "div" | "span" | "li";
 	children: React.ReactChild[];
 	show: boolean;

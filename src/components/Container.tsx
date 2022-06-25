@@ -10,7 +10,7 @@ import useMediaQuery from "../util/useMediaQuery";
 
 const [timer, clear] = getTimeout();
 
-const Container: React.FunctionComponent<{
+const Container: React.FC<{
 	children: (string | React.DetailedReactHTMLElement<any, HTMLElement> | React.ReactElement)[];
 	hideNav?: boolean;
 	arrowReversed?: boolean;

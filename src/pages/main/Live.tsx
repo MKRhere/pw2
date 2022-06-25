@@ -11,7 +11,7 @@ type LiveInfo =
 			videoID: string;
 	  };
 
-const Live: React.FunctionComponent = () => {
+const Live: React.FC = () => {
 	const [tl, setTl] = useState<TimelineUnits>([]);
 	const [liveInfo, setLiveInfo] = useState<LiveInfo>({ live: false });
 

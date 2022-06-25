@@ -61,7 +61,7 @@ const mobileMenu = css`
 	}
 `;
 
-const Menu: React.FunctionComponent<{ show?: boolean; setShowMenu: (show: boolean) => void }> = ({
+const Menu: React.FC<{ show?: boolean; setShowMenu: (show: boolean) => void }> = ({
 	show = false,
 	setShowMenu,
 }) => {
