@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { css, cx } from "@emotion/css";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
@@ -24,7 +24,7 @@ const Container: React.FunctionComponent<{
 	className,
 	...props
 }) => {
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const mobile = useMediaQuery("(max-width: 50rem)");
 
@@ -109,7 +109,7 @@ const Container: React.FunctionComponent<{
 		document.body.style.maxHeight = "100vh";
 		document.body.style.overflow = "hidden";
 		e.currentTarget.style.width = "0";
-		timer(() => next && history.push(next), 300);
+		timer(() => next && navigate(next), 300);
 	};
 
 	return (
@@ -191,7 +191,7 @@ const Container: React.FunctionComponent<{
 						)}>
 						<Logo
 							viewBox="0 0 264 264"
-							onClick={() => (mobile ? setShowMenu(true) : history.push("/"))}
+							onClick={() => (mobile ? setShowMenu(true) : navigate("/"))}
 						/>
 					</span>
 					<Menu show={showMenu} setShowMenu={setShowMenu} />

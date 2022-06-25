@@ -1,6 +1,6 @@
 import React from "react";
 
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -13,7 +13,7 @@ import Live from "./pages/main/Live";
 
 import NotFound from "./pages/main/404";
 
-ReactDOM.render(
+createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
 		<Router>
 			<Routes>
@@ -23,9 +23,8 @@ ReactDOM.render(
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/live" element={<Live />} />
 
-				<Route path="/*" element={NotFound} />
+				<Route path="/*" element={<NotFound />} />
 			</Routes>
 		</Router>
 	</React.StrictMode>,
-	document.getElementById("root"),
 );
