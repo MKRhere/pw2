@@ -1,6 +1,6 @@
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import React from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { Spacer } from "../../components/Spacer";
 import { ArticleSubHeader } from "./components/ArticleSubHeader";
 import { BlogPost } from "./components/BlogContent";
@@ -57,15 +57,41 @@ const Header: React.FC = () => {
 };
 
 const BlogHome: React.FC = () => {
+	const location = useLocation();
+
+	const isArticleOpen = Boolean(location.pathname.split("/blog")[1]);
+
 	return (
 		<div
-			className={css`
-				display: flex;
-				background: #1d1d1d;
-				height: 100%;
-				width: 100vw;
-				overflow: hidden;
-			`}>
+			className={cx(
+				{ "article-open": isArticleOpen },
+				css`
+					display: flex;
+					background: #1d1d1d;
+					height: 100%;
+					width: 100vw;
+					overflow: hidden;
+
+					@media screen and (max-width: 80rem) {
+						&:not(.article-open) {
+							aside {
+								min-width: 100vw;
+							}
+							main {
+								display: none;
+							}
+						}
+						&:is(.article-open) {
+							aside {
+								display: none;
+							}
+							main {
+								min-width: 100vw;
+							}
+						}
+					}
+				`,
+			)}>
 			<aside
 				className={css`
 					height: 100%;
@@ -118,18 +144,21 @@ const BlogHome: React.FC = () => {
 				})}
 			</aside>
 			<article
-				className={css`
-					height: 100%;
-					width: 100%;
-					overflow-y: auto;
-					overflow-x: hidden;
-					padding: 8rem;
-					background-color: #262626;
-					flex: 3;
-					display: flex;
-					flex-direction: column;
-					gap: 1.5rem;
-				`}>
+				className={cx(
+					{ "article-open": isArticleOpen },
+					css`
+						height: 100%;
+						width: 100%;
+						overflow-y: auto;
+						overflow-x: hidden;
+						padding: 8rem;
+						background-color: #262626;
+						flex: 3;
+						display: flex;
+						flex-direction: column;
+						gap: 1.5rem;
+					`,
+				)}>
 				<Routes>
 					<Route path="/" element={<div></div>} />
 					<Route path="/*" element={<BlogPost />} />
