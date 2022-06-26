@@ -6,6 +6,7 @@ import "../../../blog.css";
 import { ArticleSubHeader } from "./ArticleSubHeader";
 import { css, cx } from "@emotion/css";
 import { ReactComponent as Arrow } from "../../../assets/arrow-thin.svg";
+import { ReactComponent as Close } from "../../../assets/close.svg";
 import { ellipses, useNav } from "../../../util";
 
 const Markdown: React.FC<{ content: string }> = ({ content }) => {
@@ -149,7 +150,15 @@ export const BlogPost: React.FC = () => {
 
 	return (
 		<>
-			<span className="closer"></span>
+			<Close
+				role="button"
+				onClick={navigate("/blog")}
+				className={css`
+					min-height: 1rem;
+					min-width: 1rem;
+					cursor: pointer;
+				`}
+			/>
 			<img
 				className={css`
 					max-width: 80%;

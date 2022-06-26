@@ -10,7 +10,7 @@ const Header: React.FC = () => {
 	return (
 		<header
 			className={css`
-				padding: 1rem;
+				padding-inline: 1rem;
 				margin-bottom: 4rem;
 			`}>
 			<div>
