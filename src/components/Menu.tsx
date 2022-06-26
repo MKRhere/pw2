@@ -43,10 +43,6 @@ const menuList = css`
 
 	& > li {
 		margin-left: 1rem;
-
-		& > a {
-			text-decoration: none;
-		}
 	}
 `;
 

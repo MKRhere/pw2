@@ -5,6 +5,7 @@
 	--card-tags-hover: rgb(25, 25, 25);
 	--primary-colour: rgb(255, 85, 85);
 	--text-colour: rgb(211, 207, 201);
+	--text-subdued: rgb(163, 163, 163);
 	font-weight: 500;
 	font-size: max(16px, 0.8vw);
 }
@@ -19,6 +20,11 @@ body {
 	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	color: var(--text-colour);
+	height: 100vh;
+}
+
+#root {
+	height: 100%;
 }
 
 code {
@@ -68,6 +74,7 @@ h4 {
 
 a {
 	color: var(--text-colour);
+	text-decoration: none;
 }
 
 a:hover {

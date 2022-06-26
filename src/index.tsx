@@ -12,6 +12,7 @@ import Contact from "./pages/main/Contact";
 import Live from "./pages/main/Live";
 
 import NotFound from "./pages/main/404";
+import BlogHome from "./pages/blog/Home";
 
 createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -22,6 +23,8 @@ createRoot(document.getElementById("root")!).render(
 				<Route path="/projects" element={<Projects />} />
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/live" element={<Live />} />
+
+				<Route path="/blog/*" element={<BlogHome />} />
 
 				<Route path="/*" element={<NotFound />} />
 			</Routes>

@@ -1,3 +1,6 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
 export const getTimeout = () => {
 	const clearables = new Set<number>();
 
@@ -12,4 +15,16 @@ export const getTimeout = () => {
 	};
 
 	return [timeout, clearTimers] as const;
+};
+
+export const ellipses = (text: string, length: number = 100) =>
+	text.length > length ? text.slice(0, length - 3) + "..." : text;
+
+export const useNav = () => {
+	const navigate = useNavigate();
+
+	return (link: string) => (e: React.MouseEvent) => {
+		if (e.ctrlKey) return window.open(link, "_blank", "noreferrer noopener");
+		navigate(link);
+	};
 };
