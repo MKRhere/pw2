@@ -1,5 +1,5 @@
 import { css, cx } from "@emotion/css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import { Spacer } from "../../components/Spacer";
 import { ArticleSubHeader } from "./components/ArticleSubHeader";
@@ -59,11 +59,22 @@ const BlogHome: React.FC = () => {
 	const location = useLocation();
 
 	const isArticleOpen = Boolean(location.pathname.split("/blog")[1]);
+	const [isAsideClosed, setAsideClosed] = useState(false);
+
+	useEffect(() => {
+		if (isArticleOpen) setAsideClosed(true);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	useEffect(() => {
+		if (!isArticleOpen) setAsideClosed(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isArticleOpen]);
 
 	return (
 		<div
 			className={cx(
-				{ "article-open": isArticleOpen },
+				{ "article-open": isArticleOpen, "aside-closed": isAsideClosed },
 				css`
 					display: flex;
 					background: #1d1d1d;
@@ -87,6 +98,12 @@ const BlogHome: React.FC = () => {
 							main {
 								min-width: 100vw;
 							}
+						}
+					}
+
+					&:is(.aside-closed) {
+						aside {
+							display: none;
 						}
 					}
 
