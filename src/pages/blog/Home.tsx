@@ -1,11 +1,12 @@
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Spacer } from "../../components/Spacer";
 import { ArticleSubHeader } from "./components/ArticleSubHeader";
 import { BlogPost } from "./components/BlogContent";
 import { articles, getBlogPath } from "../../data";
 import { ReactComponent as DrawClose } from "../../assets/draw-close.svg";
+import classNames from "classnames";
 
 const Header: React.FC = () => {
 	return (
@@ -69,7 +70,9 @@ const BlogHome: React.FC = () => {
 
 	return (
 		<div
-			className={cx(
+			data-home
+			key="blog-home"
+			className={classNames(
 				{ "article-open": isArticleOpen, "aside-closed": isAsideClosed },
 				css`
 					display: flex;
@@ -77,6 +80,7 @@ const BlogHome: React.FC = () => {
 					height: 100%;
 					width: 100vw;
 					overflow: hidden;
+					position: relative;
 
 					@media screen and (max-width: 80rem) {
 						div& > .draw-ctl {
@@ -101,69 +105,64 @@ const BlogHome: React.FC = () => {
 						}
 					}
 
+					& > aside {
+						transition: all 250ms;
+					}
+
 					&:is(.aside-closed) {
 						aside {
 							max-width: 0;
 						}
 					}
-
-					& > aside,
-					& > article {
-						transition: all 250ms;
-
-						@media screen and (max-width: 50rem) {
-							padding-block-start: 4rem;
-							padding-block-end: 6rem;
-						}
-					}
-
-					& > .draw-ctl {
+				`,
+			)}>
+			<button
+				onClick={() => setAsideClosed(closed => !closed)}
+				className={classNames(
+					css`
 						border: none;
 						padding: 1rem;
 						padding-block: 10vw;
 						display: flex;
 						min-width: 3.6rem;
 						max-width: 3.6rem;
-					}
-				`,
-			)}>
-			{isArticleOpen ? (
-				<button
-					onClick={() => setAsideClosed(closed => !closed)}
-					className={cx(
-						"draw-ctl",
-						css`
-							transition: background-color 100ms;
-							background-color: #262626;
+						transition: background-color 100ms;
+						background-color: #262626;
+						position: absolute;
+						width: 100%;
+						height: 100%;
+						transition: transform 300ms;
 
-							&:hover {
-								background-color: #323232;
-							}
+						&:hover {
+							background-color: #323232;
+						}
+					`,
+					!isArticleOpen &&
+						css`
+							transform: translateX(-100%);
 						`,
-					)}>
-					<DrawClose
-						width="2.6rem"
-						className={cx(
-							css`
-								transition: transform 100ms;
-							`,
-							{
-								[css`
-									transform: rotate(180deg);
-								`]: isAsideClosed,
-							},
-						)}
-					/>
-				</button>
-			) : (
-				<div className="draw-ctl"></div>
-			)}
+				)}>
+				<DrawClose
+					width="2.6rem"
+					className={classNames(
+						css`
+							transition: transform 100ms;
+						`,
+						{
+							[css`
+								transform: rotate(180deg);
+							`]: isAsideClosed,
+						},
+					)}
+				/>
+			</button>
 			<aside
 				className={css`
 					height: 100%;
 					width: 100%;
 					flex: 2;
 					max-width: 45rem;
+					margin-inline-start: 3.6rem;
 				`}>
 				<div
 					className={css`
@@ -175,6 +174,11 @@ const BlogHome: React.FC = () => {
 						gap: 1rem;
 						padding: 8vw;
 						min-width: 30rem;
+
+						@media screen and (max-width: 50rem) {
+							padding-block-start: 4rem;
+							padding-block-end: 6rem;
+						}
 					`}>
 					<Header />
 					<Spacer y={2} />
@@ -218,31 +222,56 @@ const BlogHome: React.FC = () => {
 				</div>
 			</aside>
 			<article
-				className={cx(
+				className={classNames(
 					{ "article-open": isArticleOpen },
 					css`
 						height: 100%;
 						width: 100%;
 						flex: 3;
 						z-index: 1000;
+						display: flex;
+						position: relative;
+						overflow: hidden;
+
+						& > * {
+							height: 100%;
+							width: 100%;
+						}
 					`,
 				)}>
 				<div
-					className={css`
-						height: 100%;
-						width: 100%;
-						overflow-y: auto;
-						overflow-x: hidden;
-						padding: 8vw;
-						background-color: #262626;
-						display: flex;
-						flex-direction: column;
-						gap: 1.5rem;
-					`}>
-					<Routes>
-						<Route path="/" element={<div></div>} />
-						<Route path="/*" element={<BlogPost />} />
-					</Routes>
+					key="blog-content"
+					className={classNames(
+						css`
+							background-color: #262626;
+							position: absolute;
+							transition: all 300ms;
+							transform: translateX(100%);
+
+							@media screen and (max-width: 50rem) {
+								padding-block-start: 4rem;
+								padding-block-end: 6rem;
+							}
+						`,
+						{
+							[css`
+								transform: translateX(0%);
+							`]: isArticleOpen,
+						},
+					)}>
+					<div
+						className={css`
+							height: 100%;
+							width: 100%;
+							overflow-y: auto;
+							overflow-x: hidden;
+							display: flex;
+							flex-direction: column;
+							padding: 8vw;
+							gap: 1.5rem;
+						`}>
+						{isArticleOpen && <BlogPost />}
+					</div>
 				</div>
 			</article>
 		</div>
