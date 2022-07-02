@@ -3,27 +3,47 @@ import { css } from "@emotion/css";
 import Container from "../../components/Container";
 
 const exp = [
-	{ title: "BlueCube", location: "Chennai", position: "Architectural Intern", year: "2015" },
-	{ title: "Zoho", location: "Chennai", position: "Technical Content Writer", year: "2017" },
+	{
+		title: "BlueCube",
+		location: "Chennai",
+		position: "Architectural Intern",
+		year: "2015",
+	},
+	{
+		title: "Zoho",
+		location: "Chennai",
+		position: "Technical Content Writer",
+		year: "2017",
+	},
 	{
 		title: "Manoj Exports",
 		location: "Chennai",
 		position: "Designer & web developer",
 		year: "2017",
 	},
-	{ title: "Klenty", location: "Chennai", position: "Full stack developer", year: "2018" },
+	{
+		title: "Klenty",
+		location: "Chennai",
+		position: "Full stack developer",
+		year: "2018",
+	},
 	{
 		title: "Hugo's Way",
 		location: "Remote",
 		position: "Full stack developer",
 		year: "2018-19",
 	},
-	{ title: "Feathers Studio", location: "Chennai", position: "Founder", year: "2019-present" },
 	{
 		title: "Navana Tech",
 		location: "Remote",
-		position: "Lead web dev",
-		year: "2021-present",
+		position: "Lead web dev / architect",
+		year: "2021-22",
+	},
+	{
+		title: "Feathers Studio",
+		location: "Chennai",
+		position: "Founder",
+		year: "2019-present",
 	},
 ];
 
@@ -90,7 +110,8 @@ const getAge = (date: string) => {
 	var birthDate = new Date(date);
 	var age = today.getFullYear() - birthDate.getFullYear();
 	var m = today.getMonth() - birthDate.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) return age - 1;
+	if (m < 0) return age - 1;
+	if (m === 0 && today.getDate() < birthDate.getDate()) return age - 1;
 	return age;
 };
 
