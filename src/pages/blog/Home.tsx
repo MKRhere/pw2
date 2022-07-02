@@ -11,7 +11,6 @@ const Header: React.FC = () => {
 		<header
 			className={css`
 				padding-inline: 1rem;
-				margin-bottom: 4rem;
 			`}>
 			<div>
 				<h1
@@ -90,6 +89,14 @@ const BlogHome: React.FC = () => {
 							}
 						}
 					}
+
+					& > aside,
+					& > article {
+						@media screen and (max-width: 50rem) {
+							padding-block-start: 4rem;
+							padding-block-end: 6rem;
+						}
+					}
 				`,
 			)}>
 			<aside
@@ -101,10 +108,11 @@ const BlogHome: React.FC = () => {
 					display: flex;
 					flex-direction: column;
 					gap: 1rem;
-					padding: 8rem;
+					padding: 8vw;
 					max-width: 45rem;
 				`}>
 				<Header />
+				<Spacer y={2} />
 				{articles.map(article => {
 					const { title, snippet } = article;
 					const path = getBlogPath(article);
@@ -151,7 +159,7 @@ const BlogHome: React.FC = () => {
 						width: 100%;
 						overflow-y: auto;
 						overflow-x: hidden;
-						padding: 8rem;
+						padding: 8vw;
 						background-color: #262626;
 						flex: 3;
 						display: flex;

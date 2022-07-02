@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "vite",
-		"build": "tsc && vite build",
+		"build": "pnpm blog && tsc && vite build",
 		"serve": "vite preview",
 		"blog": "node scripts/blog.js"
 	},

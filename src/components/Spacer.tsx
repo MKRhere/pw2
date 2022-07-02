@@ -15,8 +15,8 @@ export const Spacer: React.FC<Props> = ({ inline, x, y = 1 }) => {
 			className="spacer"
 			style={{
 				display: inline ? "inline-block" : "block",
-				width: rem(x),
-				height: rem(y),
+				minWidth: rem(x),
+				minHeight: rem(y),
 			}}
 		/>
 	);
