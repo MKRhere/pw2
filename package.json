@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"@emotion/css": "^11.9.0",
+		"classnames": "^2.3.1",
 		"date-fns": "^2.28.0",
 		"framer-motion": "^6.3.15",
 		"marked": "^4.0.17",
