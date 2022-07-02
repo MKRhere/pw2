@@ -1,6 +1,6 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 
-const toplevel = (await readdir("blog")).filter(x => x !== "assets");
+const toplevel = (await readdir("public/blog")).filter(x => x !== "assets");
 
 const removeExtn = path => {
 	const parts = path.split(".");
