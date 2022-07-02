@@ -5,7 +5,7 @@ import { Spacer } from "../../components/Spacer";
 import { ArticleSubHeader } from "./components/ArticleSubHeader";
 import { BlogPost } from "./components/BlogContent";
 import { articles, getBlogPath } from "../../data";
-import { ReactComponent as DrawClose } from "../../assets/draw-close.svg";
+import { ReactComponent as DrawClose } from "../../assets/arrow-thin.svg";
 import classNames from "classnames";
 
 const Header: React.FC = () => {
@@ -121,7 +121,7 @@ const BlogHome: React.FC = () => {
 					css`
 						border: none;
 						padding: 1rem;
-						padding-block: 10vw;
+						padding-block: 12vw;
 						display: flex;
 						min-width: 3.6rem;
 						max-width: 3.6rem;
@@ -143,14 +143,15 @@ const BlogHome: React.FC = () => {
 						`,
 				)}>
 				<DrawClose
-					width="2.6rem"
+					style={{ width: "2.6rem", height: "1rem" }}
 					className={classNames(
 						css`
+							transform: rotate(180deg);
 							transition: transform 100ms;
 						`,
 						{
 							[css`
-								transform: rotate(180deg);
+								transform: rotate(0deg);
 							`]: isAsideClosed,
 						},
 					)}
@@ -245,6 +246,11 @@ const BlogHome: React.FC = () => {
 							position: absolute;
 							transition: all 300ms;
 							transform: translateX(100%);
+							overflow-y: auto;
+							overflow-x: hidden;
+
+							display: flex;
+							justify-content: center;
 						`,
 						isArticleOpen &&
 							css`
@@ -255,12 +261,12 @@ const BlogHome: React.FC = () => {
 						className={css`
 							height: 100%;
 							width: 100%;
-							overflow-y: auto;
-							overflow-x: hidden;
 							display: flex;
 							flex-direction: column;
 							padding: 8vw;
 							gap: 1.5rem;
+							max-width: 60rem;
+							height: fit-content;
 
 							@media screen and (max-width: 50rem) {
 								padding-block-start: 4rem;

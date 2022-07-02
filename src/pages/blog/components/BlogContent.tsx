@@ -13,8 +13,12 @@ const Markdown: React.FC<{ content: string }> = ({ content }) => {
 	return (
 		<div
 			className={css`
+				& > * {
+					width: 100%;
+				}
+
 				& img {
-					max-width: 100%;
+					width: 100%;
 					padding-block: 1.5rem;
 				}
 
@@ -159,13 +163,20 @@ export const BlogPost: React.FC = () => {
 					cursor: pointer;
 				`}
 			/>
-			<img
+			<div
 				className={css`
-					max-width: 80%;
-				`}
-				src={"/blog/assets/" + article["featured-img"]}
-				alt="Featured"
-			/>
+					width: 100%;
+					max-height: 25rem;
+				`}>
+				<img
+					className={css`
+						max-width: 100%;
+						height: 100%;
+					`}
+					src={"/blog/assets/" + article["featured-img"]}
+					alt="Featured"
+				/>
+			</div>
 			<h1
 				className={css`
 					font-size: 2.2rem;
