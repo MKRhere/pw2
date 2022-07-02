@@ -97,7 +97,8 @@ const BlogHome: React.FC = () => {
 						}
 						&:is(.article-open) {
 							aside {
-								display: none;
+								min-width: 0;
+								max-width: 0;
 							}
 							main {
 								max-width: 0;
@@ -119,6 +120,7 @@ const BlogHome: React.FC = () => {
 			<button
 				onClick={() => setAsideClosed(closed => !closed)}
 				className={classNames(
+					"draw-ctl",
 					css`
 						border: none;
 						padding: 1rem;
@@ -132,6 +134,7 @@ const BlogHome: React.FC = () => {
 						width: 100%;
 						height: 100%;
 						transition: transform 300ms;
+						z-index: 1000;
 
 						&:hover {
 							background-color: #323232;
@@ -162,7 +165,6 @@ const BlogHome: React.FC = () => {
 					width: 100%;
 					flex: 2;
 					max-width: 45rem;
-					margin-inline-start: 3.6rem;
 				`}>
 				<div
 					className={css`
@@ -228,7 +230,7 @@ const BlogHome: React.FC = () => {
 						height: 100%;
 						width: 100%;
 						flex: 3;
-						z-index: 1000;
+						z-index: 900;
 						display: flex;
 						position: relative;
 						overflow: hidden;
@@ -247,17 +249,11 @@ const BlogHome: React.FC = () => {
 							position: absolute;
 							transition: all 300ms;
 							transform: translateX(100%);
-
-							@media screen and (max-width: 50rem) {
-								padding-block-start: 4rem;
-								padding-block-end: 6rem;
-							}
 						`,
-						{
-							[css`
+						isArticleOpen &&
+							css`
 								transform: translateX(0%);
-							`]: isArticleOpen,
-						},
+							`,
 					)}>
 					<div
 						className={css`
@@ -269,6 +265,11 @@ const BlogHome: React.FC = () => {
 							flex-direction: column;
 							padding: 8vw;
 							gap: 1.5rem;
+
+							@media screen and (max-width: 50rem) {
+								padding-block-start: 4rem;
+								padding-block-end: 6rem;
+							}
 						`}>
 						{isArticleOpen && <BlogPost />}
 					</div>
