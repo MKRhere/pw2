@@ -59,12 +59,7 @@ const BlogHome: React.FC = () => {
 	const location = useLocation();
 
 	const isArticleOpen = Boolean(location.pathname.split("/blog")[1]);
-	const [isAsideClosed, setAsideClosed] = useState(false);
-
-	useEffect(() => {
-		if (isArticleOpen) setAsideClosed(true);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	const [isAsideClosed, setAsideClosed] = useState(isArticleOpen);
 
 	useEffect(() => {
 		if (!isArticleOpen) setAsideClosed(false);
