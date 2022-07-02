@@ -91,27 +91,24 @@ const BlogHome: React.FC = () => {
 							aside {
 								min-width: 100vw;
 							}
-							main {
-								max-width: 0;
-							}
 						}
 						&:is(.article-open) {
 							aside {
 								min-width: 0;
 								max-width: 0;
 							}
-							main {
-								max-width: 0;
-							}
 						}
 					}
 
 					& > aside {
-						transition: all 250ms;
+						transition: all 350ms;
 					}
 
 					&:is(.aside-closed) {
 						aside {
+							overflow: hidden;
+							transform: translateX(-500%);
+							min-width: 0;
 							max-width: 0;
 						}
 					}
@@ -175,7 +172,7 @@ const BlogHome: React.FC = () => {
 						flex-direction: column;
 						gap: 1rem;
 						padding: 8vw;
-						min-width: 30rem;
+						min-width: min(30rem, 100vw);
 
 						@media screen and (max-width: 50rem) {
 							padding-block-start: 4rem;
@@ -189,36 +186,35 @@ const BlogHome: React.FC = () => {
 						const path = getBlogPath(article);
 
 						return (
-							<div key={path}>
-								<Link
-									to={path}
-									className={css`
-										display: flex;
-										flex-direction: column;
-										gap: 0.25rem;
-										padding: 1rem;
-										border-radius: 0.5rem;
-										transition: all 300ms;
+							<Link
+								key={path}
+								to={path}
+								className={css`
+									display: flex;
+									flex-direction: column;
+									gap: 0.25rem;
+									padding: 1rem;
+									border-radius: 0.5rem;
+									transition: all 300ms;
 
-										&:hover {
-											background: #262626;
-										}
+									&:hover {
+										background: #262626;
+									}
 
-										& h3 {
-											padding: 0;
-											font-size: 1.4rem;
-										}
+									& h3 {
+										padding: 0;
+										font-size: 1.4rem;
+									}
 
-										& * {
-											line-height: 1.2em;
-										}
-									`}>
-									<h3>{title}</h3>
-									<ArticleSubHeader article={article} />
-									<Spacer />
-									<p>{snippet}</p>
-								</Link>
-							</div>
+									& * {
+										line-height: 1.2em;
+									}
+								`}>
+								<h3>{title}</h3>
+								<ArticleSubHeader article={article} />
+								<Spacer />
+								<p>{snippet}</p>
+							</Link>
 						);
 					})}
 				</div>
