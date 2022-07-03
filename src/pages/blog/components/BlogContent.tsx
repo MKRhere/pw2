@@ -172,6 +172,7 @@ export const BlogPost: React.FC = () => {
 					className={css`
 						max-width: 100%;
 						height: 100%;
+						border-radius: 0.5rem;
 					`}
 					src={"/blog/assets/" + article["featured-img"]}
 					alt="Featured"

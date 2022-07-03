@@ -76,7 +76,7 @@ const BlogHome: React.FC = () => {
 				{ "article-open": isArticleOpen, "aside-closed": isAsideClosed },
 				css`
 					display: flex;
-					background: #1d1d1d;
+					background: #1a1a1a;
 					height: 100%;
 					width: 100vw;
 					overflow: hidden;
@@ -101,13 +101,13 @@ const BlogHome: React.FC = () => {
 					}
 
 					& > aside {
-						transition: all 350ms;
+						transition: all 800ms;
 					}
 
 					&:is(.aside-closed) {
 						aside {
 							overflow: hidden;
-							transform: translateX(-500%);
+							transform: translateX(-1000%);
 							min-width: 0;
 							max-width: 0;
 						}
@@ -126,7 +126,7 @@ const BlogHome: React.FC = () => {
 						min-width: 3.6rem;
 						max-width: 3.6rem;
 						transition: background-color 100ms;
-						background-color: #262626;
+						background-color: #151515;
 						position: absolute;
 						width: 100%;
 						height: 100%;
@@ -134,7 +134,7 @@ const BlogHome: React.FC = () => {
 						z-index: 1000;
 
 						&:hover {
-							background-color: #323232;
+							background-color: #0c0c0c;
 						}
 					`,
 					!isArticleOpen &&
@@ -199,7 +199,7 @@ const BlogHome: React.FC = () => {
 									transition: all 300ms;
 
 									&:hover {
-										background: #262626;
+										background: #111111;
 									}
 
 									& h3 {
@@ -242,7 +242,7 @@ const BlogHome: React.FC = () => {
 					key="blog-content"
 					className={classNames(
 						css`
-							background-color: #262626;
+							background: #111111;
 							position: absolute;
 							transition: all 300ms;
 							transform: translateX(100%);
