@@ -125,7 +125,7 @@ const BlogHome: React.FC = () => {
 					css`
 						border: none;
 						padding: 1rem;
-						padding-block: 12vw;
+						padding-block: 10vw;
 						display: flex;
 						min-width: 3.6rem;
 						max-width: 3.6rem;
@@ -177,7 +177,8 @@ const BlogHome: React.FC = () => {
 							display: flex;
 							flex-direction: column;
 							gap: 1rem;
-							padding: 8vw;
+							padding-inline: 8vw;
+							padding-block: 9vw;
 							min-width: min(30rem, 100vw);
 
 							@media screen and (max-width: 50rem) {
@@ -269,7 +270,8 @@ const BlogHome: React.FC = () => {
 							width: 100%;
 							display: flex;
 							flex-direction: column;
-							padding: 8vw;
+							padding-inline: 8vw;
+							padding-block: 7vw;
 							gap: 1.5rem;
 							max-width: 60rem;
 							height: fit-content;
