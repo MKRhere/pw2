@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Spacer } from "../../components/Spacer";
 import { ArticleSubHeader } from "./components/ArticleSubHeader";
 import { BlogPost } from "./components/BlogContent";
@@ -59,12 +59,24 @@ const Header: React.FC = () => {
 
 const BlogHome: React.FC = () => {
 	const location = useLocation();
+	const navigate = useNavigate();
 
 	const isArticleOpen = Boolean(location.pathname.split("/blog")[1]);
 	const [isAsideClosed, setAsideClosed] = useState(isArticleOpen);
 
 	useEffect(() => {
 		if (!isArticleOpen) setAsideClosed(false);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isArticleOpen]);
+
+	useEffect(() => {
+		if (!isArticleOpen) return;
+
+		const handler = (e: KeyboardEvent) =>
+			e.key === "Escape" && navigate("/blog");
+
+		document.addEventListener("keydown", handler);
+		return () => document.removeEventListener("keydown", handler);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isArticleOpen]);
 

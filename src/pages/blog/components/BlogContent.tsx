@@ -161,6 +161,7 @@ export const BlogPost: React.FC = () => {
 					min-height: 1rem;
 					min-width: 1rem;
 					cursor: pointer;
+					align-self: flex-end;
 				`}
 			/>
 			<div
