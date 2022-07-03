@@ -100,16 +100,20 @@ const BlogHome: React.FC = () => {
 						}
 					}
 
-					& > aside {
-						transition: all 800ms;
+					& > aside,
+					& > aside .blog-list {
+						transition: all 300ms;
 					}
 
 					&:is(.aside-closed) {
-						aside {
+						& aside {
 							overflow: hidden;
-							transform: translateX(-1000%);
 							min-width: 0;
 							max-width: 0;
+						}
+
+						& aside .blog-list {
+							transform: translateX(-1000%);
 						}
 					}
 				`,
@@ -163,23 +167,25 @@ const BlogHome: React.FC = () => {
 					width: 100%;
 					flex: 2;
 					max-width: 45rem;
+					overflow-y: auto;
 				`}>
 				<div
-					className={css`
-						height: 100%;
-						width: 100%;
-						overflow-y: auto;
-						display: flex;
-						flex-direction: column;
-						gap: 1rem;
-						padding: 8vw;
-						min-width: min(30rem, 100vw);
+					className={classNames(
+						"blog-list",
+						css`
+							width: 100%;
+							display: flex;
+							flex-direction: column;
+							gap: 1rem;
+							padding: 8vw;
+							min-width: min(30rem, 100vw);
 
-						@media screen and (max-width: 50rem) {
-							padding-block-start: 4rem;
-							padding-block-end: 6rem;
-						}
-					`}>
+							@media screen and (max-width: 50rem) {
+								padding-block-start: 4rem;
+								padding-block-end: 6rem;
+							}
+						`,
+					)}>
 					<Header />
 					<Spacer y={2} />
 					{articles.map(article => {
