@@ -1,4 +1,7 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+// @ts-check
+
+import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { renderPreviewImg } from "imagen";
 
 const toplevel = (await readdir("public/blog")).filter(x => x !== "assets");
 
@@ -22,6 +25,9 @@ const parseMetadata = (slug, contents) => {
 	);
 };
 
+/**
+ * @type {import("./blog.types").Data}
+ */
 const data = Object.fromEntries(
 	await Promise.all(
 		toplevel.map(year =>
@@ -35,7 +41,11 @@ const data = Object.fromEntries(
 				)
 					.then(list =>
 						list
-							.sort((a, b) => new Date(a).valueOf() - new Date(b).valueOf())
+							.sort(
+								(a, b) =>
+									new Date(a["featured-img"]).valueOf() -
+									new Date(b["featured-img"]).valueOf(),
+							)
 							.map(x => [x.slug, x]),
 					)
 					.then(list => Object.fromEntries(list))
@@ -45,6 +55,37 @@ const data = Object.fromEntries(
 	),
 );
 
+function rewriteExtn(filename, extn) {
+	const split = filename.split(".");
+	split[split.length - 1] = extn;
+	return split.join(".");
+}
+
+/**
+ *
+ * @param {import("./blog.types").Data} data
+ */
+export async function generateFeaturedImages(data) {
+	for (const year in data) {
+		const yearData = data[year];
+		for (const slug in yearData) {
+			const article = yearData[slug];
+			await renderPreviewImg(
+				[1920, 1080],
+				"public/blog/assets/" + article["featured-img"],
+				article.title,
+				["MKRhere", article.category, article.published].join(" · "),
+				"public/blog/assets/featured/" +
+					rewriteExtn(article["featured-img"], "jpg"),
+			);
+		}
+	}
+}
+
 writeFile("src/blog.json", JSON.stringify(data, null, "\t"), "utf-8").then(() =>
 	console.log("Done"),
+);
+
+mkdir("public/blog/assets/featured", { recursive: true }).then(() =>
+	generateFeaturedImages(data),
 );
