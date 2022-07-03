@@ -1,7 +1,14 @@
 // @ts-check
 
-import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
+import { readdir, readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { renderPreviewImg } from "imagen";
+import GM from "gm";
+
+function rewriteExtn(filename, extn) {
+	const split = filename.split(".");
+	split[split.length - 1] = extn;
+	return split.join(".");
+}
 
 const toplevel = (await readdir("public/blog")).filter(x => x !== "assets");
 
@@ -55,17 +62,15 @@ const data = Object.fromEntries(
 	),
 );
 
-function rewriteExtn(filename, extn) {
-	const split = filename.split(".");
-	split[split.length - 1] = extn;
-	return split.join(".");
-}
+writeFile("src/blog.json", JSON.stringify(data, null, "\t"), "utf-8").then(() =>
+	console.log("Done"),
+);
 
 /**
  *
  * @param {import("./blog.types").Data} data
  */
-export async function generateFeaturedImages(data) {
+async function generateFeaturedImages(data) {
 	for (const year in data) {
 		const yearData = data[year];
 		for (const slug in yearData) {
@@ -82,10 +87,35 @@ export async function generateFeaturedImages(data) {
 	}
 }
 
-writeFile("src/blog.json", JSON.stringify(data, null, "\t"), "utf-8").then(() =>
-	console.log("Done"),
-);
-
 mkdir("public/blog/assets/featured", { recursive: true }).then(() =>
 	generateFeaturedImages(data),
 );
+
+const convert = (gm, img, size, fmt) =>
+	new Promise((resolve, reject) =>
+		gm("public/blog/assets/" + img)
+			.resize(size)
+			.noProfile()
+			.write(
+				"public/blog/assets/gen/" + rewriteExtn(img, size + "." + fmt),
+				err => {
+					if (err) return reject(err);
+					else resolve(true);
+				},
+			),
+	);
+
+async function generateOptimisedImages() {
+	await mkdir("public/blog/assets/gen/", { recursive: true });
+
+	const imgs = await readdir("public/blog/assets");
+	for (const img of imgs) {
+		if (!(await stat("public/blog/assets/" + img)).isFile()) continue;
+		const gm = GM.subClass({ imageMagick: true });
+		for (const size of [480, 800])
+			for (const fmt of ["jpg", "webp", "avif"])
+				await convert(gm, img, size, fmt);
+	}
+}
+
+generateOptimisedImages();

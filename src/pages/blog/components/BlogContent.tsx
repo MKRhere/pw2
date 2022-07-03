@@ -7,7 +7,7 @@ import { ArticleSubHeader } from "./ArticleSubHeader";
 import { css, cx } from "@emotion/css";
 import { ReactComponent as Arrow } from "../../../assets/arrow-thin.svg";
 import { ReactComponent as Close } from "../../../assets/close.svg";
-import { ellipses, useNav } from "../../../util";
+import { ellipses, rewriteExtn, useNav } from "../../../util";
 
 const Markdown: React.FC<{ content: string }> = ({ content }) => {
 	return (
@@ -152,6 +152,11 @@ export const BlogPost: React.FC = () => {
 
 	if (!article || error) return <div>{error || "Unknown error occurred"}</div>;
 
+	const featured = rewriteExtn(
+		"/blog/assets/gen/" + article["featured-img"],
+		"",
+	);
+
 	return (
 		<>
 			<Close
@@ -169,15 +174,34 @@ export const BlogPost: React.FC = () => {
 					width: 100%;
 					max-height: 25rem;
 				`}>
-				<img
-					className={css`
-						max-width: 100%;
-						height: 100%;
-						border-radius: 0.5rem;
-					`}
-					src={"/blog/assets/" + article["featured-img"]}
-					alt="Featured"
-				/>
+				<picture>
+					{[
+						[480, "avif", 600],
+						[800, "avif"],
+						[480, "webp", 600],
+						[800, "webp"],
+						[480, "jpg", 600],
+						[800, "jpg"],
+					].map(([size, format, query]) => {
+						return (
+							<source
+								key={`${size}-${format}-${query || ""}`}
+								srcSet={`${featured}${size}.${format} ${size}w`}
+								type={`image/${format}`}
+								{...(query && { media: `(max-width: ${query}px)` })}
+							/>
+						);
+					})}
+					<img
+						className={css`
+							max-width: 100%;
+							height: 100%;
+							border-radius: 0.5rem;
+						`}
+						src={featured + "800.jpg"}
+						alt="featured"
+					/>
+				</picture>
 			</div>
 			<h1
 				className={css`

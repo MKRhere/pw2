@@ -28,3 +28,9 @@ export const useNav = () => {
 		navigate(link);
 	};
 };
+
+export function rewriteExtn(filename: string, extn: string) {
+	const split = filename.split(".");
+	split[split.length - 1] = extn;
+	return split.join(".");
+}
