@@ -102,7 +102,7 @@ const BlogHome: React.FC = () => {
 
 					& > aside,
 					& > aside .blog-list {
-						transition: all 300ms;
+						transition: transform 300ms, min-width 300ms, max-width 300ms;
 					}
 
 					&:is(.aside-closed) {
@@ -202,7 +202,7 @@ const BlogHome: React.FC = () => {
 									gap: 0.25rem;
 									padding: 1rem;
 									border-radius: 0.5rem;
-									transition: all 300ms;
+									transition: background 300ms;
 
 									&:hover {
 										background: #111111;
@@ -250,7 +250,7 @@ const BlogHome: React.FC = () => {
 						css`
 							background: #111111;
 							position: absolute;
-							transition: all 300ms;
+							transition: transform 300ms;
 							transform: translateX(100%);
 							overflow-y: auto;
 							overflow-x: hidden;
