@@ -4,10 +4,21 @@ import Container from "../../components/Container";
 
 const exp = [
 	{
+		title: "Vinzas",
+		location: "Chennai",
+		position: "Architectural Intern",
+		year: "2014",
+	},
+	{
 		title: "BlueCube",
 		location: "Chennai",
 		position: "Architectural Intern",
 		year: "2015",
+	},
+	{
+		title: "OutFocus Magazine",
+		position: "Editor / developer",
+		year: "2014-17",
 	},
 	{
 		title: "Zoho",
@@ -18,7 +29,7 @@ const exp = [
 	{
 		title: "Manoj Exports",
 		location: "Chennai",
-		position: "Designer & web developer",
+		position: "Designer & web dev",
 		year: "2017",
 	},
 	{
@@ -36,13 +47,13 @@ const exp = [
 	{
 		title: "Navana Tech",
 		location: "Remote",
-		position: "Lead web dev / architect",
+		position: "Lead web & architect",
 		year: "2021-22",
 	},
 	{
 		title: "Feathers Studio",
 		location: "Chennai",
-		position: "Founder",
+		position: "Chief Maker",
 		year: "2019-present",
 	},
 ];
@@ -75,7 +86,7 @@ const Circle: React.FC = () => (
 
 type Experience = {
 	title: string;
-	location: string;
+	location?: string;
 	position: string;
 	year: string;
 };
@@ -121,12 +132,13 @@ const Exp: React.FC = () => {
 	return (
 		<Container next="/projects">
 			<h2>I’m a {age} year old developer from Chennai, India.</h2>
-			<p>Here are some places I’ve worked at:</p>
+			<p>Here are some places I’ve worked at in reverse chronological order:</p>
 			<div
 				className={css`
 					display: flex;
+					flex-direction: row-reverse;
 					width: 100%;
-					flex-wrap: wrap;
+					flex-wrap: wrap-reverse;
 
 					& > * {
 						flex-basis: 15rem;

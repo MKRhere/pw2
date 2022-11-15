@@ -24,8 +24,8 @@ createRoot(document.getElementById("root")!).render(
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/live" element={<Live />} />
 
-				<Route path="/blog" element={<BlogHome />} />
-				<Route path="/blog/*" element={<BlogHome />} />
+				{/* <Route path="/blog" element={<BlogHome />} /> */}
+				{/* <Route path="/blog/*" element={<BlogHome />} /> */}
 
 				<Route path="/*" element={<NotFound />} />
 			</Routes>
