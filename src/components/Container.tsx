@@ -33,7 +33,7 @@ const Container: React.FC<{
 	const mobile = useMediaQuery("(max-width: 50rem)");
 
 	const logoContainer = useRef<HTMLButtonElement>(null);
-	const highlightCircle = useRef<HTMLSpanElement>(null);
+	const highlightCircle = useRef<HTMLButtonElement>(null);
 	const containerChild = useRef<HTMLDivElement>(null);
 	const nextBtn = useRef<HTMLButtonElement>(null);
 
@@ -138,13 +138,35 @@ const Container: React.FC<{
 		<div
 			className={css`
 				background: var(--background-colour);
-				padding: 15rem calc(100vw / 8) 8rem calc(100vw / 8);
+				padding-block-start: 15rem;
+				padding-block-end: 8rem;
+				padding-inline: calc(100vw / 8);
 				overflow-x: hidden;
 				min-height: 100vh;
 				position: relative;
 			`}>
+			<div
+				className={cx(
+					"fog",
+					css`
+						position: fixed;
+						width: 100vw;
+						left: 0;
+						bottom: 0;
+						height: 10rem;
+						background: rgb(0, 0, 0);
+						background: linear-gradient(
+							180deg,
+							rgba(0, 0, 0, 0) 0%,
+							rgba(0, 0, 0, 1) 100%
+						);
+						z-index: 1000;
+						pointer-events: none;
+					`,
+				)}
+			/>
 			{!hideNav && (
-				<button
+				<span
 					ref={logoContainer}
 					className={css`
 						position: absolute;
@@ -156,7 +178,7 @@ const Container: React.FC<{
 					`}
 					onMouseOver={() => !mobile && setShowMenu(true)}
 					onMouseOut={() => !mobile && setShowMenu(false)}>
-					<span
+					<button
 						ref={highlightCircle}
 						className={cx(
 							css`
@@ -165,7 +187,9 @@ const Container: React.FC<{
 								height: 5rem;
 								width: 5rem;
 								border-radius: 100%;
-								box-shadow: 0px 0px 50px 0px rgba(100, 100, 100, 0.65);
+								border: 0;
+								background: none;
+								box-shadow: 0 0 1rem 0 rgba(100, 100, 100, 0.5);
 								cursor: pointer;
 
 								& > svg {
@@ -174,11 +198,13 @@ const Container: React.FC<{
 									position: absolute;
 									inset: 0;
 									z-index: 1;
+									outline: 0;
 								}
 
 								&::before {
 									content: "";
 									position: absolute;
+									top: 0.5rem;
 									left: -0.1rem;
 									width: 5rem;
 									height: 5rem;
@@ -196,11 +222,13 @@ const Container: React.FC<{
 									opacity: 1;
 								}
 
-								&:hover::before {
+								&:hover::before,
+								&:focus::before {
 									width: 5.2rem;
 									height: 5.2rem;
-									top: -0.05rem;
+									top: -0.1rem;
 									left: -0.1rem;
+									outline: none;
 								}
 
 								&.highlight::before {
@@ -215,9 +243,9 @@ const Container: React.FC<{
 							viewBox="0 0 264 264"
 							onClick={() => (mobile ? setShowMenu(true) : navigate("/"))}
 						/>
-					</span>
+					</button>
 					<Menu show={showMenu} setShowMenu={setShowMenu} />
-				</button>
+				</span>
 			)}
 			{next && (
 				<button
@@ -258,7 +286,7 @@ const Container: React.FC<{
 				className={cx(
 					css`
 						width: 100%;
-						max-width: 60rem;
+						max-width: 62rem;
 						min-height: 100%;
 						margin: auto;
 

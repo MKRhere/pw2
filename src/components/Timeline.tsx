@@ -20,7 +20,7 @@ const unit = css`
 	font-size: inherit;
 	text-align: inherit;
 	font-weight: inherit;
-	max-width: 400px;
+	max-width: 20rem;
 	transition: 100ms all;
 	text-decoration: none;
 	position: relative;

@@ -4,19 +4,32 @@ import Container from "../../components/Container";
 
 const exp = [
 	{
+		title: "The Feathers",
+		location: "Chennai (formerly Tirunelveli and Ooty)",
+		position: "Founder",
+		year: "2011-19",
+	},
+	{
+		title: "StudioFlicks",
+		location: "Remote (Coimbatore)",
+		position: "Co-founder & Creative Head",
+		year: "2013-15",
+	},
+	{
 		title: "Vinzas",
 		location: "Chennai",
 		position: "Architectural Intern",
 		year: "2014",
 	},
 	{
-		title: "BlueCube",
+		title: "Blue Cube",
 		location: "Chennai",
 		position: "Architectural Intern",
 		year: "2015",
 	},
 	{
 		title: "OutFocus Magazine",
+		location: "Ooty",
 		position: "Editor / developer",
 		year: "2014-17",
 	},
@@ -40,14 +53,14 @@ const exp = [
 	},
 	{
 		title: "Hugo's Way",
-		location: "Remote",
+		location: "Remote (Dublin)",
 		position: "Full stack developer",
 		year: "2018-19",
 	},
 	{
 		title: "Navana Tech",
-		location: "Remote",
-		position: "Lead web & architect",
+		location: "Remote (Mumbai)",
+		position: "Lead webdev & architect",
 		year: "2021-22",
 	},
 	{
@@ -56,7 +69,7 @@ const exp = [
 		position: "Chief Maker",
 		year: "2019-present",
 	},
-];
+].reverse();
 
 const Circle: React.FC = () => (
 	<div>
@@ -67,7 +80,9 @@ const Circle: React.FC = () => (
 				background: #333333;
 				left: -50vw;
 				position: absolute;
-				top: calc(-2rem + 0.25rem / 2 - 0.5px);
+				top: calc(2rem + 0.25rem / 2);
+				/* centre it to the circle */
+				transform: translateY(-50%);
 				z-index: 0;
 			`}></div>
 		<div
@@ -77,7 +92,7 @@ const Circle: React.FC = () => (
 				background: #ffffff;
 				border-radius: 100%;
 				position: absolute;
-				top: -2rem;
+				top: 2rem;
 				left: 0;
 				z-index: 100;
 			`}></div>
@@ -96,22 +111,36 @@ const ExpUnit: React.FC<Experience> = ({ title, location, position, year }) => {
 		<div
 			className={css`
 				position: relative;
+				display: flex;
+				flex-direction: column;
+				gap: 0.6rem;
+				& * {
+					line-height: 1em;
+				}
+				& h5 {
+					color: var(--text-subdued);
+					font-weight: 400;
+					font-size: 0.9rem;
+				}
 			`}>
 			<Circle />
-			<h4>{[title, location].filter(Boolean).join(", ")}</h4>
-			<span
-				className={css`
-					color: #bdbdbd;
-				`}>
-				{position}
-			</span>
-			{" . "}
-			<span
-				className={css`
-					font-weight: 300;
-				`}>
-				{year}
-			</span>
+			<h4>{title}</h4>
+			<div>
+				<span
+					className={css`
+						color: var(--text-colour);
+					`}>
+					{position}
+				</span>
+				{" . "}
+				<span
+					className={css`
+						font-weight: 300;
+					`}>
+					{year}
+				</span>
+			</div>
+			<h5>{location}</h5>
 		</div>
 	);
 };
@@ -131,22 +160,32 @@ const age = getAge("27 May 1995");
 const Exp: React.FC = () => {
 	return (
 		<Container next="/projects">
-			<h2>I’m a {age} year old developer from Chennai, India.</h2>
+			<h2>
+				I’m a {age} year old developer from
+				<br />
+				Chennai, India.
+			</h2>
 			<p>
-				Here are some places I’ve worked at, in reverse chronological order:
+				Here are some places I’ve worked at{" "}
+				<span
+					className={css`
+						/* font-size: 0.8rem; */
+						color: var(--text-subdued);
+					`}>
+					(recent first)
+				</span>
+				:
 			</p>
 			<div
 				className={css`
-					display: flex;
-					flex-direction: row-reverse;
 					width: 100%;
-					flex-wrap: wrap-reverse;
+
+					display: grid;
+					grid-template-columns: repeat(auto-fit, 20rem);
+					gap: 1rem;
 
 					& > * {
-						flex-basis: 15rem;
-						flex-grow: 1;
-						margin-top: 4rem;
-						margin-right: 3%;
+						padding-top: 4rem;
 					}
 				`}>
 				{exp.map(unit => (

@@ -44,6 +44,11 @@ const menuList = css`
 	& > li {
 		margin-left: 1rem;
 	}
+
+	& :focus-within {
+		opacity: 1 !important;
+		outline: none;
+	}
 `;
 
 const mobileMenu = css`

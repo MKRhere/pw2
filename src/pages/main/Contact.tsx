@@ -16,9 +16,9 @@ type Contact = {
 };
 
 const CONTACT: Contact = {
-	Twitter: { value: "MKRhere", link: "https://twitter.com/MKRhere" },
-	GitHub: { value: "MKRhere", link: "https://github.com/MKRhere" },
-	Email: {
+	"Twitter/𝕏": { value: "MKRhere", link: "https://twitter.com/MKRhere" },
+	"GitHub": { value: "MKRhere", link: "https://github.com/MKRhere" },
+	"Email": {
 		value: "mυthυkυmαr@thεfεαthεrs.in",
 		link: "mailto:mυthυkυmαr@thεfεαthεrs.in",
 		replacer: {
@@ -27,7 +27,7 @@ const CONTACT: Contact = {
 			α: "a",
 		},
 	},
-	Phone: {
+	"Phone": {
 		value: "+9Ι Γ8Δ5 Γ9 8Δ88",
 		link: "tel:+91Γ8Δ5Γ98Δ88",
 		replacer: {
@@ -89,13 +89,28 @@ const Home: React.FC = () => {
 				className={css`
 					margin-top: auto;
 					display: flex;
+					flex-shrink: 1;
+					gap: 1rem;
 
 					ul {
 						padding: 0;
-						margin-left: 1rem;
+						display: flex;
+						flex-direction: column;
+						gap: 0.5rem;
+						max-width: 50vw;
 
 						li {
 							list-style: none;
+							min-width: 5rem;
+							max-width: 100%;
+						}
+
+						li a {
+							display: block;
+							max-width: 100%;
+							white-space: nowrap;
+							text-overflow: ellipsis;
+							overflow: hidden;
 						}
 					}
 				`}>
