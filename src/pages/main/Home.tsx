@@ -4,7 +4,7 @@ import Dashed from "../../components/Dashed";
 
 const Home: React.FC = () => {
 	return (
-		<Container next="/experience">
+		<Container>
 			<h1>MKRhere</h1>
 			<p>
 				Web home of <Dashed>designer</Dashed>, <Dashed>developer</Dashed>, and{" "}

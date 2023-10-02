@@ -146,7 +146,7 @@ const ProjectUnit: React.FC<Project> = ({
 
 const Exp: React.FC = () => {
 	return (
-		<Container next="/contact">
+		<Container>
 			<h2>What else have I built?</h2>
 			<p>Some tools, libraries, and apps over time:</p>
 			<div

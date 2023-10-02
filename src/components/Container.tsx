@@ -4,8 +4,8 @@ import useLocation from "wouter/use-location";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
-import { getTimeout } from "../util";
-import Menu from "./Menu";
+import { get, getTimeout } from "../util";
+import Menu, { MenuEntries } from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
 
 const [timer, clear] = getTimeout();
@@ -17,18 +17,9 @@ const Container: React.FC<{
 		| React.ReactElement
 	)[];
 	hideNav?: boolean;
-	end?: boolean;
-	next?: string;
 	className?: string;
-}> = ({
-	children: _children,
-	hideNav = false,
-	end = false,
-	next,
-	className,
-	...props
-}) => {
-	const [, navigate] = useLocation();
+}> = ({ children: _children, hideNav = false, className, ...props }) => {
+	const [location, navigate] = useLocation();
 
 	const mobile = useMediaQuery("(max-width: 50rem)");
 
@@ -116,10 +107,9 @@ const Container: React.FC<{
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	// on first render
-	useLayoutEffect(handleResize, []);
+	type MouseKb = React.MouseEvent | React.KeyboardEvent | KeyboardEvent;
 
-	const handleNext: React.MouseEventHandler<HTMLButtonElement> = e => {
+	const animateArrow = (e: MouseKb) => {
 		if (containerChild.current) {
 			(
 				[...containerChild.current.children] as (HTMLElement | SVGElement)[]
@@ -130,9 +120,45 @@ const Container: React.FC<{
 		}
 		document.body.style.maxHeight = "100vh";
 		document.body.style.overflow = "hidden";
-		e.currentTarget.style.width = "0";
+		try {
+			const target = e.currentTarget! as HTMLButtonElement;
+			target.style.width = "0";
+		} catch {}
+	};
+
+	const current = MenuEntries.findIndex(([, path]) => location === path);
+	const next = get.next(MenuEntries, current)[1];
+	const prev = get.prev(MenuEntries, current)[1];
+	const end = current === MenuEntries.length - 1;
+
+	const handlePrev = (e: MouseKb) => {
+		animateArrow(e);
+		timer(() => prev && navigate(prev), 300);
+	};
+
+	const handleNext = (e: MouseKb) => {
+		animateArrow(e);
 		timer(() => next && navigate(next), 300);
 	};
+
+	function kbnav(e: KeyboardEvent) {
+		switch (e.key) {
+			case "ArrowLeft":
+				return handlePrev(e);
+			case "ArrowRight":
+				return handleNext(e);
+		}
+	}
+
+	useEffect(() => {
+		window.addEventListener("keydown", kbnav);
+
+		// cleanup
+		return () => window.removeEventListener("keydown", kbnav);
+	}, []);
+
+	// on first render
+	useLayoutEffect(handleResize, []);
 
 	return (
 		<div
@@ -247,41 +273,39 @@ const Container: React.FC<{
 					<Menu show={showMenu} setShowMenu={setShowMenu} />
 				</span>
 			)}
-			{next && (
-				<button
-					onClick={handleNext}
-					ref={nextBtn}
-					title={end ? "Back to start" : "Next page"}
+			<button
+				onClick={handleNext}
+				ref={nextBtn}
+				title={end ? "Back to start" : "Next page"}
+				className={css`
+					position: fixed;
+					right: 14vw;
+					bottom: 10vh;
+					z-index: 500;
+					background: none;
+					padding: 0;
+					font-weight: 500;
+					cursor: pointer;
+					letter-spacing: 0.2rem;
+					border: none;
+					overflow: hidden;
+					width: 0;
+					transition: all 300ms;
+					overflow: hidden;
+
+					${end ? "rotate: 180deg;" : ""}
+
+					&:hover * {
+						fill: var(--primary-colour);
+					}
+				`}>
+				<Right
 					className={css`
-						position: fixed;
-						right: 14vw;
-						bottom: 10vh;
-						z-index: 500;
-						background: none;
-						padding: 0;
-						font-weight: 500;
-						cursor: pointer;
-						letter-spacing: 0.2rem;
-						border: none;
-						overflow: hidden;
-						width: 0;
-						transition: all 300ms;
-						overflow: hidden;
-
-						${end ? "rotate: 180deg;" : ""}
-
-						&:hover * {
-							fill: var(--primary-colour);
-						}
-					`}>
-					<Right
-						className={css`
-							height: "2rem";
-							width: "2rem";
-						`}
-					/>
-				</button>
-			)}
+						height: "2rem";
+						width: "2rem";
+					`}
+				/>
+			</button>
 			<div
 				className={cx(
 					css`

@@ -5,12 +5,14 @@ import RevealChildren from "./RevealChildren";
 import useMediaQuery from "../util/useMediaQuery";
 import { useNav } from "../util";
 
-const menu = [
-	{ name: "Home", link: "/" },
-	{ name: "Experience", link: "/experience" },
-	{ name: "Projects", link: "/projects" },
-	{ name: "Contact", link: "/contact" },
-];
+export const MENU = {
+	Home: "/",
+	Experience: "/experience",
+	Projects: "/projects",
+	Contact: "/contact",
+} as const;
+
+export const MenuEntries = Object.entries(MENU);
 
 const desktopNav = css`
 	float: right;
@@ -71,7 +73,7 @@ const Menu: React.FC<{
 	const mobile = useMediaQuery("(max-width: 50rem)");
 	const notmobile = !mobile;
 
-	const menuItems = menu.map(({ link, name }) => (
+	const menuItems = Object.entries(MENU).map(([name, link]) => (
 		<a key={link} onClick={navigate(link)} href={link}>
 			{name}
 		</a>

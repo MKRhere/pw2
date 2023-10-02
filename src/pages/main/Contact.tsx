@@ -77,8 +77,6 @@ const Home: React.FC = () => {
 
 	return (
 		<Container
-			end
-			next="/"
 			className={css`
 				min-height: 50vh;
 				display: flex;

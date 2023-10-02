@@ -159,7 +159,7 @@ const age = getAge("27 May 1995");
 
 const Exp: React.FC = () => {
 	return (
-		<Container next="/projects">
+		<Container>
 			<h2>
 				I’m a {age} year old developer from
 				<br />
