@@ -132,7 +132,9 @@ const Exp: React.FC = () => {
 	return (
 		<Container next="/projects">
 			<h2>I’m a {age} year old developer from Chennai, India.</h2>
-			<p>Here are some places I’ve worked at in reverse chronological order:</p>
+			<p>
+				Here are some places I’ve worked at, in reverse chronological order:
+			</p>
 			<div
 				className={css`
 					display: flex;

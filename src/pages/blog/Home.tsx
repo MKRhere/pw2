@@ -1,4 +1,4 @@
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Spacer } from "../../components/Spacer";
@@ -6,7 +6,6 @@ import { ArticleSubHeader } from "./components/ArticleSubHeader";
 import { BlogPost } from "./components/BlogContent";
 import { articles, getBlogPath } from "../../data";
 import { ReactComponent as DrawClose } from "../../assets/arrow-thin.svg";
-import classNames from "classnames";
 
 const Header: React.FC = () => {
 	return (
@@ -84,7 +83,7 @@ const BlogHome: React.FC = () => {
 		<div
 			data-home
 			key="blog-home"
-			className={classNames(
+			className={cx(
 				{ "article-open": isArticleOpen, "aside-closed": isAsideClosed },
 				css`
 					display: flex;
@@ -132,7 +131,7 @@ const BlogHome: React.FC = () => {
 			)}>
 			<button
 				onClick={() => setAsideClosed(closed => !closed)}
-				className={classNames(
+				className={cx(
 					"draw-ctl",
 					css`
 						border: none;
@@ -160,7 +159,7 @@ const BlogHome: React.FC = () => {
 				)}>
 				<DrawClose
 					style={{ width: "2.6rem", height: "1rem" }}
-					className={classNames(
+					className={cx(
 						css`
 							transform: rotate(180deg);
 							transition: transform 100ms;
@@ -182,7 +181,7 @@ const BlogHome: React.FC = () => {
 					overflow-y: auto;
 				`}>
 				<div
-					className={classNames(
+					className={cx(
 						"blog-list",
 						css`
 							width: 100%;
@@ -240,7 +239,7 @@ const BlogHome: React.FC = () => {
 				</div>
 			</aside>
 			<article
-				className={classNames(
+				className={cx(
 					{ "article-open": isArticleOpen },
 					css`
 						height: 100%;
@@ -259,7 +258,7 @@ const BlogHome: React.FC = () => {
 				)}>
 				<div
 					key="blog-content"
-					className={classNames(
+					className={cx(
 						css`
 							background: #111111;
 							position: absolute;

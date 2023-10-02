@@ -2,7 +2,12 @@ import React, { useMemo } from "react";
 import { css, cx } from "@emotion/css";
 import { format, isBefore, startOfDay } from "date-fns";
 
-export type TimelineUnit = { title?: string; url?: string; img?: string; date: string };
+export type TimelineUnit = {
+	title?: string;
+	url?: string;
+	img?: string;
+	date: string;
+};
 export type TimelineUnits = TimelineUnit[];
 
 const unit = css`
@@ -82,7 +87,11 @@ const tlcontainer = css`
 		bottom: 0;
 		left: 0;
 		background: rgb(0, 0, 0);
-		background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+		background: linear-gradient(
+			0deg,
+			rgba(0, 0, 0, 1) 0%,
+			rgba(0, 0, 0, 0) 100%
+		);
 	}
 `;
 
@@ -107,7 +116,9 @@ const Unit: React.FC<{ contents: TimelineUnit }> = ({ contents }) => {
 					`,
 			)}
 			onClick={() =>
-				contents.url ? window.open(contents.url, "_blank", `noreferrer, noopener`) : ""
+				contents.url
+					? window.open(contents.url, "_blank", `noreferrer, noopener`)
+					: ""
 			}>
 			{contents.title ? <h4>{contents.title}</h4> : ""}
 			<h3>{format(date, "h:mm a")}</h3>
