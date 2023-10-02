@@ -1,11 +1,12 @@
 import { css, cx } from "@emotion/css";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 import { Spacer } from "../../components/Spacer";
 import { ArticleSubHeader } from "./components/ArticleSubHeader";
 import { BlogPost } from "./components/BlogContent";
 import { articles, getBlogPath } from "../../data";
 import { ReactComponent as DrawClose } from "../../assets/arrow-thin.svg";
+import { useNav } from "../../util";
 
 const Header: React.FC = () => {
 	return (
@@ -57,10 +58,10 @@ const Header: React.FC = () => {
 };
 
 const BlogHome: React.FC = () => {
-	const location = useLocation();
-	const navigate = useNavigate();
+	const [location] = useLocation();
+	const navigate = useNav();
 
-	const isArticleOpen = Boolean(location.pathname.split("/blog")[1]);
+	const isArticleOpen = Boolean(location.split("/blog")[1]);
 	const [isAsideClosed, setAsideClosed] = useState(isArticleOpen);
 
 	useEffect(() => {
@@ -72,7 +73,7 @@ const BlogHome: React.FC = () => {
 		if (!isArticleOpen) return;
 
 		const handler = (e: KeyboardEvent) =>
-			e.key === "Escape" && navigate("/blog");
+			e.key === "Escape" && navigate("/blog")(e);
 
 		document.addEventListener("keydown", handler);
 		return () => document.removeEventListener("keydown", handler);
@@ -205,9 +206,9 @@ const BlogHome: React.FC = () => {
 						const path = getBlogPath(article);
 
 						return (
-							<Link
+							<span
 								key={path}
-								to={path}
+								onClick={() => navigate(path)}
 								className={css`
 									display: flex;
 									flex-direction: column;
@@ -233,7 +234,7 @@ const BlogHome: React.FC = () => {
 								<ArticleSubHeader article={article} />
 								<Spacer />
 								<p>{snippet}</p>
-							</Link>
+							</span>
 						);
 					})}
 				</div>

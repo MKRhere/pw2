@@ -1,16 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Container from "../../components/Container";
+import { useNav } from "../../util";
 
 function Home() {
+	const navigate = useNav();
+
 	return (
 		<Container>
 			<h1>Nothing here</h1>
 			<p>
 				404. Back to{" "}
-				<b>
-					<Link to="/">MKRhere?</Link>
-				</b>
+				<a href="/" onClick={navigate("/")}>
+					MKRhere?
+				</a>
 			</p>
 		</Container>
 	);

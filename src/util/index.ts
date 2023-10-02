@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 export const getTimeout = () => {
 	const clearables = new Set<number>();
@@ -21,9 +21,10 @@ export const ellipses = (text: string, length: number = 100) =>
 	text.length > length ? text.slice(0, length - 3) + "..." : text;
 
 export const useNav = () => {
-	const navigate = useNavigate();
+	const [, navigate] = useLocation();
 
-	return (link: string) => (e: React.MouseEvent) => {
+	return (link: string) => (e: React.MouseEvent | KeyboardEvent) => {
+		e?.preventDefault();
 		if (e.ctrlKey) return window.open(link, "_blank", "noreferrer noopener");
 		navigate(link);
 	};

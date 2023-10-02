@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { css, cx } from "@emotion/css";
-import { useNavigate } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
@@ -11,20 +11,24 @@ import useMediaQuery from "../util/useMediaQuery";
 const [timer, clear] = getTimeout();
 
 const Container: React.FC<{
-	children: (string | React.DetailedReactHTMLElement<any, HTMLElement> | React.ReactElement)[];
+	children: (
+		| string
+		| React.DetailedReactHTMLElement<any, HTMLElement>
+		| React.ReactElement
+	)[];
 	hideNav?: boolean;
-	arrowReversed?: boolean;
+	end?: boolean;
 	next?: string;
 	className?: string;
 }> = ({
 	children: _children,
 	hideNav = false,
-	arrowReversed = false,
+	end = false,
 	next,
 	className,
 	...props
 }) => {
-	const navigate = useNavigate();
+	const [, navigate] = useLocation();
 
 	const mobile = useMediaQuery("(max-width: 50rem)");
 
@@ -37,11 +41,20 @@ const Container: React.FC<{
 
 	const children = React.Children.map(
 		_children,
-		(child: string | React.DetailedReactHTMLElement<any, HTMLElement> | React.ReactElement) =>
+		(
+			child:
+				| string
+				| React.DetailedReactHTMLElement<any, HTMLElement>
+				| React.ReactElement,
+		) =>
 			!child || typeof child === "string"
 				? child
 				: React.cloneElement(child, {
-						style: { opacity: 0, transform: "translateY(3rem)", transition: "all 300ms" },
+						style: {
+							opacity: 0,
+							transform: "translateY(3rem)",
+							transition: "all 300ms",
+						},
 				  }),
 	);
 
@@ -52,14 +65,19 @@ const Container: React.FC<{
 		if (highlightCircle.current) {
 			highlightCircle.current.classList.add("highlight");
 			timer(
-				() => highlightCircle.current && highlightCircle.current.classList.remove("highlight"),
+				() =>
+					highlightCircle.current &&
+					highlightCircle.current.classList.remove("highlight"),
 				1500,
 			);
 		}
 
 		if (nextBtn.current) {
 			nextBtn.current.style.width = "4rem";
-			timer(() => nextBtn.current && (nextBtn.current.style.right = "10vw"), 300);
+			timer(
+				() => nextBtn.current && (nextBtn.current.style.right = "10vw"),
+				300,
+			);
 		}
 
 		if (containerChild.current) {
@@ -86,7 +104,9 @@ const Container: React.FC<{
 
 	const handleResize = () => {
 		if (containerChild.current && logoContainer.current)
-			logoContainer.current.style.left = `${containerChild.current.getBoundingClientRect().x}px`;
+			logoContainer.current.style.left = `${
+				containerChild.current.getBoundingClientRect().x
+			}px`;
 	};
 
 	useEffect(() => {
@@ -101,7 +121,9 @@ const Container: React.FC<{
 
 	const handleNext: React.MouseEventHandler<HTMLButtonElement> = e => {
 		if (containerChild.current) {
-			([...containerChild.current.children] as (HTMLElement | SVGElement)[]).forEach(child => {
+			(
+				[...containerChild.current.children] as (HTMLElement | SVGElement)[]
+			).forEach(child => {
 				child.style.marginBottom = "2rem";
 				child.style.opacity = "0";
 			});
@@ -201,6 +223,7 @@ const Container: React.FC<{
 				<button
 					onClick={handleNext}
 					ref={nextBtn}
+					title={end ? "Back to start" : "Next page"}
 					className={css`
 						position: fixed;
 						right: 14vw;
@@ -217,7 +240,7 @@ const Container: React.FC<{
 						transition: all 300ms;
 						overflow: hidden;
 
-						${arrowReversed ? "rotate: 180deg;" : ""}
+						${end ? "rotate: 180deg;" : ""}
 
 						&:hover * {
 							fill: var(--primary-colour);

@@ -3,7 +3,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import useLocation from "wouter/use-location";
 
 import Home from "./pages/main/Home";
 import Exp from "./pages/main/Exp";
@@ -13,22 +13,33 @@ import Live from "./pages/main/Live";
 
 import NotFound from "./pages/main/404";
 import BlogHome from "./pages/blog/Home";
+import { BlogPost } from "./pages/blog/components/BlogContent";
+
+function App() {
+	const [location] = useLocation();
+
+	switch (location) {
+		case "/":
+			return <Home />;
+		case "/experience":
+			return <Exp />;
+		case "/projects":
+			return <Projects />;
+		case "/contact":
+			return <Contact />;
+		case "/live":
+			return <Live />;
+		case "/blog":
+		case "/blog/":
+		// return <BlogHome />;
+		default:
+			// if (location.startsWith("/blog")) return <BlogPost />;
+			return <NotFound />;
+	}
+}
 
 createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<Router>
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/experience" element={<Exp />} />
-				<Route path="/projects" element={<Projects />} />
-				<Route path="/contact" element={<Contact />} />
-				<Route path="/live" element={<Live />} />
-
-				{/* <Route path="/blog" element={<BlogHome />} /> */}
-				{/* <Route path="/blog/*" element={<BlogHome />} /> */}
-
-				<Route path="/*" element={<NotFound />} />
-			</Routes>
-		</Router>
+		<App />
 	</React.StrictMode>,
 );

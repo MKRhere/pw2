@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import useLocation from "wouter/use-location";
 import { marked } from "marked";
 import { Article, blog, getBlogPath, nextAndPrev } from "../../../data";
 import "../../../blog.css";
@@ -113,12 +113,12 @@ const btn = css`
 
 export const BlogPost: React.FC = () => {
 	const navigate = useNav();
-	const location = useLocation();
+	const [location] = useLocation();
 	const [content, setContent] = useState("");
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);
 
-	const [year, slug] = location.pathname.split("/").slice(-2);
+	const [year, slug] = location.split("/").slice(-2);
 	const article = blog[year]?.[slug];
 
 	const [next, prev] = nextAndPrev(year, slug);

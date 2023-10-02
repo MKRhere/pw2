@@ -8,7 +8,11 @@ const A = css`
 `;
 
 type Contact = {
-	[k: string]: { value: string; link?: string; replacer?: Record<string, string> };
+	[k: string]: {
+		value: string;
+		link?: string;
+		replacer?: Record<string, string>;
+	};
 };
 
 const CONTACT: Contact = {
@@ -73,8 +77,8 @@ const Home: React.FC = () => {
 
 	return (
 		<Container
+			end
 			next="/"
-			arrowReversed={true}
 			className={css`
 				min-height: 50vh;
 				display: flex;
@@ -112,7 +116,11 @@ const Home: React.FC = () => {
 						return (
 							<li key={key}>
 								{value.link ? (
-									<a className={A} href={value.link} target="_blank" rel="noreferrer">
+									<a
+										className={A}
+										href={value.link}
+										target="_blank"
+										rel="noreferrer">
 										{value.value}
 									</a>
 								) : (

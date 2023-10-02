@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { css, cx } from "@emotion/css";
 import { motion } from "framer-motion";
 import RevealChildren from "./RevealChildren";
 import useMediaQuery from "../util/useMediaQuery";
+import { useNav } from "../util";
 
 const menu = [
 	{ name: "Home", link: "/" },
@@ -57,18 +57,19 @@ const mobileMenu = css`
 	}
 `;
 
-const Menu: React.FC<{ show?: boolean; setShowMenu: (show: boolean) => void }> = ({
-	show = false,
-	setShowMenu,
-}) => {
+const Menu: React.FC<{
+	show?: boolean;
+	setShowMenu: (show: boolean) => void;
+}> = ({ show = false, setShowMenu }) => {
+	const navigate = useNav();
 	// use same query as elsewhere for consistency
 	const mobile = useMediaQuery("(max-width: 50rem)");
 	const notmobile = !mobile;
 
-	const menuItems = menu.map(item => (
-		<Link key={item.link} to={item.link}>
-			{item.name}
-		</Link>
+	const menuItems = menu.map(({ link, name }) => (
+		<a key={link} onClick={navigate(link)} href={link}>
+			{name}
+		</a>
 	));
 
 	return (
