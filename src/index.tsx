@@ -14,27 +14,30 @@ import Live from "./pages/main/Live";
 import NotFound from "./pages/main/404";
 import BlogHome from "./pages/blog/Home";
 import { BlogPost } from "./pages/blog/components/BlogContent";
+import { normalise } from "./util";
 
 function App() {
-	const [location] = useLocation();
+	const [location, navigate] = useLocation();
 
-	switch (location) {
+	const normalised = normalise(location);
+
+	if (location !== normalised) {
+		navigate(normalised, { replace: true });
+		return null;
+	}
+
+	switch (normalised) {
 		case "/":
 			return <Home />;
 		case "/experience":
-		case "/experience/":
 			return <Exp />;
 		case "/projects":
-		case "/projects/":
 			return <Projects />;
 		case "/contact":
-		case "/contact/":
 			return <Contact />;
 		case "/live":
-		case "/live/":
 			return <Live />;
 		case "/blog":
-		case "/blog/":
 		// return <BlogHome />;
 		default:
 			// if (location.startsWith("/blog")) return <BlogPost />;

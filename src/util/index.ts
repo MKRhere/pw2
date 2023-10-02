@@ -35,3 +35,23 @@ export function rewriteExtn(filename: string, extn: string) {
 	split[split.length - 1] = extn;
 	return split.join(".");
 }
+
+export function normalise(path: string) {
+	return (
+		(path.startsWith("/") ? "/" : "") +
+		path.trim().split("/").filter(Boolean).join("/")
+	);
+}
+
+export function comparePaths(p1: string, p2: string) {
+	return normalise(p1) === normalise(p2);
+}
+
+export const get = {
+	next<X>(xs: X[], i: number) {
+		return xs.at((i + 1) % xs.length)!;
+	},
+	prev<X>(xs: X[], i: number) {
+		return xs.at((i - 1) % xs.length)!;
+	},
+};
