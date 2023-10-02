@@ -22,12 +22,16 @@ function App() {
 		case "/":
 			return <Home />;
 		case "/experience":
+		case "/experience/":
 			return <Exp />;
 		case "/projects":
+		case "/projects/":
 			return <Projects />;
 		case "/contact":
+		case "/contact/":
 			return <Contact />;
 		case "/live":
+		case "/live/":
 			return <Live />;
 		case "/blog":
 		case "/blog/":
