@@ -6,6 +6,9 @@
 	--primary-colour: rgb(255, 85, 85);
 	--text-colour: rgb(211, 207, 201);
 	--text-subdued: rgb(150, 150, 150);
+	--card-active: rgb(45, 45, 45);
+	--card-active-border: rgb(60, 60, 60);
+	--card-hover: rgb(15, 15, 15);
 	font-weight: 500;
 	font-size: max(16px, 0.8vw);
 }
@@ -13,19 +16,15 @@
 * {
 	box-sizing: border-box;
 	scroll-behavior: smooth;
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+		sans-serif;
 }
 
 body {
 	margin: 0;
-	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-		sans-serif;
 	color: var(--text-colour);
-	height: 100vh;
-}
-
-#root {
-	height: 100%;
+	overflow-x: hidden;
 }
 
 code {
@@ -77,7 +76,6 @@ h4 {
 a {
 	color: var(--text-colour);
 	text-decoration: none;
-	font-family: Inter;
 	font-weight: 800;
 	transition: all 200ms;
 }

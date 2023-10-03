@@ -82,11 +82,6 @@ const Container: React.FC<{
 					child.style.removeProperty("transform");
 				}, 100 * idx);
 			});
-
-			timer(() => {
-				document.body.style.maxHeight = "auto";
-				document.body.style.overflow = "auto";
-			}, containerChildren.length * 100);
 		}
 
 		// cleanup
@@ -118,8 +113,7 @@ const Container: React.FC<{
 				child.style.opacity = "0";
 			});
 		}
-		document.body.style.maxHeight = "100vh";
-		document.body.style.overflow = "hidden";
+
 		try {
 			const target = e.currentTarget! as HTMLButtonElement;
 			target.style.width = "0";
@@ -167,11 +161,12 @@ const Container: React.FC<{
 				padding-block-start: 15rem;
 				padding-block-end: 8rem;
 				padding-inline: calc(100vw / 8);
-				overflow-x: hidden;
+				overflow: hidden;
 				min-height: 100vh;
 				position: relative;
 			`}>
 			<div
+				aria-hidden
 				className={cx(
 					"fog",
 					css`
