@@ -1,0 +1,47 @@
+.dynamic-gradient {
+	position: absolute;
+	font-size: 1.2rem;
+	border: none;
+	color: white;
+	cursor: pointer;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	inset: 0;
+	overflow: hidden;
+	border-radius: inherit;
+	z-index: -10 !important;
+}
+
+.dynamic-gradient::before {
+	--size: 500%;
+	content: "";
+	position: absolute;
+	left: var(--x);
+	top: 50%;
+	z-index: -1;
+	width: var(--size);
+	height: var(--size);
+	transform-origin: --size, --size;
+	scale: 0;
+	opacity: 0;
+	background: radial-gradient(
+		circle closest-side,
+		rgba(0, 0, 0, 0),
+		transparent
+	);
+	transform: translate(-50%, -50%);
+	background: radial-gradient(
+		circle closest-side,
+		var(--card-active) 0%,
+		transparent 100%
+	);
+	transition: opacity 300ms ease;
+}
+
+/* @media (hover: hover) { */
+button:hover .dynamic-gradient::before {
+	scale: 1;
+	opacity: 1;
+}
+/* } */
