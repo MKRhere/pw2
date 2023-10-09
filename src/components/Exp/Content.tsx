@@ -1,6 +1,6 @@
 import { css } from "@emotion/css";
 import React from "react";
-import { setupDynamicGradient } from "../../util";
+import { setupCursorTracking } from "../../util";
 import { Experience } from "./types";
 
 const Circle: React.FC = () => (
@@ -87,7 +87,7 @@ export const Content = ({
 	location,
 }: Experience) => {
 	return (
-		<button className={btn} onClick={onClick} ref={setupDynamicGradient}>
+		<button className={btn} onClick={onClick} ref={setupCursorTracking}>
 			<div className="dynamic-gradient" />
 			<Circle />
 			<h4>

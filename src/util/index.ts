@@ -58,7 +58,7 @@ export const get = {
 
 import "./dynamic-gradient.css";
 
-export function setupDynamicGradient(el: HTMLElement | null) {
+export function setupCursorTracking(el: HTMLElement | null) {
 	if (!el) return;
 
 	el.addEventListener("mousemove", e => {
