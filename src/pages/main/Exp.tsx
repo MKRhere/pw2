@@ -38,8 +38,6 @@ const Exp: React.FC = () => {
 				className={css`
 					width: 100%;
 					--item-padding: 1.2rem;
-					/* offset padding */
-					transform: translateX(calc(var(--item-padding) * -1));
 
 					display: grid;
 					grid-template-columns: repeat(auto-fit, 20rem);

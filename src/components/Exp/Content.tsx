@@ -46,6 +46,9 @@ const btn = css`
 	text-align: left;
 	display: inherit;
 
+	/* offset padding */
+	transform: translateX(calc(var(--item-padding) * -1));
+
 	& > * {
 		z-index: 10;
 	}
