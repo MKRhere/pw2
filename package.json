@@ -20,20 +20,20 @@
 		"framer-motion": "^10.16.4",
 		"gm": "^1.25.0",
 		"imagen": "github:MKRhere/imagen",
-		"marked": "^9.0.3",
+		"marked": "^9.1.2",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"wouter": "^2.11.0"
+		"wouter": "^2.12.1"
 	},
 	"devDependencies": {
 		"@svgr/rollup": "^8.1.0",
-		"@types/gm": "^1.25.2",
+		"@types/gm": "^1.25.3",
 		"@types/marked": "^5.0.2",
-		"@types/node": "^20.8.0",
-		"@types/react": "^18.2.24",
-		"@types/react-dom": "^18.2.8",
+		"@types/node": "^20.8.7",
+		"@types/react": "^18.2.30",
+		"@types/react-dom": "^18.2.14",
 		"@vitejs/plugin-react": "^4.1.0",
 		"typescript": "^5.2.2",
-		"vite": "^4.4.9"
+		"vite": "^4.5.0"
 	}
 }
