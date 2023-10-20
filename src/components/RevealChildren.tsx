@@ -3,7 +3,11 @@ import { motion } from "framer-motion";
 
 const RevealChildren: React.FC<{
 	type: "div" | "span" | "li";
-	children: React.ReactChild[];
+	children: (
+		| string
+		| number
+		| React.ReactElement<any, string | React.JSXElementConstructor<any>>
+	)[];
 	show: boolean;
 }> = ({ type, children: items, show = false, ...props }) => {
 	const Comp = motion[type];

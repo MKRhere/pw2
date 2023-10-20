@@ -27,7 +27,7 @@ const offscreenNav = css`
 	top: 0;
 	left: 0;
 	z-index: 900;
-	background: var(--background-colour);
+	background: var(--bg-colour);
 	padding: 6rem;
 	opacity: 0;
 	top: -100%;
@@ -81,7 +81,7 @@ const Menu: React.FC<{
 
 	return (
 		<motion.div
-			className={notmobile ? desktopNav : offscreenNav}
+			className={cx("menu", notmobile ? desktopNav : offscreenNav)}
 			animate={{
 				// if resized to mobile and back, numeric value will persist but
 				// will be ignored because desktopNav isn't absolutely positioned

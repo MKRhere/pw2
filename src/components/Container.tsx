@@ -157,7 +157,7 @@ const Container: React.FC<{
 	return (
 		<div
 			className={css`
-				background: var(--background-colour);
+				background: var(--bg-colour);
 				padding-block-start: 15rem;
 				padding-block-end: 8rem;
 				padding-inline: calc(100vw / 8);
@@ -200,6 +200,7 @@ const Container: React.FC<{
 					onMouseOver={() => !mobile && setShowMenu(true)}
 					onMouseOut={() => !mobile && setShowMenu(false)}>
 					<button
+						aria-label="Logo (Back to home)"
 						ref={highlightCircle}
 						className={cx(
 							css`
@@ -283,7 +284,6 @@ const Container: React.FC<{
 					cursor: pointer;
 					letter-spacing: 0.2rem;
 					border: none;
-					overflow: hidden;
 					width: 0;
 					transition: all 300ms;
 					overflow: hidden;
