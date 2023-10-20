@@ -17,13 +17,17 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
 	<meta name="msapplication-config" content="/favicon/browserconfig.xml">
 	<meta name="msapplication-TileColor" content="#ff5555">
-
-	<link rel="stylesheet" href="/fonts.css" />
 	<title>MKRhere</title>
 </head>
 
 <body>
 	<noscript>You need to enable JavaScript to run this app.</noscript>
+	<style>
+		/* inline all the CSS to save a couple roundtrips */
+		@import url('./src/index.css');
+		@import url('./public/fonts.css');
+		@import url('./src/util/dynamic-gradient.css');
+	</style>
 	<div id="root"></div>
 	<script type="module" src="/src/index.tsx"></script>
 </body>

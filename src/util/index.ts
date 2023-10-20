@@ -56,8 +56,7 @@ export const get = {
 	},
 };
 
-import "./dynamic-gradient.css";
-
+// required css is inlined in index.html
 export function setupCursorTracking(el: HTMLElement | null) {
 	if (!el) return;
 
