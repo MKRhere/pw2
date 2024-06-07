@@ -6,25 +6,25 @@ import { ReactComponent as Cross } from "../../assets/cross.svg";
 type Tags = HookSet<string>;
 
 const tag = css`
-	border: none;
 	cursor: pointer;
 	border-radius: 0.5rem;
-	padding: 0.5rem 0.8rem;
+	padding: 0.5rem 0.9rem 0.5rem 0.6rem;
 	font-size: 0.85rem;
-	background: var(--card-bg);
+	background-color: transparent;
+	border: 1px solid var(--card-bg);
 	color: var(--text-colour);
+	transition: background-color 150ms;
 
 	display: flex;
-	align-items: flex-end;
-
-	transition: all 100ms ease-in-out;
+	align-items: center;
+	gap: 0.5rem;
 
 	&:hover {
-		background: var(--card-tags-hover);
+		background-color: var(--card-tags-hover);
 	}
 
 	&.active {
-		background: var(--card-tags);
+		background-color: var(--card-tags);
 	}
 `;
 
@@ -39,33 +39,68 @@ export const Tag = (props: { tag: string; selected: Tags }) => {
 
 	return (
 		<button className={cx(tag, { active })} onClick={select}>
-			{props.tag}
 			<span
 				className={cx(
 					css`
-						width: 0;
-						opacity: 0;
-						margin-inline-start: 0;
-						transition: all 100ms ease-in-out;
+						transition: transform 100ms ease-in-out;
 						overflow: hidden;
+						transform: rotate(45deg);
+						width: 0.85rem;
 
 						&.active {
-							opacity: 1;
-							width: 0.85rem;
-							margin-inline-start: 0.5rem;
+							transform: rotate(0deg);
 						}
 					`,
 					{ active },
 				)}>
 				<Cross
 					className={css`
-						display: ${active ? "block" : "none"};
+						display: block;
 						height: 0.85rem;
 						width: 0.85rem;
 						fill: var(--text-colour);
 					`}
 				/>
 			</span>
+			{props.tag}
+		</button>
+	);
+};
+
+const clear = css`
+	border: none;
+	color: var(--primary-colour);
+	opacity: 1;
+	transition: opacity 200ms;
+
+	&.hide {
+		opacity: 0;
+		user-select: none;
+		cursor: unset;
+		height: 0;
+	}
+
+	&:hover {
+		background-color: transparent;
+	}
+`;
+
+export const Clear = (props: { selected: Tags }) => {
+	const { selected } = props;
+
+	return (
+		<button
+			className={cx(tag, clear, { hide: !selected.size })}
+			onClick={selected.clear}>
+			<Cross
+				className={css`
+					display: block;
+					height: 0.85rem;
+					width: 0.85rem;
+					fill: var(--text-colour);
+				`}
+			/>
+			Clear
 		</button>
 	);
 };
@@ -81,8 +116,9 @@ export const Tags = (props: { tags: string[]; selected: Tags }) => {
 				flex-wrap: wrap;
 			`}>
 			{tags.map(tag => (
-				<Tag tag={tag} selected={selected} />
+				<Tag key={tag} tag={tag} selected={selected} />
 			))}
+			<Clear selected={selected} />
 		</div>
 	);
 };
