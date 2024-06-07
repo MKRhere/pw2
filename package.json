@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"start": "vite",
+		"start": "vite --host",
 		"build": "pnpm blog && tsc && vite build",
 		"serve": "vite preview",
 		"blog": "node scripts/blog.js"
