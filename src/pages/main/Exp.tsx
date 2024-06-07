@@ -59,7 +59,7 @@ const Exp: React.FC = () => {
 						}
 
 						& > * {
-							padding-top: 3rem;
+							padding-top: 2.4rem;
 						}
 					`,
 				)}>

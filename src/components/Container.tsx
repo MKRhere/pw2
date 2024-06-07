@@ -211,7 +211,6 @@ const Container: React.FC<{
 								border-radius: 100%;
 								border: 0;
 								background: none;
-								box-shadow: 0 0 1rem 0 rgba(100, 100, 100, 0.5);
 								cursor: pointer;
 
 								& > svg {
@@ -308,10 +307,9 @@ const Container: React.FC<{
 						max-width: 62rem;
 						min-height: 100%;
 						margin: auto;
-
-						& > * {
-							margin-bottom: 2rem;
-						}
+						display: flex;
+						flex-direction: column;
+						gap: 2rem;
 					`,
 					className,
 				)}

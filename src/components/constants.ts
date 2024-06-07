@@ -1,1 +1,1 @@
-export const offscreenWidth = "85rem";
+export const offscreenWidth = "82rem";
