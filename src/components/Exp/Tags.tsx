@@ -1,6 +1,6 @@
 import React from "react";
 import { css, cx } from "@emotion/css";
-import { HookSet } from "../../util/useSet";
+import { HookSet } from "../../util/useSearchParams";
 import { ReactComponent as Cross } from "../../assets/cross.svg";
 
 type Tags = HookSet<string>;
@@ -32,10 +32,10 @@ export const Tag = (props: { tag: string; selected: Tags }) => {
 	const { selected } = props;
 
 	const active = selected.has(props.tag);
-	const select = () =>
-		selected.has(props.tag)
-			? selected.remove(props.tag)
-			: selected.add(props.tag);
+	const select = () => {
+		if (selected.has(props.tag)) selected.remove(props.tag);
+		else selected.add(props.tag);
+	};
 
 	return (
 		<button className={cx(tag, { active })} onClick={select}>

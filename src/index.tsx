@@ -25,23 +25,15 @@ function App() {
 		return null;
 	}
 
-	switch (normalised) {
-		case "/":
-			return <Home />;
-		case "/experience":
-			return <Exp />;
-		case "/projects":
-			return <Projects />;
-		case "/contact":
-			return <Contact />;
-		case "/live":
-			return <Live />;
-		case "/blog":
-		// return <BlogHome />;
-		default:
-			// if (location.startsWith("/blog")) return <BlogPost />;
-			return <NotFound />;
-	}
+	if (normalised === "/") return <Home />;
+	if (normalised === "/experience") return <Exp />;
+	if (normalised.startsWith("/experience/")) return <Exp />;
+	if (normalised === "/projects") return <Projects />;
+	if (normalised === "/contact") return <Contact />;
+	if (normalised === "/live") return <Live />;
+	if (normalised === "/blog") return <BlogHome />;
+	if (location.startsWith("/blog")) return <BlogPost />;
+	return <NotFound />;
 }
 
 createRoot(document.getElementById("root")!).render(

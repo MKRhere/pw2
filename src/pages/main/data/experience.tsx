@@ -14,6 +14,7 @@ const sampleText = (
 export const experience = [
 	{
 		title: "The Feathers",
+		slug: "thefeathers",
 		location: "Chennai (formerly Tirunelveli, Ooty)",
 		position: "Founder (Creative Collective)",
 		year: "2011-19",
@@ -43,6 +44,7 @@ export const experience = [
 	},
 	{
 		title: "StudioFlicks",
+		slug: "studioflicks",
 		location: "Remote (Coimbatore)",
 		position: "Co-founder & Creative Head",
 		year: "2013-15",
@@ -52,6 +54,7 @@ export const experience = [
 	},
 	{
 		title: "Vinzas",
+		slug: "vinzas",
 		location: "Chennai",
 		position: "Architectural Intern",
 		year: "2014",
@@ -61,6 +64,7 @@ export const experience = [
 	},
 	{
 		title: "Blue Cube",
+		slug: "bluecube",
 		location: "Chennai",
 		position: "Architectural Intern",
 		year: "2015",
@@ -70,6 +74,7 @@ export const experience = [
 	},
 	{
 		title: "OutFocus Magazine",
+		slug: "outfocus",
 		location: "Ooty",
 		position: "Editor / Developer",
 		year: "2014-17",
@@ -79,6 +84,7 @@ export const experience = [
 	},
 	{
 		title: "Zoho",
+		slug: "zoho",
 		location: "Chennai",
 		position: "Technical Content Writer",
 		year: "2017",
@@ -88,6 +94,7 @@ export const experience = [
 	},
 	{
 		title: "Manoj Exports",
+		slug: "manoj",
 		location: "Chennai",
 		position: "Designer & Web Dev",
 		year: "2017",
@@ -97,6 +104,7 @@ export const experience = [
 	},
 	{
 		title: "Klenty",
+		slug: "klenty",
 		location: "Chennai",
 		position: "Full Stack Developer",
 		year: "2018",
@@ -106,6 +114,7 @@ export const experience = [
 	},
 	{
 		title: "Hugo's Way",
+		slug: "hugosway",
 		location: "Remote (Dublin)",
 		position: "Full Stack Developer",
 		year: "2018-19",
@@ -115,6 +124,7 @@ export const experience = [
 	},
 	{
 		title: "Navana Tech",
+		slug: "navana",
 		location: "Remote (Mumbai)",
 		position: "Lead Web Dev & Architect",
 		year: "2021-22",
@@ -124,6 +134,7 @@ export const experience = [
 	},
 	{
 		title: "Feathers Studio",
+		slug: "feathers-studio",
 		location: "Chennai",
 		position: "Chief Maker",
 		year: "2019-present",

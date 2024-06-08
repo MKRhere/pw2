@@ -5,15 +5,25 @@ import { ExpUnit } from "../../components/Exp/Unit";
 import { age, experience } from "./data/experience";
 import { offscreenWidth } from "../../components/constants";
 import { Tags } from "../../components/Exp/Tags";
-import useSet from "../../util/useSet";
+import useSearchParams from "../../util/useSearchParams";
+import useLocation from "wouter/use-location";
+
+const exp_route = /^\/experience\/?[^\/]*$/;
 
 const Exp: React.FC = () => {
-	const [active, setActive] = useState(-1);
-	const tags = useSet<string>();
+	const [location, navigate] = useLocation();
+	const tags = useSearchParams("tag");
+
+	if (!exp_route.test(location)) {
+		navigate("/experience", { replace: true });
+		return null;
+	}
+
+	const slug = location.replace("/experience/", "").replace("/", "");
 
 	useEffect(() => {
 		const handler = (e: KeyboardEvent) => {
-			if (e.key === "Escape") setActive(-1);
+			if (slug) if (e.key === "Escape") window.history.back();
 		};
 
 		window.addEventListener("keydown", handler);
@@ -68,18 +78,11 @@ const Exp: React.FC = () => {
 					.map((unit, i) => (
 						<ExpUnit
 							key={i}
-							active={i === active}
+							active={slug === unit.slug}
 							{...unit}
 							onClick={() => {
-								if (active === i) return setActive(-1);
-
-								setActive(i);
-								setTimeout(() => {
-									const active = window.document.getElementById("active-story");
-
-									if (!active)
-										return console.error("Unexpected missing #active-story");
-								}, 300);
+								if (slug === unit.slug) return navigate("/experience");
+								navigate(`/experience/${unit.slug}`);
 							}}
 						/>
 					))}
