@@ -19,7 +19,7 @@ const Exp: React.FC = () => {
 		return null;
 	}
 
-	const slug = location.replace("/experience/", "").replace("/", "");
+	const slug = location.replace(/^\/experience\/?/, "").replace("/", "");
 
 	useEffect(() => {
 		const handler = (e: KeyboardEvent) => {
@@ -82,7 +82,9 @@ const Exp: React.FC = () => {
 							{...unit}
 							onClick={() => {
 								if (slug === unit.slug) return navigate("/experience");
-								navigate(`/experience/${unit.slug}`);
+								if (slug)
+									navigate(`/experience/${unit.slug}`, { replace: true });
+								else navigate(`/experience/${unit.slug}`);
 							}}
 						/>
 					))}

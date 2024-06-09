@@ -100,7 +100,7 @@ export const Clear = (props: { selected: Tags }) => {
 					fill: var(--text-colour);
 				`}
 			/>
-			Clear
+			Clear filters
 		</button>
 	);
 };
