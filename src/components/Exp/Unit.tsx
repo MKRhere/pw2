@@ -6,7 +6,7 @@ import { Content } from "./Content";
 import { offscreenWidth } from "../constants";
 
 const expUnit = css`
-	--final-height: 20rem;
+	--final-height: 24rem;
 	--unit-height: 9rem;
 	--story-height: calc(var(--final-height) - var(--unit-height));
 	--transition-time: 200ms;

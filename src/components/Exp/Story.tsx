@@ -29,7 +29,7 @@ const story = css`
 			}
 
 			& > p + p {
-				margin-block-start: 0.5em;
+				margin-block-start: 1.4em;
 			}
 		}
 	}
@@ -117,6 +117,7 @@ const story = css`
 			& > div {
 				column-count: unset;
 				padding-inline: 4rem;
+				padding-block-end: 3rem;
 				height: 100%;
 				overflow-y: auto;
 

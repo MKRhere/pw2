@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { css, cx } from "@emotion/css";
 import Container from "../../components/Container";
 import { ExpUnit } from "../../components/Exp/Unit";
@@ -9,6 +9,7 @@ import useSearchParams from "../../util/useSearchParams";
 import useLocation from "wouter/use-location";
 
 const exp_route = /^\/experience\/?[^\/]*$/;
+const slug_replace = /^\/experience\/?/;
 
 const Exp: React.FC = () => {
 	const [location, navigate] = useLocation();
@@ -19,10 +20,13 @@ const Exp: React.FC = () => {
 		return null;
 	}
 
-	const slug = location.replace(/^\/experience\/?/, "").replace("/", "");
+	const slug = location.replace(slug_replace, "").replace("/", "");
 
 	useEffect(() => {
 		const handler = (e: KeyboardEvent) => {
+			const slug = window.location.pathname
+				.replace(slug_replace, "")
+				.replace("/", "");
 			if (slug) if (e.key === "Escape") window.history.back();
 		};
 
@@ -80,11 +84,21 @@ const Exp: React.FC = () => {
 							key={i}
 							active={slug === unit.slug}
 							{...unit}
-							onClick={() => {
+							onClick={e => {
 								if (slug === unit.slug) return navigate("/experience");
 								if (slug)
 									navigate(`/experience/${unit.slug}`, { replace: true });
 								else navigate(`/experience/${unit.slug}`);
+
+								// setTimeout(() => {
+								// 	console.log("dping");
+								// 	(
+								// 		(e.target as HTMLElement).nextSibling as HTMLElement
+								// 	)?.scrollIntoView?.({
+								// 		behavior: "smooth",
+								// 		block: "center",
+								// 	});
+								// }, 300);
 							}}
 						/>
 					))}

@@ -47,11 +47,19 @@ const exp = [
 		cat: "tool",
 		tags: ["minecraft", "node"],
 	},
+	{
+		title: "Storymap",
+		description:
+			"Reverse-engineered thirdparty map renderer for Vintage Story in Zig ⚡️.",
+		// url: "https://github.com/MadrasMC/storymap",
+		cat: "tool",
+		tags: ["vintage-story", "zig"],
+	},
 ];
 
 type Project = {
 	title: string;
-	url: string;
+	url?: string;
 	description: string;
 	cat: string;
 	tags: string[];
@@ -86,6 +94,7 @@ const ProjectUnit: React.FC<Project> = ({
 				className={css`
 					display: block;
 					text-decoration: none;
+					font-weight: 500;
 				`}
 				href={url}
 				target="_blank"
@@ -133,7 +142,6 @@ const ProjectUnit: React.FC<Project> = ({
 						position: absolute;
 						right: 1rem;
 						bottom: 1rem;
-						font-weight: bold;
 						color: #bbbbbb;
 						font-size: 0.8rem;
 					`}>
@@ -147,19 +155,18 @@ const ProjectUnit: React.FC<Project> = ({
 const Exp: React.FC = () => {
 	return (
 		<Container>
-			<h2>What else have I built?</h2>
+			<h2>Things I've built</h2>
 			<p>Some tools, libraries, and apps over time:</p>
 			<div
 				className={css`
 					display: flex;
 					width: 100%;
 					flex-wrap: wrap;
+					gap: 2rem;
 
 					& > * {
 						flex-basis: 15rem;
 						flex-grow: 1;
-						margin-top: 2rem;
-						margin-right: 3%;
 					}
 				`}>
 				{exp.map(unit => (
