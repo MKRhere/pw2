@@ -84,21 +84,11 @@ const Exp: React.FC = () => {
 							key={i}
 							active={slug === unit.slug}
 							{...unit}
-							onClick={e => {
+							onClick={() => {
 								if (slug === unit.slug) return navigate("/experience");
 								if (slug)
 									navigate(`/experience/${unit.slug}`, { replace: true });
 								else navigate(`/experience/${unit.slug}`);
-
-								// setTimeout(() => {
-								// 	console.log("dping");
-								// 	(
-								// 		(e.target as HTMLElement).nextSibling as HTMLElement
-								// 	)?.scrollIntoView?.({
-								// 		behavior: "smooth",
-								// 		block: "center",
-								// 	});
-								// }, 300);
 							}}
 						/>
 					))}

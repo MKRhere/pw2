@@ -86,6 +86,9 @@ const story = css`
 			left: 0;
 
 			&::before {
+				/* TODO: keep until we implement drag */
+				display: none;
+
 				content: "";
 				position: absolute;
 				width: 2rem;
@@ -99,25 +102,27 @@ const story = css`
 		}
 
 		& .story-content {
+			--padding: 12vw;
 			display: flex;
 			flex-direction: column;
-			gap: 3rem;
+			gap: 2rem;
 			/* height: 100%; */
 			max-width: 40rem;
 
-			margin-block: 4rem;
+			margin-block: calc(var(--padding) + 1rem);
 			overflow-x: hidden;
 			overflow-y: auto;
 			overscroll-behavior: contain;
 
 			& > img {
-				margin-inline: 4rem;
+				margin-inline: var(--padding);
+				/* align-self: center; */
 			}
 
 			& > div {
 				column-count: unset;
-				padding-inline: 4rem;
-				padding-block-end: 3rem;
+				padding-inline: var(--padding);
+				padding-block-end: 4rem;
 				height: 100%;
 				overflow-y: auto;
 
@@ -162,9 +167,15 @@ export const Story = ({ description, logo, active }: Experience) => {
 							border: none;
 							background: var(--card-active);
 							color: var(--text-subdued);
-							width: 3rem;
-							height: 3rem;
+							width: 1.8rem;
+							height: 1.8rem;
+							padding: 0.2rem;
 							border-radius: 3rem;
+
+							& svg {
+								width: 0.8rem;
+								height: 0.8rem;
+							}
 
 							/* set in mobile mode */
 							/* display: flex; */
@@ -172,8 +183,8 @@ export const Story = ({ description, logo, active }: Experience) => {
 							align-items: center;
 
 							position: absolute;
-							top: 4rem;
-							right: 4rem;
+							top: calc(1rem + var(--padding));
+							right: var(--padding);
 							cursor: pointer;
 
 							transform: rotate(90deg);

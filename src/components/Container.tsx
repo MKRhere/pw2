@@ -174,7 +174,7 @@ const Container: React.FC<{
 						width: 100vw;
 						left: 0;
 						bottom: 0;
-						height: 10rem;
+						height: 8rem;
 						background: rgb(0, 0, 0);
 						background: linear-gradient(
 							180deg,
