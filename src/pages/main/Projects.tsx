@@ -50,7 +50,7 @@ const exp = [
 	{
 		title: "Storymap",
 		description:
-			"Reverse-engineered thirdparty map renderer for Vintage Story in Zig ⚡️.",
+			"Reverse-engineered thirdparty map renderer for Vintage Story in Zig ⚡️",
 		// url: "https://github.com/MadrasMC/storymap",
 		cat: "tool",
 		tags: ["vintage-story", "zig"],

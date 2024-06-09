@@ -112,8 +112,7 @@ const btn = css`
 `;
 
 export const BlogPost: React.FC = () => {
-	const navigate = useNav();
-	const [location] = useLocation();
+	const [location, navigate] = useNav();
 	const [content, setContent] = useState("");
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(true);

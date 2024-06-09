@@ -43,6 +43,15 @@ const menuList = css`
 	align-items: center;
 	font-weight: 800;
 
+	& a.active {
+		color: var(--primary-colour);
+		/* text-decoration: underline; */
+	}
+
+	& a:hover {
+		text-decoration: underline;
+	}
+
 	& > li {
 		margin-left: 1rem;
 	}
@@ -68,16 +77,24 @@ const Menu: React.FC<{
 	show?: boolean;
 	setShowMenu: (show: boolean) => void;
 }> = ({ show = false, setShowMenu }) => {
-	const navigate = useNav();
+	const [location, navigate] = useNav();
 	// use same query as elsewhere for consistency
 	const mobile = useMediaQuery("(max-width: 50rem)");
 	const notmobile = !mobile;
 
-	const menuItems = Object.entries(MENU).map(([name, link]) => (
-		<a key={link} onClick={navigate(link)} href={link}>
-			{name}
-		</a>
-	));
+	const menuItems = Object.entries(MENU).map(([name, link]) => {
+		const active = location.split("/")[1] === link.split("/")[1];
+
+		return (
+			<a
+				className={cx({ active })}
+				key={link}
+				onClick={navigate(link)}
+				href={link}>
+				{name}
+			</a>
+		);
+	});
 
 	return (
 		<motion.div
@@ -89,7 +106,7 @@ const Menu: React.FC<{
 				// only children need to animate on desktop, lock opacity: 1
 				opacity: notmobile ? 1 : show ? 1 : 0,
 			}}>
-			<ul className={notmobile ? menuList : cx(menuList, mobileMenu)}>
+			<ul className={cx(menuList, !notmobile && mobileMenu)}>
 				<RevealChildren type="li" show={show}>
 					{notmobile
 						? menuItems

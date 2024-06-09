@@ -21,13 +21,16 @@ export const ellipses = (text: string, length: number = 100) =>
 	text.length > length ? text.slice(0, length - 3) + "..." : text;
 
 export const useNav = () => {
-	const [, navigate] = useLocation();
+	const [location, navigate] = useLocation();
 
-	return (link: string) => (e: React.MouseEvent | KeyboardEvent) => {
-		e?.preventDefault();
-		if (e.ctrlKey) return window.open(link, "_blank", "noreferrer noopener");
-		navigate(link);
-	};
+	return [
+		location,
+		(link: string) => (e: React.MouseEvent | KeyboardEvent) => {
+			e?.preventDefault();
+			if (e.ctrlKey) return window.open(link, "_blank", "noreferrer noopener");
+			navigate(link);
+		},
+	] as const;
 };
 
 export function rewriteExtn(filename: string, extn: string) {

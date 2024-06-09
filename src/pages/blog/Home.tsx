@@ -58,8 +58,7 @@ const Header: React.FC = () => {
 };
 
 const BlogHome: React.FC = () => {
-	const [location] = useLocation();
-	const navigate = useNav();
+	const [location, navigate] = useNav();
 
 	const isArticleOpen = Boolean(location.split("/blog")[1]);
 	const [isAsideClosed, setAsideClosed] = useState(isArticleOpen);

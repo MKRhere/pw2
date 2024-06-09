@@ -3,7 +3,7 @@ import Container from "../../components/Container";
 import { useNav } from "../../util";
 
 function Home() {
-	const navigate = useNav();
+	const [, navigate] = useNav();
 
 	return (
 		<Container>
