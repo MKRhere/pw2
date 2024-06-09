@@ -36,6 +36,7 @@ const CONTACT: Contact = {
 			Γ: "7",
 		},
 	},
+	"Blog": { value: "→", link: "https://MKRhere.com" },
 };
 
 const Home: React.FC = () => {
@@ -109,6 +110,11 @@ const Home: React.FC = () => {
 							white-space: nowrap;
 							text-overflow: ellipsis;
 							overflow: hidden;
+						}
+
+						/* Blog entry */
+						li:last-child {
+							margin-block-start: 1rem;
 						}
 					}
 				`}>

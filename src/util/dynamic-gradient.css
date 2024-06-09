@@ -22,7 +22,6 @@
 	z-index: -1;
 	width: var(--size);
 	height: var(--size);
-	transform-origin: --size, --size;
 	scale: 0;
 	opacity: 0;
 	background: radial-gradient(
