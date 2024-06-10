@@ -66,7 +66,8 @@ const Exp: React.FC = () => {
 
 						display: grid;
 						grid-template-columns: repeat(auto-fit, 20rem);
-						gap: 1rem;
+						row-gap: 0.5rem;
+						column-gap: 1rem;
 
 						@media screen and (min-width: ${offscreenWidth}) {
 							transform: translateX(0);
