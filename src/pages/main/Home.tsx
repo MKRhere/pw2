@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "../../components/Container";
-import Dashed from "../../components/Dashed";
+import FlickerList from "../../components/FlickerList";
 import { ReactComponent as Arrow } from "../../assets/arrow-thin.svg";
 import { css, cx } from "@emotion/css";
 import { setupCursorTracking } from "../../util";
@@ -15,7 +15,30 @@ const section = css`
 const Home: React.FC = () => {
 	return (
 		<Container>
-			<h1>MKRhere</h1>
+			<section>
+				<h1>MKRhere</h1>
+				<p>
+					<FlickerList
+						list={[
+							{
+								text: "Designer",
+								description:
+									"Graphic design is my passion 🤓 I have plenty of experience with Figma and Adobe Suite tools (especially Photoshop and InDesign)",
+							},
+							{
+								text: "Developer",
+								description:
+									"🧑🏻‍💻 I started developing websites in 2015, and in 2017 I joined The Devs Network, catapulting my growth as a full-time developer",
+							},
+							{
+								text: "Architect",
+								description:
+									"I have a formal degree in architecture! I'm an architect in both construction and software 😉",
+							},
+						]}
+					/>
+				</p>
+			</section>
 			<section
 				className={cx(
 					section,
@@ -24,9 +47,7 @@ const Home: React.FC = () => {
 					`,
 				)}>
 				<p>
-					Welcome to the web home of <Dashed>designer</Dashed>,{" "}
-					<Dashed>developer</Dashed>, and <Dashed>architect</Dashed>{" "}
-					<b>Anu Rahul Nandhan.</b>
+					Welcome to the web home of <b>Anu Rahul Nandhan.</b>
 				</p>
 				<p>
 					I'm also commonly known as <b>Muthu Kumar</b>.

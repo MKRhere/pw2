@@ -157,7 +157,6 @@ const Container: React.FC<{
 	return (
 		<div
 			className={css`
-				background: var(--bg-colour);
 				padding-block-start: 15rem;
 				padding-block-end: 8rem;
 				padding-inline: calc(100vw / 8);

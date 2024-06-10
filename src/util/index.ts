@@ -1,6 +1,17 @@
 import React from "react";
 import useLocation from "wouter/use-location";
 
+export const sleep = (t: number) => new Promise(r => setTimeout(r, t));
+
+export function* intersperse<T, U>(xs: T[], delim: U): Generator<T | U> {
+	let first = true;
+	for (const x of xs) {
+		if (!first) yield delim;
+		first = false;
+		yield x;
+	}
+}
+
 export const getTimeout = () => {
 	const clearables = new Set<number>();
 
