@@ -47,12 +47,13 @@ const Flicker: React.FC<{
 					border: none;
 					color: inherit;
 					position: relative;
+					font-size: 0.9rem;
 				`}
 				ref={async el => {
 					if (!el) return;
 
-					await sleep(150);
-					await sleep(250 * index);
+					await sleep(500);
+					await sleep(300 * index);
 					el.style.opacity = "1";
 
 					await sleep(1000 + Math.random() * 1000);
