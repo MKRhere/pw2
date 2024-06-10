@@ -107,7 +107,7 @@ const Exp: React.FC = () => {
 			<div
 				className={css`
 					display: grid;
-					grid-template-columns: repeat(auto-fit, 20rem);
+					grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
 					gap: 1rem;
 					width: 100%;
 				`}>

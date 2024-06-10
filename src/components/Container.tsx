@@ -159,7 +159,7 @@ const Container: React.FC<{
 			className={css`
 				padding-block-start: 15rem;
 				padding-block-end: 8rem;
-				padding-inline: calc(100vw / 8);
+				padding-inline: 10vw;
 				overflow: hidden;
 				min-height: 100vh;
 				position: relative;
