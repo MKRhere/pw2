@@ -80,7 +80,7 @@ const btn = css`
 	}
 
 	& h5 {
-		font-weight: 400;
+		font-weight: 500;
 		margin-block-start: 0.2rem;
 	}
 `;
