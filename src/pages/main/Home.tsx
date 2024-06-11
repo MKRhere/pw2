@@ -17,27 +17,25 @@ const Home: React.FC = () => {
 		<Container>
 			<section>
 				<h1>MKRhere</h1>
-				<p>
-					<FlickerList
-						list={[
-							{
-								text: "Designer",
-								description:
-									"Graphic design is my passion 🤓 I have plenty of experience with Figma and Adobe Suite tools (especially Photoshop and InDesign)",
-							},
-							{
-								text: "Developer",
-								description:
-									"🧑🏻‍💻 I started developing websites in 2015, and in 2017 I joined The Devs Network, catapulting my growth as a full-time developer",
-							},
-							{
-								text: "Architect",
-								description:
-									"I have a formal degree in architecture! I'm an architect in both construction and software 😉",
-							},
-						]}
-					/>
-				</p>
+				<FlickerList
+					list={[
+						{
+							text: "Designer",
+							description:
+								"Graphic design is my passion 🤓 I have plenty of experience with Figma and Adobe Suite tools (especially Photoshop and InDesign)",
+						},
+						{
+							text: "Developer",
+							description:
+								"🧑🏻‍💻 I started developing websites in 2015, and in 2017 I joined The Devs Network, catapulting my growth as a full-time developer",
+						},
+						{
+							text: "Architect",
+							description:
+								"I have a formal degree in architecture! I'm an architect in both construction and software 😉",
+						},
+					]}
+				/>
 			</section>
 			<section
 				className={cx(

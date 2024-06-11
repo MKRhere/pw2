@@ -136,7 +136,7 @@ const FlickerList: React.FC<{
 							</Flicker>
 						</li>
 					)),
-					<li>·</li>,
+					index => <li key={index}>·</li>,
 				),
 			]}
 		</ul>

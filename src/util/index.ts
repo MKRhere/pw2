@@ -3,12 +3,20 @@ import useLocation from "wouter/use-location";
 
 export const sleep = (t: number) => new Promise(r => setTimeout(r, t));
 
-export function* intersperse<T, U>(xs: T[], delim: U): Generator<T | U> {
+export function* intersperse<T, U>(
+	xs: T[],
+	delim: (index: number) => U,
+): Generator<T | U> {
 	let first = true;
+	let i = 0;
 	for (const x of xs) {
-		if (!first) yield delim;
+		if (!first) {
+			yield delim(i);
+			i++;
+		}
 		first = false;
 		yield x;
+		i++;
 	}
 }
 
