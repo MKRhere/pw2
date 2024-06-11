@@ -1,6 +1,5 @@
 import React from "react";
 import { css, cx } from "@emotion/css";
-import { motion } from "framer-motion";
 import RevealChildren from "./RevealChildren";
 import useMediaQuery from "../util/useMediaQuery";
 import { useNav } from "../util";
@@ -97,9 +96,10 @@ const Menu: React.FC<{
 	});
 
 	return (
-		<motion.div
+		<div
 			className={cx("menu", notmobile ? desktopNav : offscreenNav)}
-			animate={{
+			style={{
+				transition: "top 300ms, opacity 300ms",
 				// if resized to mobile and back, numeric value will persist but
 				// will be ignored because desktopNav isn't absolutely positioned
 				top: notmobile ? "auto" : show ? "0" : "-100%",
@@ -131,7 +131,7 @@ const Menu: React.FC<{
 						  )}
 				</RevealChildren>
 			</ul>
-		</motion.div>
+		</div>
 	);
 };
 
