@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
 import { css, cx } from "@emotion/css";
-import { format, isBefore, startOfDay } from "date-fns";
+import format from "date-fns/format";
+import isBefore from "date-fns/isBefore";
+import startOfDay from "date-fns/startOfDay";
 
 export type TimelineUnit = {
 	title?: string;
