@@ -138,15 +138,14 @@ const story = css`
 	}
 `;
 
-export const Story = ({ description, logo, active }: Experience) => {
+export const Story = ({ title, description, logo, active }: Experience) => {
 	return (
 		<div
 			className={cx(story, "story")}
 			id={active ? "active-story" : undefined}>
 			<div aria-hidden className="story-handle" />
 			<div className="story-content">
-				<img
-					src={`/assets/logos/` + logo}
+				<picture
 					className={cx(
 						"story-logo",
 						css`
@@ -155,10 +154,18 @@ export const Story = ({ description, logo, active }: Experience) => {
 
 							background: rgba(40, 40, 40);
 							border-radius: 100%;
+
+							& img {
+								height: 100%;
+								border-radius: 100%;
+							}
 						`,
-					)}
-				/>
+					)}>
+					<source srcSet={`/assets/logos/` + logo + ".avif"} />
+					<img alt={title + " logo"} src={`/assets/logos/` + logo + ".png"} />
+				</picture>
 				<button
+					title="Close story"
 					className={cx(
 						"closer",
 						css`

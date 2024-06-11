@@ -31,7 +31,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "TheFeathers.png",
+		logo: "TheFeathers",
 	},
 	{
 		title: "StudioFlicks",
@@ -57,7 +57,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "StudioFlicks.png",
+		logo: "StudioFlicks",
 	},
 	{
 		title: "Vinzas",
@@ -91,7 +91,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "Vinzas.png",
+		logo: "Vinzas",
 	},
 	{
 		title: "Blue Cube",
@@ -123,7 +123,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "BlueCube.png",
+		logo: "BlueCube",
 	},
 	{
 		title: "OutFocus Magazine",
@@ -153,7 +153,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "OutFocus.png",
+		logo: "OutFocus",
 	},
 	{
 		title: "Zoho",
@@ -183,7 +183,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "Zoho.png",
+		logo: "Zoho",
 	},
 	{
 		title: "Manoj Exports",
@@ -210,7 +210,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "ManojExports.png",
+		logo: "ManojExports",
 	},
 	{
 		title: "Klenty",
@@ -243,7 +243,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "Klenty.png",
+		logo: "Klenty",
 	},
 	{
 		title: "Hugo's Way",
@@ -274,7 +274,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "Hugosway.png",
+		logo: "Hugosway",
 	},
 	{
 		title: "Navana Tech",
@@ -304,7 +304,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "NavanaTech.png",
+		logo: "NavanaTech",
 	},
 	{
 		title: "Feathers Studio",
@@ -332,7 +332,7 @@ export const experience = [
 				</p>
 			</>
 		),
-		logo: "FeathersStudio.png",
+		logo: "FeathersStudio",
 	},
 ].reverse();
 
