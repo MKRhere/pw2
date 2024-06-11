@@ -22,6 +22,7 @@ const story = css`
 			column-count: 3;
 			column-gap: 2.5rem;
 			color: var(--text-subdued);
+			font-weight: 400;
 
 			& p {
 				font-size: 0.9rem;
