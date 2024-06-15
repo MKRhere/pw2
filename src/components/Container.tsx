@@ -201,7 +201,7 @@ const Container: React.FC<{
 					onMouseOver={() => !mobile && setShowMenu(true)}
 					onMouseOut={() => !mobile && setShowMenu(false)}>
 					<button
-						aria-label="Logo (Back to home)"
+						aria-label={mobile ? "Tap to show menu" : "Back to home"}
 						ref={highlightCircle}
 						className={cx(
 							css`
