@@ -121,7 +121,7 @@ const Container: React.FC<{
 	};
 
 	const current = MenuEntries.findIndex(
-		([, path]) => location === path || location.startsWith("${path}" + "/"),
+		([, path]) => location === path || location.startsWith(path + "/"),
 	);
 	const next = get.next(MenuEntries, current)[1];
 	const prev = get.prev(MenuEntries, current)[1];
