@@ -41,7 +41,9 @@ const Container: React.FC<{
 			!child || typeof child === "string"
 				? child
 				: React.cloneElement(child, {
+						...child.props,
 						style: {
+							...child.props.style,
 							opacity: 0,
 							transform: "translateY(3rem)",
 							transition: "all 300ms",

@@ -23,9 +23,11 @@ const Flicker: React.FC<{
 	children: React.ReactNode;
 	index: number;
 	description: string;
-}> = ({ children, index, description }) => {
+	style?: React.CSSProperties;
+}> = ({ children, index, description, style }) => {
 	return (
 		<span
+			style={style}
 			className={css`
 				position: relative;
 
@@ -89,6 +91,7 @@ const Flicker: React.FC<{
 						transition: opacity 0.2s;
 						user-select: none;
 						text-align: left;
+						pointer-events: none;
 
 						@media screen and (max-width: 65rem) {
 							position: fixed;
@@ -106,9 +109,11 @@ const Flicker: React.FC<{
 
 const FlickerList: React.FC<{
 	list: { text: string; description: string }[];
-}> = ({ list }) => {
+	style?: React.CSSProperties;
+}> = ({ list, style }) => {
 	return (
 		<ul
+			style={style}
 			className={css`
 				display: flex;
 				flex-wrap: wrap;
