@@ -14,10 +14,21 @@ const section = css`
 
 const Home: React.FC = () => {
 	return (
-		<Container>
-			<section>
+		<Container
+			className={css`
+				--distance: 2rem;
+			`}>
+			<section
+				style={{
+					// fiddle
+					marginLeft: "-0.3rem",
+				}}>
 				<h1>MKRhere</h1>
 				<FlickerList
+					style={{
+						// fiddle
+						marginTop: "calc(-1.7rem - 2px + var(--distance))",
+					}}
 					list={[
 						{
 							text: "Designer",
@@ -39,6 +50,9 @@ const Home: React.FC = () => {
 			</section>
 			<main
 				className={css`
+					/* fiddle */
+					margin-top: calc(-2.2rem + var(--distance));
+
 					display: flex;
 					flex-wrap: wrap;
 					gap: var(--distance);
@@ -52,7 +66,11 @@ const Home: React.FC = () => {
 						aspectRatio: "1",
 					}}
 				/>
-				<article style={{ marginTop: "-0.4rem" }}>
+				<article
+					style={{
+						// fiddle
+						marginTop: "-0.4rem",
+					}}>
 					<section
 						className={cx(
 							section,
