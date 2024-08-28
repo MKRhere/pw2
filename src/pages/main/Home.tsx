@@ -37,54 +37,72 @@ const Home: React.FC = () => {
 					]}
 				/>
 			</section>
-			<section
-				className={cx(
-					section,
-					css`
-						gap: 0.2rem;
-					`,
-				)}>
-				<p>
-					Welcome to the web home of <b>Anu Rahul Nandhan.</b>
-				</p>
-				<p>
-					I'm also commonly known as <b>Muthu Kumar</b>.
-				</p>
-			</section>
-			<section className={section}>
-				<p>I'm looking for work! 🎉</p>
-				<button
-					className={css`
-						background: var(--card-tags);
-						border: 0;
-						border-radius: 0.5rem;
-						width: fit-content;
-						color: var(--text-colour);
-						cursor: pointer;
-						font-size: 1rem;
+			<main
+				className={css`
+					display: flex;
+					flex-wrap: wrap;
+					gap: var(--distance);
+				`}>
+				<img
+					src="/assets/mkr-in-pixels.png"
+					alt="MKR in pixels"
+					style={{
+						imageRendering: "pixelated",
+						height: "8rem",
+						aspectRatio: "1",
+					}}
+				/>
+				<article style={{ marginTop: "-0.4rem" }}>
+					<section
+						className={cx(
+							section,
+							css`
+								gap: 0.2rem;
+							`,
+						)}>
+						<p>
+							Welcome to the web home of <b>Anu Rahul Nandhan.</b>
+						</p>
+						<p>
+							I'm also commonly known as <b>Muthu Kumar</b>.
+						</p>
+					</section>
+					<section className={section}>
+						<p>I'm looking for work! 🎉</p>
+						<button
+							className={css`
+								background: var(--card-tags);
+								border: 0;
+								border-radius: 0.5rem;
+								width: fit-content;
+								color: var(--text-colour);
+								cursor: pointer;
+								font-size: 1rem;
 
-						position: relative;
-						z-index: 0;
+								position: relative;
+								z-index: 0;
 
-						& a {
-							display: flex;
-							align-items: center;
-							gap: 1rem;
-							padding: 1rem 2rem;
-						}
+								& a {
+									display: flex;
+									align-items: center;
+									gap: 1rem;
+									padding: 1rem 2rem;
+								}
 
-						& a:hover {
-							color: inherit;
-						}
-					`}
-					ref={setupCursorTracking}>
-					<div className="dynamic-gradient" />
-					<a href="https://mkr.pw/resume" target="_blank">
-						Download Resume
-						<Arrow />
-					</a>
-				</button>
-			</section>
+								& a:hover {
+									color: inherit;
+								}
+							`}
+							ref={setupCursorTracking}>
+							<div className="dynamic-gradient" />
+							<a href="https://mkr.pw/resume" target="_blank">
+								Download Resume
+								<Arrow />
+							</a>
+						</button>
+					</section>
+				</article>
+			</main>
 		</Container>
 	);
 };
