@@ -42,14 +42,14 @@ const Flicker: React.FC<{
 			className={css`
 				position: relative;
 
-				& button:focus ~ .tooltip,
-				& button:hover ~ .tooltip {
+				&&& button:focus ~ .tooltip,
+				&&& button:hover ~ .tooltip {
 					opacity: 1;
 				}
 
-				& button:focus,
-				& button:hover {
-					opacity: 1 !important;
+				&&& button:focus,
+				&&& button:hover {
+					opacity: 1;
 				}
 			`}>
 			<button
@@ -138,7 +138,14 @@ const FlickerList: React.FC<{
 
 				&:has(> li button:focus) li button:not(:focus),
 				&:has(> li button:hover) li button:not(:hover) {
-					opacity: 0.5 !important;
+					opacity: 0.5;
+				}
+
+				/* any button that has a subsequent button focused, hide its tooltip */
+				&&&& li:has(~ li button:focus) .tooltip,
+				/* any button that has a previous button focused, hide its tooltip */
+				&&&& li:has(button:focus) ~ li .tooltip {
+					opacity: 0;
 				}
 			`}>
 			{[
