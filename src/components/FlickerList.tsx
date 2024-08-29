@@ -2,21 +2,32 @@ import React from "react";
 import { css, cx } from "@emotion/css";
 import { intersperse, sleep } from "../util";
 
+// && is used to increase specificity to override global styles
+
+// prettier-ignore
+const opaque = css`&& { opacity: 1 }`;
+
+// prettier-ignore
+const halfVisible = css`&&& {opacity: 0.5}`;
+
+// prettier-ignore
+const opacities = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45].map(each => css`&&& { opacity: ${0.5 + each} }`);
+
 const tripleBlink = async (el: HTMLElement) => {
 	const delay = 150;
 
 	await sleep(1000);
-	el.style.opacity = "0.5";
+	el.classList.add(halfVisible);
 	await sleep(delay);
-	el.style.opacity = "1";
+	el.classList.remove(halfVisible);
 	await sleep(delay);
-	el.style.opacity = "0.5";
+	el.classList.add(halfVisible);
 	await sleep(delay);
-	el.style.opacity = "1";
+	el.classList.remove(halfVisible);
 	await sleep(delay);
-	el.style.opacity = "0.5";
+	el.classList.add(halfVisible);
 	await sleep(delay * 2);
-	el.style.opacity = "1";
+	el.classList.remove(halfVisible);
 };
 
 const Flicker: React.FC<{
@@ -56,15 +67,18 @@ const Flicker: React.FC<{
 
 					await sleep(500);
 					await sleep(300 * index);
-					el.style.opacity = "1";
+					el.classList.add(opaque);
 
 					await sleep(1000 + Math.random() * 1000);
 					tripleBlink(el);
 
 					while (true) {
 						await sleep(5000 + Math.random() * 10000);
-						el.style.opacity = String(0.5 + Math.random() * 0.5);
+						const chosen =
+							opacities[Math.floor(Math.random() * opacities.length)];
+						el.classList.add(chosen);
 						await sleep(2000);
+						el.classList.remove(chosen);
 						tripleBlink(el);
 					}
 				}}>
@@ -122,9 +136,8 @@ const FlickerList: React.FC<{
 				padding: 0;
 				list-style: none;
 
-				&:has(> li > span > button:focus) li > span > button:not(:focus),
-				&:has(> li > span > button:hover) li > span > button:not(:hover)
-					/*  */ {
+				&:has(> li button:focus) li button:not(:focus),
+				&:has(> li button:hover) li button:not(:hover) {
 					opacity: 0.5 !important;
 				}
 			`}>
