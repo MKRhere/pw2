@@ -292,8 +292,14 @@ const Container: React.FC<{
 
 					${end ? "rotate: 180deg;" : ""}
 
-					&:hover * {
-						fill: var(--primary-colour);
+					&:hover, &:focus {
+						/* disable some browser defaults */
+						-webkit-tap-highlight-color: transparent;
+						outline: none;
+						touch-action: manipulation;
+						* {
+							fill: var(--primary-colour);
+						}
 					}
 				`}>
 				<Right
