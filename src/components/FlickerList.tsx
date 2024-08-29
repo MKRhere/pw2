@@ -2,7 +2,35 @@ import React from "react";
 import { css, cx } from "@emotion/css";
 import { intersperse, sleep } from "../util";
 
-// && is used to increase specificity to override global styles
+// && is a hack to increase specificity, NEVER try to understand this
+// if you need to increase specificity just add more &&
+// no, actually don't do this, this is a bad practice
+// but I'm doing it here because YOLO
+// see if I care, I'm a bad person
+// psst
+// hey
+// if you're reading this and you think this is a good idea
+// you're a bad person too
+// don't do this
+// this is bad
+//
+// are you still reading this?
+// why are you still reading this?
+// this is a bad idea
+// stop reading this
+// go do something else
+// like, anything else
+// literally anything else
+// why are you still reading this
+// stop
+//
+// Wait, can you fix this?
+// Please?
+// I'm sorry
+// Please send help
+// Send PRs
+//
+// I hope these comments are removed by the minifier
 
 // prettier-ignore
 const opaque = css`&& { opacity: 1 }`;
