@@ -14,15 +14,6 @@ importers:
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
-      gm:
-        specifier: ^1.25.0
-        version: 1.25.0
-      imagen:
-        specifier: github:MKRhere/imagen
-        version: https://codeload.github.com/MKRhere/imagen/tar.gz/c9988aeddaf8e03a1b30293842b8a6e3e2065e62
-      marked:
-        specifier: ^9.1.2
-        version: 9.1.2
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -54,6 +45,15 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.1.0
         version: 4.1.0(vite@4.5.0(@types/node@20.8.7))
+      gm:
+        specifier: ^1.25.0
+        version: 1.25.0
+      imagen:
+        specifier: github:MKRhere/imagen
+        version: https://codeload.github.com/MKRhere/imagen/tar.gz/c9988aeddaf8e03a1b30293842b8a6e3e2065e62
+      marked:
+        specifier: ^9.1.2
+        version: 9.1.2
       rollup-plugin-visualizer:
         specifier: ^5.12.0
         version: 5.12.0(rollup@3.29.4)
