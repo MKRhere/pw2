@@ -140,6 +140,8 @@ const Container: React.FC<{
 	};
 
 	function kbnav(e: KeyboardEvent) {
+		if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+
 		switch (e.key) {
 			case "ArrowLeft":
 				return handlePrev(e);
