@@ -7,7 +7,7 @@ import { useNav } from "../util";
 export const MENU = {
 	Home: "/",
 	Experience: "/experience",
-	Projects: "/projects",
+	Work: "/work",
 	Contact: "/contact",
 } as const;
 

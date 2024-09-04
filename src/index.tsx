@@ -6,7 +6,7 @@ import { normalise } from "./util";
 
 const Home = lazy(() => import("./pages/main/Home"));
 const Exp = lazy(() => import("./pages/main/Exp"));
-const Projects = lazy(() => import("./pages/main/Projects"));
+const Work = lazy(() => import("./pages/main/Work"));
 const Contact = lazy(() => import("./pages/main/Contact"));
 
 const NotFound = lazy(() => import("./pages/main/404"));
@@ -24,7 +24,7 @@ function App() {
 	if (normalised === "/") return <Home />;
 	if (normalised === "/experience") return <Exp />;
 	if (normalised.startsWith("/experience/")) return <Exp />;
-	if (normalised === "/projects") return <Projects />;
+	if (normalised === "/work") return <Work />;
 	if (normalised === "/contact") return <Contact />;
 	// if (normalised === "/live") return <Live />;
 	// if (normalised === "/blog") return <BlogHome />;
