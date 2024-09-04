@@ -148,30 +148,34 @@ export const Tooltip = forwardRef<
 const FlickerList: React.FC<{
 	list: { text: string; description: React.ReactNode }[];
 	style?: React.CSSProperties;
-}> = ({ list, style }) => {
+	className?: string;
+}> = ({ list, style, className }) => {
 	return (
 		<ul
 			style={style}
-			className={css`
-				display: flex;
-				flex-wrap: wrap;
-				gap: 0.8rem;
-				margin: 0;
-				padding: 0;
-				list-style: none;
+			className={cx(
+				className,
+				css`
+					display: flex;
+					flex-wrap: wrap;
+					gap: 0.8rem;
+					margin: 0;
+					padding: 0;
+					list-style: none;
 
-				&:has(:focus) li button:not(:focus),
-				&:has(:hover) li button:not(:hover) {
-					opacity: 0.5;
-				}
+					&:has(:focus) li button:not(:focus),
+					&:has(:hover) li button:not(:hover) {
+						opacity: 0.5;
+					}
 
-				/* any button that has a subsequent button focused, hide its tooltip */
-				&&&& li:has(~ li button:focus) .tooltip,
-				/* any button that has a previous button focused, hide its tooltip */
-				&&&& li:has(button:focus) ~ li .tooltip {
-					opacity: 0;
-				}
-			`}>
+					/* any button that has a subsequent button focused, hide its tooltip */
+					&&&& li:has(~ li button:focus) .tooltip,
+					/* any button that has a previous button focused, hide its tooltip */
+					&&&& li:has(button:focus) ~ li .tooltip {
+						opacity: 0;
+					}
+				`,
+			)}>
 			{[
 				...intersperse(
 					list.map((item, index) => (

@@ -1,16 +1,10 @@
 import React from "react";
 import Container from "../../components/Container";
-import FlickerList from "../../components/FlickerList";
+import FlickerList, { Tooltip } from "../../components/FlickerList";
 import { ReactComponent as Arrow } from "../../assets/arrow-thin.svg";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { setupCursorTracking } from "../../util";
-
-const section = css`
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
-	justify-content: center;
-`;
+import { Emoji } from "../../components/Emoji";
 
 const Home: React.FC = () => {
 	return (
@@ -18,32 +12,50 @@ const Home: React.FC = () => {
 			className={css`
 				--distance: 2rem;
 			`}>
-			<section
-				style={{
-					// fiddle
-					marginLeft: "-0.3rem",
-				}}>
-				<h1>MKRhere</h1>
+			<section>
+				<h1
+					style={{
+						// fiddle
+						marginLeft: "-0.31rem",
+					}}>
+					MKRhere
+				</h1>
 				<FlickerList
 					style={{
 						// fiddle
 						marginTop: "calc(-1.7rem - 2px + var(--distance))",
+						marginLeft: "-0.1rem",
+						fontSize: "0.9rem",
 					}}
 					list={[
 						{
 							text: "Designer",
-							description:
-								"Graphic design is my passion 🤓 I have plenty of experience with Figma and Adobe Suite tools (especially Photoshop and InDesign)",
+							description: (
+								<>
+									Graphic design is my passion <Emoji emoji="nerd" /> I have
+									plenty of experience with Figma and Adobe Suite tools
+									(especially Photoshop and InDesign)
+								</>
+							),
 						},
 						{
 							text: "Developer",
-							description:
-								"🧑🏻‍💻 I started developing websites in 2015, and in 2017 I joined The Devs Network, catapulting my growth as a full-time developer",
+							description: (
+								<>
+									<Emoji emoji="technologist" /> I started developing websites
+									in 2015, and in 2017 I joined The Devs Network, catapulting my
+									growth as a full-time developer
+								</>
+							),
 						},
 						{
 							text: "Architect",
-							description:
-								"I have a formal degree in architecture! I'm an architect in both construction and software 😉",
+							description: (
+								<>
+									I have a formal degree in architecture! I'm an architect in
+									both construction and software <Emoji emoji="2x" />
+								</>
+							),
 						},
 					]}
 				/>
@@ -51,74 +63,95 @@ const Home: React.FC = () => {
 			<main
 				className={css`
 					/* fiddle */
-					margin-top: calc(-2.2rem + var(--distance));
+					margin-top: calc(-2.4rem + var(--distance));
 
 					display: flex;
 					flex-wrap: wrap;
 					gap: var(--distance);
+
+					& img {
+						image-rendering: pixelated;
+						vertical-align: middle;
+
+						&.emoji {
+							margin-left: 0.4em;
+						}
+					}
 				`}>
 				<img
 					src="/assets/mkr-in-pixels.png"
 					alt="MKR in pixels"
 					style={{
-						imageRendering: "pixelated",
 						height: "8rem",
 						aspectRatio: "1",
 					}}
 				/>
 				<article
-					style={{
-						// fiddle
-						marginTop: "-0.4rem",
-					}}>
-					<section
-						className={cx(
-							section,
-							css`
-								gap: 0.2rem;
-							`,
-						)}>
-						<p>
-							Welcome to the web home of <b>Anu Rahul Nandhan.</b>
-						</p>
-						<p>
-							I'm also commonly known as <b>Muthu Kumar</b>.
-						</p>
-					</section>
-					<section className={section}>
-						<p>I'm looking for work! 🎉</p>
-						<button
-							className={css`
-								background: var(--card-tags);
-								border: 0;
-								border-radius: 0.5rem;
-								width: fit-content;
-								color: var(--text-colour);
-								cursor: pointer;
-								font-size: 1rem;
+					className={css`
+						/* fiddle */
+						margin-top: -0.4rem;
+						display: flex;
+						flex-direction: column;
+					`}>
+					<p>
+						Welcome to the web home of{" "}
+						<Tooltip
+							description={
+								<>
+									For legal reasons, my name is <i>Anu Rahul Nandhan</i>, but I
+									generally go by my{" "}
+									<a
+										href="https://en.wiktionary.org/wiki/nom_de_guerre"
+										target="_blank"
+										rel="noreferrer">
+										nom-de-guerre
+									</a>{" "}
+									Muthu Kumar.
+								</>
+							}>
+							<b>Muthu Kumar</b>.
+						</Tooltip>
+					</p>
+					<p>
+						I'm from Chennai, South India
+						<Emoji emoji="ind" />
+					</p>
+					<p>
+						I'm looking for work!
+						<Emoji emoji="tada" baseline />
+					</p>
+					<button
+						className={css`
+							background: var(--card-tags);
+							border: 0;
+							border-radius: 0.5rem;
+							width: fit-content;
+							color: var(--text-colour);
+							cursor: pointer;
+							font-size: 1rem;
+							margin-top: 0.4rem;
 
-								position: relative;
-								z-index: 0;
+							position: relative;
+							z-index: 0;
 
-								& a {
-									display: flex;
-									align-items: center;
-									gap: 1rem;
-									padding: 1rem 2rem;
-								}
+							& a {
+								display: flex;
+								align-items: center;
+								gap: 1rem;
+								padding: 1rem 2rem;
+							}
 
-								& a:hover {
-									color: inherit;
-								}
-							`}
-							ref={setupCursorTracking}>
-							<div className="dynamic-gradient" />
-							<a href="https://mkr.pw/resume" target="_blank">
-								Download Resume
-								<Arrow />
-							</a>
-						</button>
-					</section>
+							& a:hover {
+								color: inherit;
+							}
+						`}
+						ref={setupCursorTracking}>
+						<div className="dynamic-gradient" />
+						<a href="https://mkr.pw/resume" target="_blank">
+							Download Resume
+							<Arrow />
+						</a>
+					</button>
 				</article>
 			</main>
 		</Container>

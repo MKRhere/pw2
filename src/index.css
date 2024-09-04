@@ -83,7 +83,8 @@ h4 {
 	font-size: min(5vw, 1.2rem);
 }
 
-a {
+a,
+b {
 	color: var(--text-colour);
 	text-decoration: none;
 	font-weight: 800;
