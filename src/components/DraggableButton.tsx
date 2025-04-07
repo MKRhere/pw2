@@ -9,6 +9,10 @@ interface Pos {
 	y: number;
 }
 
+interface Velocity extends Pos {
+	timestamp: number;
+}
+
 const relativePos = (pos: Pos, container: DOMRect) => {
 	return {
 		x: pos.x - container.left,
@@ -21,16 +25,26 @@ export const DraggableButton = React.forwardRef<
 	DraggableButtonProps
 >(({ children, ...props }, ref) => {
 	const [position, setPosition] = useState({ x: 0, y: 0 });
+	const [rotation, setRotation] = useState(0);
+	const baseRotation = useRef(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+	const [isInitialized, setIsInitialized] = useState(false);
 	const myRef = useRef<HTMLButtonElement | null>(null);
 	const containerRef = useRef<DOMRect | null>(null);
-	const [isInitialized, setIsInitialized] = useState(false);
+	const lastVelocity = useRef<Velocity>({ x: 0, y: 0, timestamp: 0 });
+	const lastPosition = useRef<Pos>({ x: 0, y: 0 });
+	const animationFrame = useRef<number>();
 
-	// Convert initial position and set up element on mount
+	// Capture initial rotation on mount
 	useEffect(() => {
 		const el = myRef.current;
 		if (!el || isInitialized) return;
+
+		// Extract initial rotation from transform style
+		const transform = window.getComputedStyle(el).transform;
+		const matrix = new DOMMatrix(transform);
+		baseRotation.current = Math.atan2(matrix.b, matrix.a) * (180 / Math.PI);
 
 		const rect = el.getBoundingClientRect();
 		const parentRect = el.parentElement?.getBoundingClientRect() ?? rect;
@@ -45,6 +59,7 @@ export const DraggableButton = React.forwardRef<
 		el.style.left = `${left}px`;
 		el.style.bottom = "unset";
 		el.style.right = "unset";
+		el.style.transition = "none";
 
 		setPosition({ x: left, y: top });
 		setIsInitialized(true);
@@ -56,9 +71,10 @@ export const DraggableButton = React.forwardRef<
 
 		containerRef.current = el.parentElement?.getBoundingClientRect() ?? null;
 
-		el.style.transition = "none";
+		// Remove the transition property entirely
 		el.style.left = `${position.x}px`;
 		el.style.top = `${position.y}px`;
+		el.style.transform = `rotateZ(${rotation}deg)`;
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") setIsDragging(false);
@@ -66,7 +82,7 @@ export const DraggableButton = React.forwardRef<
 
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [position, isInitialized]);
+	}, [position, isInitialized, rotation, isDragging]);
 
 	const getEventPos = (
 		e: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent,
@@ -86,9 +102,13 @@ export const DraggableButton = React.forwardRef<
 	const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
 		if (!myRef.current || !containerRef.current) return;
 
-		// Prevent scrolling on touch devices
 		if ("touches" in e) {
 			e.preventDefault();
+		}
+
+		// Cancel any ongoing momentum animation
+		if (animationFrame.current) {
+			cancelAnimationFrame(animationFrame.current);
 		}
 
 		setIsDragging(true);
@@ -96,51 +116,115 @@ export const DraggableButton = React.forwardRef<
 		const eventPos = getEventPos(e);
 		const relative = relativePos(eventPos, containerRef.current);
 
+		// Initialize last position with current position
+		lastPosition.current = position;
+		lastVelocity.current = { x: 0, y: 0, timestamp: performance.now() };
+
 		setDragOffset({
 			x: relative.x - position.x,
 			y: relative.y - position.y,
 		});
 	};
 
+	const calculateRotation = (velocity: Velocity) => {
+		// Use a simpler rotation calculation based on position change
+		const ROTATION_FACTOR = 0.2; // Adjust this to make rotation more or less sensitive
+
+		// Use the actual position change for rotation
+		const positionDelta = lastPosition.current.x - position.x;
+
+		// Add to current rotation based on movement
+		return rotation + positionDelta * ROTATION_FACTOR;
+	};
+
 	const handleMove = (e: MouseEvent | TouchEvent) => {
 		if (!isDragging || !containerRef.current) return;
 
-		// Prevent scrolling on touch devices
 		if ("touches" in e) {
 			e.preventDefault();
 		}
 
 		const eventPos = getEventPos(e);
 		const relative = relativePos(eventPos, containerRef.current);
-
-		setPosition({
+		const newPosition = {
 			x: relative.x - dragOffset.x,
 			y: relative.y - dragOffset.y,
-		});
+		};
+
+		// Calculate velocity
+		const now = performance.now();
+		const elapsed = now - lastVelocity.current.timestamp;
+		if (elapsed > 0) {
+			const newVelocity = {
+				x: ((newPosition.x - lastPosition.current.x) / elapsed) * 16,
+				y: ((newPosition.y - lastPosition.current.y) / elapsed) * 16,
+				timestamp: now,
+			};
+			lastVelocity.current = newVelocity;
+			lastPosition.current = newPosition;
+
+			// Update rotation based on velocity
+			setRotation(calculateRotation(newVelocity));
+		}
+
+		setPosition(newPosition);
 	};
 
 	const handleEnd = () => {
 		setIsDragging(false);
+
+		// Remove the rotation reset - let chaos reign!
+		// setRotation(baseRotation.current);
+
+		// Start momentum animation
+		if (
+			Math.abs(lastVelocity.current.x) > 0.1 ||
+			Math.abs(lastVelocity.current.y) > 0.1
+		) {
+			animationFrame.current = requestAnimationFrame(applyMomentum);
+		}
+	};
+
+	const applyMomentum = () => {
+		const now = performance.now();
+		const elapsed = now - lastVelocity.current.timestamp;
+
+		// Apply decay factor (0.95 = more momentum, 0.8 = less momentum)
+		const decay = Math.pow(0.7, elapsed / 16);
+
+		const newVelocity = {
+			x: lastVelocity.current.x * decay,
+			y: lastVelocity.current.y * decay,
+			timestamp: now,
+		};
+
+		// Stop animation when velocity is very low
+		if (Math.abs(newVelocity.x) < 0.01 && Math.abs(newVelocity.y) < 0.01) {
+			cancelAnimationFrame(animationFrame.current!);
+			return;
+		}
+
+		setPosition(prev => ({
+			x: prev.x + newVelocity.x,
+			y: prev.y + newVelocity.y,
+		}));
+
+		lastVelocity.current = newVelocity;
+		animationFrame.current = requestAnimationFrame(applyMomentum);
 	};
 
 	useEffect(() => {
 		if (isDragging) {
-			// Mouse events
 			window.addEventListener("mousemove", handleMove);
 			window.addEventListener("mouseup", handleEnd);
-
-			// Touch events
 			window.addEventListener("touchmove", handleMove, { passive: false });
 			window.addEventListener("touchend", handleEnd);
 			window.addEventListener("touchcancel", handleEnd);
 		}
 
 		return () => {
-			// Mouse events
 			window.removeEventListener("mousemove", handleMove);
 			window.removeEventListener("mouseup", handleEnd);
-
-			// Touch events
 			window.removeEventListener("touchmove", handleMove);
 			window.removeEventListener("touchend", handleEnd);
 			window.removeEventListener("touchcancel", handleEnd);

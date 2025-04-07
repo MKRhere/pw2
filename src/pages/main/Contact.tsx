@@ -91,10 +91,11 @@ const Home: React.FC = () => {
 			<h1>MKRhere</h1>
 			<DraggableButton
 				className={css`
-					bottom: 0rem;
-					width: 20rem;
+					width: 22rem;
 					height: auto;
 					aspect-ratio: 3 / 2;
+
+					bottom: 0rem;
 					background: var(--card-tags);
 					border-radius: 0.5rem;
 					transform: rotateZ(5deg);
@@ -111,14 +112,17 @@ const Home: React.FC = () => {
 			</DraggableButton>
 			<DraggableButton
 				className={css`
+					width: 22rem;
+					height: auto;
+					aspect-ratio: 3 / 2;
+
 					margin-top: auto;
 					display: flex;
-					flex-shrink: 1;
+					align-items: center;
+					justify-content: center;
 					gap: 1rem;
 					font-size: 1rem;
 
-					width: fit-content;
-					height: fit-content;
 					padding: 1rem 2.8em;
 					background: var(--card-bg);
 					border-radius: 0.5rem;
