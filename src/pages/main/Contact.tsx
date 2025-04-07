@@ -1,7 +1,10 @@
 import React from "react";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import { useEffect, useState } from "react";
 import Container from "../../components/Container";
+import { setupCursorTracking } from "../../util";
+import { ReactComponent as Logo } from "../../assets/logo.svg";
+import { DraggableButton } from "../../components/DraggableButton";
 
 const A = css`
 	text-decoration: none;
@@ -83,14 +86,47 @@ const Home: React.FC = () => {
 				min-height: 50vh;
 				display: flex;
 				flex-direction: column;
+				position: relative;
 			`}>
 			<h1>MKRhere</h1>
-			<div
+			<DraggableButton
+				className={css`
+					bottom: 0rem;
+					width: 20rem;
+					height: auto;
+					aspect-ratio: 3 / 2;
+					background: var(--card-tags);
+					border-radius: 0.5rem;
+					transform: rotateZ(5deg);
+
+					position: absolute;
+					bottom: 0;
+					left: 0;
+
+					display: flex;
+					align-items: center;
+					justify-content: center;
+				`}>
+				<Logo width={100} />
+			</DraggableButton>
+			<DraggableButton
 				className={css`
 					margin-top: auto;
 					display: flex;
 					flex-shrink: 1;
 					gap: 1rem;
+					font-size: 1rem;
+
+					width: fit-content;
+					height: fit-content;
+					padding: 1rem 2.8em;
+					background: var(--card-bg);
+					border-radius: 0.5rem;
+					transform: rotateZ(-5deg);
+
+					position: absolute;
+					bottom: 0;
+					left: 0;
 
 					ul {
 						padding: 0;
@@ -101,7 +137,7 @@ const Home: React.FC = () => {
 
 						li {
 							list-style: none;
-							min-width: 5rem;
+							min-width: 4rem;
 							max-width: 100%;
 						}
 
@@ -118,7 +154,9 @@ const Home: React.FC = () => {
 							margin-block-start: 1rem;
 						}
 					}
-				`}>
+				`}
+				ref={setupCursorTracking}>
+				<div className="dynamic-gradient" />
 				<ul
 					className={css`
 						text-align: right;
@@ -140,7 +178,8 @@ const Home: React.FC = () => {
 										className={A}
 										href={value.link}
 										target="_blank"
-										rel="noreferrer">
+										rel="noreferrer"
+										style={{ width: "fit-content" }}>
 										{value.value}
 									</a>
 								) : (
@@ -150,7 +189,7 @@ const Home: React.FC = () => {
 						);
 					})}
 				</ul>
-			</div>
+			</DraggableButton>
 		</Container>
 	);
 };
