@@ -1,6 +1,15 @@
-export const projects = [
+export type Project = {
+	title: string;
+	url?: string;
+	description: string;
+	cat: string;
+	tags: string[];
+	wip?: boolean;
+};
+
+export const projects: Project[] = [
 	{
-		title: window.location.hostname,
+		title: window.location.hostname.split(".").slice(0, 2).join("."),
 		description: "This website.",
 		url: "https://github.com/MKRhere/pw2",
 		cat: "web",
@@ -8,15 +17,15 @@ export const projects = [
 	},
 	{
 		title: "hyperactive",
-		description: "Suite of web-app development libraries.",
+		description: "Suite of fast, reactive web-app development libraries.",
 		url: "https://github.com/codefeathers/hyperactive",
 		cat: "lib",
 		tags: ["reactive", "ui-framework"],
 	},
 	{
-		title: "denoland/node_shims",
+		title: "deno shims",
 		description:
-			"Node shims for Deno’s runtime API. Contributed repo into official denoland.",
+			"Node shims for Deno’s runtime API. Transferred to official denoland.",
 		url: "https://github.com/denoland/node_shims",
 		cat: "lib",
 		tags: ["deno", "shims"],
@@ -24,31 +33,67 @@ export const projects = [
 	{
 		title: "Telegraf",
 		description:
-			"Active maintainer of one of the most popular Telegram Bot API libraries for Node.",
+			"Active maintainer of one of the most popular Telegram Bot API libraries for TypeScript.",
 		url: "https://github.com/telegraf/telegraf",
 		cat: "lib",
 		tags: ["typescript", "telegram", "bot-api"],
 	},
 	{
-		title: "runtype",
-		description: "Safely bring runtime values into TypeScript.",
-		url: "https://codefeathers.github.io/runtype",
-		cat: "lib",
-		tags: ["typescript", "runtime"],
+		title: "mkr/cal",
+		description:
+			"A complete calendar application with invites, task management, notetaking, and more.",
+		url: "https://github.com/MKRhere/cal",
+		cat: "web",
+		wip: true,
+		tags: ["hyperactive", "calendar"],
 	},
 	{
 		title: "Telecraft",
 		description: "Pluggable Minecraft server administration toolkit.",
 		url: "https://github.com/MadrasMC/telecraft",
-		cat: "tool",
+		cat: "cli",
 		tags: ["minecraft", "node"],
 	},
+];
+
+export const otherProjects: Project[] = [
 	{
-		title: "Storymap (WIP)",
+		title: "true-pg",
+		description:
+			"The most complete PostgreSQL schema generator for TypeScript, Kysely, Zod, and others.",
+		url: "https://github.com/feathers-studio/true-pg",
+		cat: "lib",
+		tags: ["postgresql", "schema", "typescript", "kysely", "zod"],
+	},
+	{
+		title: "wiretap",
+		description:
+			"Extremely tiny debug logging utility for all JavaScript runtimes. Published as npm/yarn.",
+		url: "https://github.com/feathers-studio/wiretap",
+		cat: "lib",
+		tags: ["debug", "logging", "typescript"],
+	},
+	{
+		title: "storymap",
 		description:
 			"Reverse-engineered thirdparty map renderer for Vintage Story in Zig ⚡️",
 		// url: "https://github.com/MadrasMC/storymap",
-		cat: "tool",
-		tags: ["vintage-story", "zig", "wip"],
+		cat: "cli",
+		tags: ["vintage-story", "zig"],
+		wip: true,
+	},
+	{
+		title: "i3-ts",
+		description: "TypeScript bindings for the i3 window manager.",
+		url: "https://github.com/feathers-studio/i3-ts",
+		cat: "lib",
+		tags: ["i3", "typescript", "bindings"],
+	},
+	{
+		title: "pg-extract",
+		description: "Extract data from PostgreSQL tables into a JSON array.",
+		url: "https://github.com/feathers-studio/pg-extract",
+		cat: "lib",
+		tags: ["postgresql", "json", "data-extraction"],
 	},
 ];

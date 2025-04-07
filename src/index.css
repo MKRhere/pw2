@@ -1,11 +1,12 @@
 :root {
 	--bg-colour: rgb(0, 0, 0);
 	--card-bg: rgb(18, 18, 18);
-	--card-tags: rgb(34, 34, 34);
-	--card-tags-hover: rgb(25, 25, 25);
+	--card-tags: rgb(35, 35, 35);
+	--card-tags-hover: rgb(30, 30, 30);
 	--primary-colour: rgb(255, 85, 85);
 	--text-colour: rgb(210, 210, 210);
 	--text-subdued: rgb(150, 150, 150);
+	--table-border: rgb(54, 54, 54);
 	--card-active: rgb(45, 45, 45);
 	--card-active-border: rgb(60, 60, 60);
 	--card-hover: rgb(15, 15, 15);
@@ -46,20 +47,16 @@ h2,
 h3,
 h4,
 h5,
-h6,
+h6 {
+	margin: 0;
+	line-height: 1.5em;
+	font-weight: 800;
+	color: var(--primary-colour);
+}
+
 p {
 	margin: 0;
 	line-height: 1.5em;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: 800;
-	color: var(--primary-colour);
 }
 
 h1,

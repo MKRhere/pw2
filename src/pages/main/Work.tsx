@@ -1,14 +1,51 @@
 import React from "react";
-import { css } from "@emotion/css";
+import { css, cx } from "@emotion/css";
 import Container from "../../components/Container";
-import { projects } from "./data/project";
+import { otherProjects, projects, type Project } from "./data/project";
 
-type Project = {
-	title: string;
-	url?: string;
-	description: string;
-	cat: string;
-	tags: string[];
+const styles = {
+	project: css`
+		position: relative;
+		background: var(--card-bg);
+		padding: 1.2rem;
+		cursor: default;
+		border-radius: 0.5rem;
+
+		display: flex;
+		flex-direction: column;
+		transition: all 200ms;
+
+		:hover {
+			filter: invert(0.08);
+			transform: translateY(-0.2rem);
+		}
+
+		header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		h4 {
+			margin-bottom: 0.4rem;
+		}
+	`,
+	tag: css`
+		display: inline-block;
+		padding: 0.1rem 0.4rem;
+		background: var(--card-tags);
+		color: var(--text-colour);
+		border-radius: 0.2rem;
+		transition: all 200ms;
+
+		:hover {
+			background: var(--card-tags-hover);
+		}
+
+		& + & {
+			margin-left: 0.6rem;
+		}
+	`,
 };
 
 const ProjectUnit: React.FC<Project> = ({
@@ -16,36 +53,35 @@ const ProjectUnit: React.FC<Project> = ({
 	url,
 	description,
 	cat,
+	wip,
 	tags,
 }) => {
 	return (
-		<div
-			className={css`
-				position: relative;
-				background: var(--card-bg);
-				padding: 1.5rem;
-				cursor: default;
-				border-radius: 0.5rem;
-
-				display: flex;
-				flex-direction: column;
-				transition: all 200ms;
-
-				:hover {
-					filter: hue-rotate(30deg) invert(0.04);
-					transform: translateY(-0.2rem);
-				}
-			`}>
+		<div className={styles.project} title={title + (wip ? " (WIP)" : "")}>
 			<a
 				className={css`
-					display: block;
+					display: flex;
+					flex-direction: column;
+					height: 100%;
 					text-decoration: none;
 					font-weight: 500;
+					cursor: ${wip ? "default" : "pointer"};
 				`}
 				href={url}
 				target="_blank"
 				rel="noreferrer">
-				<h4>{title}</h4>
+				<header>
+					<h4>{title}</h4>
+					<span
+						className={css`
+							color: var(--text-subdued);
+							font-size: 0.8rem;
+							font-weight: 600;
+							font-family: monospace;
+						`}>
+						{"{"} {cat} {"}"}
+					</span>
+				</header>
 				<p
 					className={css`
 						color: #bdbdbd;
@@ -62,48 +98,55 @@ const ProjectUnit: React.FC<Project> = ({
 						margin-top: auto;
 					`}>
 					{tags.map(tag => (
-						<span
-							key={tag}
-							className={css`
-								display: inline-block;
-								padding: 0.2rem 0.4rem;
-								background: var(--card-tags);
-								color: white;
-								border-radius: 0.2rem;
-								transition: all 200ms;
-
-								:hover {
-									background: var(--card-tags-hover);
-								}
-
-								& + & {
-									margin-left: 0.6rem;
-								}
-							`}>
+						<span key={tag} className={styles.tag}>
 							{tag}
 						</span>
 					))}
 				</p>
-				<span
-					className={css`
-						position: absolute;
-						right: 1rem;
-						bottom: 1rem;
-						color: #bbbbbb;
-						font-size: 0.8rem;
-					`}>
-					{cat}
-				</span>
 			</a>
 		</div>
 	);
 };
 
+const otherProjectsStyle = css`
+	width: 100%;
+	border-collapse: collapse;
+	border-radius: 0.5rem;
+	overflow: hidden;
+	color: var(--text-colour);
+
+	* {
+		border-collapse: collapse;
+	}
+
+	th {
+		color: var(--text-subdued);
+	}
+
+	th,
+	td {
+		padding: 0.9rem 1rem;
+		text-align: left;
+		line-height: 1.6;
+	}
+
+	td {
+		border-top: 1px solid var(--table-border);
+	}
+
+	/* border-bottom: 1px solid var(--table-border); */
+
+	td a {
+		display: block;
+		min-width: max-content;
+	}
+`;
+
 const Exp: React.FC = () => {
 	return (
 		<Container>
 			<h2>Things I've built</h2>
-			<p>Some tools, libraries, and apps over time:</p>
+			<p>A few projects I'm proud of:</p>
 			<div
 				className={css`
 					display: grid;
@@ -115,6 +158,58 @@ const Exp: React.FC = () => {
 					<ProjectUnit {...unit} key={unit.title} />
 				))}
 			</div>
+			<hr />
+			<p>
+				Apart from the above, I've also built some other interesting stuff over
+				time using a variety of technologies:
+			</p>
+			<table className={otherProjectsStyle}>
+				<thead>
+					<tr>
+						<th>Project</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					{otherProjects.map(unit => (
+						<tr key={unit.title}>
+							<td
+								className={css`
+									vertical-align: top;
+								`}>
+								<a
+									className={cx(
+										unit.wip &&
+											css`
+												color: var(--text-subdued);
+												cursor: default;
+											`,
+									)}
+									href={unit.url}
+									target="_blank"
+									rel="noreferrer"
+									title={unit.title + (unit.wip ? " (WIP)" : "")}>
+									{unit.title}
+								</a>
+							</td>
+							<td>
+								{unit.description}
+								<span
+									className={css`
+										margin-top: 0.4rem;
+										display: block;
+										color: var(--text-subdued);
+										font-size: 0.9rem;
+										font-weight: 600;
+										font-family: monospace;
+									`}>
+									# {unit.tags.join(", ")}
+								</span>
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
 		</Container>
 	);
 };
