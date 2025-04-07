@@ -96,7 +96,7 @@ const Contact: React.FC = () => {
 				position: relative;
 			`}>
 			<h1>MKRhere</h1>
-			{cardRotations.map((r, i) => (
+			{cardRotations.map((rot, i) => (
 				<DraggableButton
 					key={i}
 					className={css`
@@ -108,14 +108,14 @@ const Contact: React.FC = () => {
 						bottom: 0;
 						left: 0;
 
-						rotate: ${r}deg;
+						rotate: ${rot}deg;
 
 						padding: 0;
 						background: transparent;
 					`}
 					ref={setupCursorTracking}>
 					<Flippable
-						defaultSide={i === cardRotations.length - 1 ? "front" : "back"}
+						defaultFlipped={i !== cardRotations.length - 1}
 						front={
 							<main
 								className={css`

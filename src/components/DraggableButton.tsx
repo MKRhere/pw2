@@ -53,10 +53,6 @@ export const DraggableButton = React.forwardRef<
 
 		// Set position and clear any bottom/right values
 		el.style.position = "absolute";
-		// el.style.top = `${top}px`;
-		// el.style.left = `${left}px`;
-		// el.style.bottom = "unset";
-		// el.style.right = "unset";
 		el.style.transition = "none";
 
 		setPosition({ x: left, y: top });

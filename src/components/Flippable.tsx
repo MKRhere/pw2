@@ -5,17 +5,17 @@ export interface FlippableProps {
 	front: React.ReactNode;
 	back: React.ReactNode;
 	className?: string;
-	defaultSide?: "front" | "back";
+	defaultFlipped?: boolean;
 }
 
 export const Flippable: React.FC<FlippableProps> = ({
 	front,
 	back,
 	className,
-	defaultSide,
+	defaultFlipped,
 }) => {
 	const ref = useRef<HTMLDivElement>(null);
-	const [isFlipped, setIsFlipped] = useState(defaultSide === "back");
+	const [isFlipped, setIsFlipped] = useState(defaultFlipped);
 	const mouseDownTime = useRef<number>(0);
 	const DRAG_THRESHOLD = 250; // milliseconds
 
