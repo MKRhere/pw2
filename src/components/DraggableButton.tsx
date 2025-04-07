@@ -1,8 +1,21 @@
 import { css, cx } from "@emotion/css";
 import React, { useEffect, useRef, useState } from "react";
 
+const isOutsideViewport = (el: HTMLElement) => {
+	const rect = el.getBoundingClientRect();
+	const isOutside =
+		rect.right < 0 ||
+		rect.left > window.innerWidth ||
+		rect.bottom < 0 ||
+		rect.top > window.innerHeight;
+
+	return isOutside;
+};
+
 export interface DraggableButtonProps
-	extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+	onOutsideViewport?: () => void;
+}
 
 interface Pos {
 	x: number;
@@ -23,7 +36,7 @@ const relativePos = (pos: Pos, container: DOMRect) => {
 export const DraggableButton = React.forwardRef<
 	HTMLButtonElement,
 	DraggableButtonProps
->(({ children, ...props }, ref) => {
+>(({ children, onOutsideViewport, ...props }, ref) => {
 	const [position, setPosition] = useState({ x: 0, y: 0 });
 	const [rotation, setRotation] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
@@ -34,6 +47,12 @@ export const DraggableButton = React.forwardRef<
 	const lastVelocity = useRef<Velocity>({ x: 0, y: 0, timestamp: 0 });
 	const lastPosition = useRef<Pos>({ x: 0, y: 0 });
 	const animationFrame = useRef<number>();
+
+	const [isOutside, setIsOutside] = useState(false);
+
+	useEffect(() => {
+		if (isOutside) onOutsideViewport?.();
+	}, [isOutside !== true]);
 
 	// Capture initial rotation on mount
 	useEffect(() => {
@@ -69,6 +88,9 @@ export const DraggableButton = React.forwardRef<
 		el.style.left = `${position.x}px`;
 		el.style.top = `${position.y}px`;
 		el.style.rotate = `${rotation}deg`;
+
+		if (!isDragging && myRef.current && isOutsideViewport(myRef.current!))
+			setIsOutside(true);
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") setIsDragging(false);
@@ -171,9 +193,10 @@ export const DraggableButton = React.forwardRef<
 		if (
 			Math.abs(lastVelocity.current.x) > 0.1 ||
 			Math.abs(lastVelocity.current.y) > 0.1
-		) {
+		)
 			animationFrame.current = requestAnimationFrame(applyMomentum);
-		}
+
+		if (isOutsideViewport(myRef.current!)) setIsOutside(true);
 	};
 
 	const applyMomentum = () => {

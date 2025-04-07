@@ -6,6 +6,7 @@ import { setupCursorTracking } from "../../util";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import { DraggableButton } from "../../components/DraggableButton";
 import { Flippable } from "../../components/Flippable";
+import { AnimateEntry } from "../../components/AnimateEntry";
 
 const A = css`
 	text-decoration: none;
@@ -52,6 +53,7 @@ const cardRotations = Array.from({ length: 5 }, (_, i) => {
 
 const Contact: React.FC = () => {
 	const [contact, setContact] = useState<Contact>(CONTACT);
+	const [visible, setVisible] = useState(cardRotations.length);
 
 	useEffect(() => {
 		const deob = () => {
@@ -78,12 +80,14 @@ const Contact: React.FC = () => {
 		document.addEventListener("scroll", deob, { once: true });
 		document.addEventListener("click", deob, { once: true });
 		document.addEventListener("touchstart", deob, { once: true });
+		document.addEventListener("keydown", deob, { once: true });
 
 		return () => {
 			document.removeEventListener("mousemove", deob);
 			document.removeEventListener("scroll", deob);
 			document.removeEventListener("click", deob);
 			document.removeEventListener("touchstart", deob);
+			document.removeEventListener("keydown", deob);
 		};
 	}, []);
 
@@ -96,9 +100,18 @@ const Contact: React.FC = () => {
 				position: relative;
 			`}>
 			<h1>MKRhere</h1>
+			{visible < 1 && (
+				<AnimateEntry as="article" delay={500}>
+					<p>Great, You've distributed all the cards!</p>
+					<p>What now?</p>
+					<br />
+					<a href="/">Start over?</a>
+				</AnimateEntry>
+			)}
 			{cardRotations.map((rot, i) => (
 				<DraggableButton
 					key={i}
+					onOutsideViewport={() => setVisible(v => v - 1)}
 					className={css`
 						width: 22rem;
 						height: auto;
