@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"start": "vite --host",
+		"check": "tsc --noEmit",
 		"build": "tsc && vite build",
 		"serve": "vite preview",
 		"blog": "node scripts/blog.js"
