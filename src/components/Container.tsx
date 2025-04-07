@@ -11,14 +11,10 @@ import useMediaQuery from "../util/useMediaQuery";
 const [timer, clear] = getTimeout();
 
 const Container: React.FC<{
-	children: (
-		| string
-		| React.DetailedReactHTMLElement<any, HTMLElement>
-		| React.ReactElement
-	)[];
+	children: React.ReactNode | React.ReactNode[];
 	hideNav?: boolean;
 	className?: string;
-}> = ({ children: _children, hideNav = false, className, ...props }) => {
+}> = ({ children, hideNav = false, className, ...props }) => {
 	const [location, navigate] = useLocation();
 
 	const mobile = useMediaQuery("(max-width: 50rem)");
@@ -29,27 +25,6 @@ const Container: React.FC<{
 	const nextBtn = useRef<HTMLButtonElement>(null);
 
 	const [showMenu, setShowMenu] = useState(false);
-
-	const children = React.Children.map(
-		_children,
-		(
-			child:
-				| string
-				| React.DetailedReactHTMLElement<any, HTMLElement>
-				| React.ReactElement,
-		) =>
-			!child || typeof child === "string"
-				? child
-				: React.cloneElement(child, {
-						...child.props,
-						style: {
-							...child.props.style,
-							opacity: 0,
-							transform: "translateY(3rem)",
-							transition: "all 300ms",
-						},
-				  }),
-	);
 
 	useEffect(() => {
 		// scroll back to top when new page is loaded
@@ -71,19 +46,6 @@ const Container: React.FC<{
 				() => nextBtn.current && (nextBtn.current.style.right = "10vw"),
 				300,
 			);
-		}
-
-		if (containerChild.current) {
-			const containerChildren = [...containerChild.current.children] as (
-				| HTMLElement
-				| SVGElement
-			)[];
-			containerChildren.forEach((child, idx) => {
-				timer(() => {
-					child.style.removeProperty("opacity");
-					child.style.removeProperty("transform");
-				}, 100 * idx);
-			});
 		}
 
 		// cleanup
@@ -321,6 +283,33 @@ const Container: React.FC<{
 						display: flex;
 						flex-direction: column;
 						gap: 2rem;
+
+						/* Add animation styles for children */
+						& > * {
+							animation: slideIn 300ms backwards;
+						}
+
+						${React.Children.map(
+							children,
+							(child, i) =>
+								child &&
+								css`
+									& > *:nth-child(${i + 1}) {
+										animation-delay: calc(${i} * 100ms);
+									}
+								`,
+						)}
+
+						@keyframes slideIn {
+							from {
+								opacity: 0;
+								transform: translateY(3rem);
+							}
+							to {
+								opacity: 1;
+								transform: translateY(0);
+							}
+						}
 					`,
 					className,
 				)}
