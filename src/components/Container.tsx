@@ -7,6 +7,7 @@ import { ReactComponent as Right } from "../assets/arrow-right.svg";
 import { get, getTimeout } from "../util";
 import Menu, { MenuEntries } from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
+import { AnimateEntry } from "./AnimateEntry";
 
 const [timer, clear] = getTimeout();
 
@@ -14,7 +15,8 @@ const Container: React.FC<{
 	children: React.ReactNode | React.ReactNode[];
 	hideNav?: boolean;
 	className?: string;
-}> = ({ children, hideNav = false, className, ...props }) => {
+	delay?: number;
+}> = ({ children, hideNav = false, className, delay = 100, ...props }) => {
 	const [location, navigate] = useLocation();
 
 	const mobile = useMediaQuery("(max-width: 50rem)");
@@ -273,7 +275,8 @@ const Container: React.FC<{
 					`}
 				/>
 			</button>
-			<div
+			<AnimateEntry
+				delay={delay}
 				className={cx(
 					css`
 						width: 100%;
@@ -283,40 +286,13 @@ const Container: React.FC<{
 						display: flex;
 						flex-direction: column;
 						gap: 2rem;
-
-						/* Add animation styles for children */
-						& > * {
-							animation: slideIn 300ms backwards;
-						}
-
-						${React.Children.map(
-							children,
-							(child, i) =>
-								child &&
-								css`
-									& > *:nth-child(${i + 1}) {
-										animation-delay: calc(${i} * 100ms);
-									}
-								`,
-						)}
-
-						@keyframes slideIn {
-							from {
-								opacity: 0;
-								transform: translateY(3rem);
-							}
-							to {
-								opacity: 1;
-								transform: translateY(0);
-							}
-						}
 					`,
 					className,
 				)}
 				ref={containerChild}
 				{...props}>
 				{children}
-			</div>
+			</AnimateEntry>
 		</div>
 	);
 };
