@@ -26,7 +26,6 @@ export const DraggableButton = React.forwardRef<
 >(({ children, ...props }, ref) => {
 	const [position, setPosition] = useState({ x: 0, y: 0 });
 	const [rotation, setRotation] = useState(0);
-	const baseRotation = useRef(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 	const [isInitialized, setIsInitialized] = useState(false);
@@ -42,9 +41,8 @@ export const DraggableButton = React.forwardRef<
 		if (!el || isInitialized) return;
 
 		// Extract initial rotation from transform style
-		const transform = window.getComputedStyle(el).transform;
-		const matrix = new DOMMatrix(transform);
-		baseRotation.current = Math.atan2(matrix.b, matrix.a) * (180 / Math.PI);
+		const rotate = window.getComputedStyle(el).rotate;
+		setRotation(parseFloat(rotate));
 
 		const rect = el.getBoundingClientRect();
 		const parentRect = el.parentElement?.getBoundingClientRect() ?? rect;
@@ -55,10 +53,10 @@ export const DraggableButton = React.forwardRef<
 
 		// Set position and clear any bottom/right values
 		el.style.position = "absolute";
-		el.style.top = `${top}px`;
-		el.style.left = `${left}px`;
-		el.style.bottom = "unset";
-		el.style.right = "unset";
+		// el.style.top = `${top}px`;
+		// el.style.left = `${left}px`;
+		// el.style.bottom = "unset";
+		// el.style.right = "unset";
 		el.style.transition = "none";
 
 		setPosition({ x: left, y: top });
@@ -74,7 +72,7 @@ export const DraggableButton = React.forwardRef<
 		// Remove the transition property entirely
 		el.style.left = `${position.x}px`;
 		el.style.top = `${position.y}px`;
-		el.style.transform = `rotateZ(${rotation}deg)`;
+		el.style.rotate = `${rotation}deg`;
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Escape") setIsDragging(false);
@@ -172,9 +170,6 @@ export const DraggableButton = React.forwardRef<
 
 	const handleEnd = () => {
 		setIsDragging(false);
-
-		// Remove the rotation reset - let chaos reign!
-		// setRotation(baseRotation.current);
 
 		// Start momentum animation
 		if (
