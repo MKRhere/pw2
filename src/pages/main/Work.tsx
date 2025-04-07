@@ -26,8 +26,8 @@ const styles = {
 			align-items: center;
 		}
 
-		h4 {
-			margin-bottom: 0.4rem;
+		header {
+			margin-bottom: 0.5rem;
 		}
 	`,
 	tag: css`
@@ -76,7 +76,6 @@ const ProjectUnit: React.FC<Project> = ({
 						className={css`
 							color: var(--text-subdued);
 							font-size: 0.8rem;
-							font-weight: 600;
 							font-family: monospace;
 						`}>
 						{"{"} {cat} {"}"}
@@ -200,7 +199,6 @@ const Exp: React.FC = () => {
 										display: block;
 										color: var(--text-subdued);
 										font-size: 0.9rem;
-										font-weight: 600;
 										font-family: monospace;
 									`}>
 									# {unit.tags.join(", ")}

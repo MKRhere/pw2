@@ -16,17 +16,18 @@ type Contact = {
 };
 
 const CONTACT: Contact = {
-	"Twitter/𝕏": { value: "MKRhere", link: "https://twitter.com/MKRhere" },
-	"GitHub": { value: "MKRhere", link: "https://github.com/MKRhere" },
 	"Email": {
-		value: "mυthυkυmαr@thεfεαthεrs.in",
-		link: "mailto:mυthυkυmαr@thεfεαthεrs.in",
+		value: "һі@mκr.рw",
+		link: "mailto:һі@mκr.рw",
 		replacer: {
-			υ: "u",
-			ε: "e",
-			α: "a",
+			һ: "h",
+			і: "i",
+			κ: "k",
+			р: "p",
 		},
 	},
+	"GitHub": { value: "MKRhere", link: "https://github.com/MKRhere" },
+	"Twitter/𝕏": { value: "MKRhere", link: "https://twitter.com/MKRhere" },
 	"Phone": {
 		value: "+9Ι Γ8Δ5 Γ9 8Δ88",
 		link: "tel:+91Γ8Δ5Γ98Δ88",
