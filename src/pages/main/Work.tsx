@@ -48,16 +48,11 @@ const styles = {
 	`,
 };
 
-const ProjectUnit: React.FC<Project> = ({
-	title,
-	url,
-	description,
-	cat,
-	wip,
-	tags,
-}) => {
+const ProjectUnit: React.FC<Project> = unit => {
 	return (
-		<div className={styles.project} title={title + (wip ? " (WIP)" : "")}>
+		<div
+			className={styles.project}
+			title={unit.title + (unit.wip ? " (WIP)" : "")}>
 			<a
 				className={css`
 					display: flex;
@@ -65,20 +60,20 @@ const ProjectUnit: React.FC<Project> = ({
 					height: 100%;
 					text-decoration: none;
 					font-weight: 500;
-					cursor: ${wip ? "default" : "pointer"};
+					cursor: ${unit.wip ? "default" : "pointer"};
 				`}
-				href={url}
+				href={unit.wip ? undefined : unit.url}
 				target="_blank"
 				rel="noreferrer">
 				<header>
-					<h4>{title}</h4>
+					<h4>{unit.title}</h4>
 					<span
 						className={css`
 							color: var(--text-subdued);
 							font-size: 0.8rem;
 							font-family: monospace;
 						`}>
-						{"{"} {cat} {"}"}
+						{"{"} {unit.cat} {"}"}
 					</span>
 				</header>
 				<p
@@ -87,7 +82,7 @@ const ProjectUnit: React.FC<Project> = ({
 						margin-bottom: 0.8rem;
 						font-size: 0.9rem;
 					`}>
-					{description}
+					{unit.description}
 				</p>
 				<p
 					className={css`
@@ -96,7 +91,7 @@ const ProjectUnit: React.FC<Project> = ({
 						font-size: 0.8rem;
 						margin-top: auto;
 					`}>
-					{tags.map(tag => (
+					{unit.tags.map(tag => (
 						<span key={tag} className={styles.tag}>
 							{tag}
 						</span>
@@ -184,7 +179,7 @@ const Exp: React.FC = () => {
 												cursor: default;
 											`,
 									)}
-									href={unit.url}
+									href={unit.wip ? undefined : unit.url}
 									target="_blank"
 									rel="noreferrer"
 									title={unit.title + (unit.wip ? " (WIP)" : "")}>

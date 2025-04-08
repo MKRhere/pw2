@@ -10,7 +10,8 @@ export type Project = {
 export const projects: Project[] = [
 	{
 		title: window.location.hostname.split(".").slice(0, 2).join("."),
-		description: "This website.",
+		description:
+			"This website. You've probably missed some things. Look around.",
 		url: "https://github.com/MKRhere/pw2",
 		cat: "web",
 		tags: ["react", "vite"],
@@ -77,7 +78,7 @@ export const otherProjects: Project[] = [
 		title: "storymap",
 		description:
 			"Reverse-engineered thirdparty map renderer for Vintage Story in Zig ⚡️",
-		// url: "https://github.com/MadrasMC/storymap",
+		url: "https://github.com/MadrasMC/storymap",
 		cat: "cli",
 		tags: ["vintage-story", "zig"],
 		wip: true,
@@ -95,5 +96,12 @@ export const otherProjects: Project[] = [
 		url: "https://github.com/feathers-studio/pg-extract",
 		cat: "lib",
 		tags: ["postgresql", "json", "data-extraction"],
+	},
+	{
+		title: window.location.hostname.split(".").slice(0, 2).join("."),
+		description: "Did you find all the easter eggs? Keep looking.",
+		url: "https://github.com/MKRhere/pw2",
+		cat: "web",
+		tags: ["react", "vite"],
 	},
 ];
