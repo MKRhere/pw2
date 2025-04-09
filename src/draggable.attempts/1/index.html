@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="container">
+			<div id="rectangle"></div>
+		</div>
+
+		<style>
+			#container {
+				position: relative;
+				width: 100%;
+				height: 600px;
+				overflow: hidden;
+				background-color: #f0f0f0;
+			}
+
+			#rectangle {
+				position: absolute;
+				width: 200px;
+				height: 120px;
+				background-color: #3498db;
+				border-radius: 8px;
+				cursor: grab;
+				user-select: none;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				transform-origin: center;
+				transition: box-shadow 0.2s ease;
+			}
+
+			#rectangle:active {
+				cursor: grabbing;
+				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+			}
+		</style>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const rectangle = document.getElementById("rectangle");
+				const container = document.getElementById("container");
+
+				// Position and movement state
+				let isDragging = false;
+				let currentX = 50;
+				let currentY = 50;
+				let rotation = 0;
+
+				// Drag state tracking
+				let dragPointX = 0;
+				let dragPointY = 0;
+				let prevMouseX = 0;
+				let prevMouseY = 0;
+
+				// Physics constants
+				const friction = 0.95; // General friction (higher = less friction)
+				const rotationFactor = 0.1; // How much rotation is applied (lower = less rotation)
+
+				// Momentum tracking
+				let momentumX = 0;
+				let momentumY = 0;
+				let angularMomentum = 0;
+				let momentumAnimationId = null;
+
+				// Initialize position
+				setTransform(currentX, currentY, rotation);
+
+				function setTransform(x, y, rot) {
+					currentX = x;
+					currentY = y;
+					rotation = rot;
+					rectangle.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg)`;
+				}
+
+				function getRectCenter() {
+					const rect = rectangle.getBoundingClientRect();
+					return {
+						x: rect.left + rect.width / 2,
+						y: rect.top + rect.height / 2,
+					};
+				}
+
+				// Start dragging
+				rectangle.addEventListener("mousedown", dragStart);
+				rectangle.addEventListener("touchstart", dragStart, { passive: false });
+
+				function dragStart(e) {
+					e.preventDefault();
+					if (momentumAnimationId !== null) {
+						cancelAnimationFrame(momentumAnimationId);
+						momentumAnimationId = null;
+					}
+
+					// Get event coordinates
+					const eventX =
+						e.type === "touchstart" ? e.touches[0].clientX : e.clientX;
+					const eventY =
+						e.type === "touchstart" ? e.touches[0].clientY : e.clientY;
+
+					// Record where on the card we're dragging from (relative to its center)
+					const center = getRectCenter();
+					dragPointX = eventX - center.x;
+					dragPointY = eventY - center.y;
+
+					// Initialize previous mouse position for momentum calculations
+					prevMouseX = eventX;
+					prevMouseY = eventY;
+
+					isDragging = true;
+					momentumX = 0;
+					momentumY = 0;
+					angularMomentum = 0;
+				}
+
+				// Drag movement
+				document.addEventListener("mousemove", drag);
+				document.addEventListener("touchmove", drag, { passive: false });
+
+				function drag(e) {
+					if (!isDragging) return;
+					e.preventDefault();
+
+					// Get event coordinates
+					const eventX =
+						e.type === "touchmove" ? e.touches[0].clientX : e.clientX;
+					const eventY =
+						e.type === "touchmove" ? e.touches[0].clientY : e.clientY;
+
+					// Calculate movement delta
+					const dx = eventX - prevMouseX;
+					const dy = eventY - prevMouseY;
+
+					// Update position based on direct movement
+					const newX = currentX + dx;
+					const newY = currentY + dy;
+
+					// Calculate rotation based on the movement direction and drag point
+					// The further from center, the more leverage for rotation
+					const dragDistance = Math.sqrt(
+						dragPointX * dragPointX + dragPointY * dragPointY,
+					);
+
+					// Calculate the tangential component of movement
+					// We use the cross product to determine how much the movement is perpendicular to the radius
+					const tangentialForce =
+						(dx * dragPointY - dy * dragPointX) / (dragDistance || 1);
+
+					// Apply rotation with distance-based scaling
+					// This mimics the lever effect - further from center = more rotation
+					const rotationDelta =
+						tangentialForce * rotationFactor * (dragDistance / 100 + 0.5);
+					const newRotation = rotation + rotationDelta;
+
+					// Update momentum for after drag ends
+					momentumX = dx * 0.9; // Reduced to prevent excessive sliding
+					momentumY = dy * 0.9;
+					angularMomentum = rotationDelta * 0.9;
+
+					// Apply the transforms
+					setTransform(newX, newY, newRotation);
+
+					// Update previous mouse position
+					prevMouseX = eventX;
+					prevMouseY = eventY;
+				}
+
+				// End dragging
+				document.addEventListener("mouseup", dragEnd);
+				document.addEventListener("touchend", dragEnd);
+
+				function dragEnd() {
+					if (isDragging) {
+						isDragging = false;
+						applyMomentum();
+					}
+				}
+
+				// Apply momentum after release with friction
+				function applyMomentum() {
+					if (
+						Math.abs(momentumX) < 0.1 &&
+						Math.abs(momentumY) < 0.1 &&
+						Math.abs(angularMomentum) < 0.01
+					) {
+						momentumAnimationId = null;
+						return; // Stop if momentum is very small
+					}
+
+					// Apply friction
+					momentumX *= friction;
+					momentumY *= friction;
+					angularMomentum *= friction;
+
+					// Apply momentum
+					setTransform(
+						currentX + momentumX,
+						currentY + momentumY,
+						rotation + angularMomentum,
+					);
+
+					// Continue applying momentum
+					momentumAnimationId = requestAnimationFrame(applyMomentum);
+				}
+
+				// Handle edge cases
+				document.addEventListener("mouseleave", function () {
+					if (isDragging) {
+						isDragging = false;
+						applyMomentum();
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
