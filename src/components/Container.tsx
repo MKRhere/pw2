@@ -127,11 +127,13 @@ const Container: React.FC<{
 	return (
 		<div
 			className={css`
-				--content-padding-top: min(15rem, 22vh);
+				--cntr-pad-b-start: 10rem;
+				--cntr-pad-b-end: 8rem;
+				--cntr-pad-inline: 10vw;
 				--logo-size: 5rem;
-				padding-block-start: var(--content-padding-top);
-				padding-block-end: 8rem;
-				padding-inline: 10vw;
+				padding-block-start: var(--cntr-pad-b-start);
+				padding-block-end: var(--cntr-pad-b-end);
+				padding-inline: var(--cntr-pad-inline);
 				overflow: hidden;
 				min-height: 100vh;
 				position: relative;
@@ -145,7 +147,7 @@ const Container: React.FC<{
 						width: 100vw;
 						left: 0;
 						bottom: 0;
-						height: 8rem;
+						height: 8vh;
 						background: rgb(0, 0, 0);
 						background: linear-gradient(
 							180deg,
@@ -162,8 +164,13 @@ const Container: React.FC<{
 					ref={logoContainer}
 					className={css`
 						position: absolute;
-						top: calc(var(--content-padding-top) - var(--logo-size) - 2rem);
-						left: 5rem;
+						/* prettier-ignore */
+						top: calc(
+							  var(--cntr-pad-b-start)
+							- var(--logo-size)
+							- 2rem
+						);
+						left: var(--cntr-pad-inline);
 						background: none;
 						border: 0;
 						font-size: 1rem;
@@ -285,9 +292,10 @@ const Container: React.FC<{
 						max-width: 62rem;
 						min-height: 100%;
 						margin: auto;
+						gap: 2rem;
 						display: flex;
 						flex-direction: column;
-						gap: 2rem;
+						position: relative;
 					`,
 					className,
 				)}
