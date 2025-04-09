@@ -101,6 +101,9 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 		lastMousePosition = { x: e.pageX, y: e.pageY };
 		angularVelocity = 0;
+
+		document.body.style.userSelect = "none";
+		document.body.style.webkitUserSelect = "none";
 	};
 
 	const move = (e: PointerEvent) => {
@@ -151,6 +154,8 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 		state.dragging = false;
 		activePointerId = null;
 		card.style.cursor = "grab";
+		document.body.style.userSelect = "auto";
+		document.body.style.webkitUserSelect = "auto";
 		// Momentum is handled in the render loop
 	};
 
@@ -239,7 +244,6 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 	card.style.cursor = "grab";
 	card.style.touchAction = "none";
-	card.style.userSelect = "none";
 
 	card.style.transform = `translate(0px, 0px) rotate(${rotation}rad)`;
 
