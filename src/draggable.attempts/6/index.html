@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no"
+		/>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			html,
+			body {
+				margin: 0;
+				width: 100vw;
+				height: 100vh;
+				background: #111;
+				overflow: hidden;
+			}
+			#card {
+				width: 24rem;
+				height: 16rem;
+				background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+				border-radius: 20px;
+				position: absolute;
+				left: 200px;
+				/* top: 200px; */
+				bottom: 0;
+				box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+				transform-origin: center center;
+				cursor: grab;
+				/* touch-action: none; */
+			}
+
+			.container {
+				display: flex;
+				width: 100%;
+				height: 100%;
+				padding: 4rem;
+				overflow: hidden;
+			}
+
+			.sidebar {
+				width: 20rem;
+				height: 100%;
+				background: #222;
+			}
+
+			main {
+				flex: 1;
+				background: #333;
+				position: relative;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="sidebar"></div>
+			<main>
+				<div id="card"></div>
+			</main>
+		</div>
+		<script type="module">
+			import { makeDraggable } from "./Draggable.ts";
+
+			makeDraggable(document.getElementById("card"));
+		</script>
+	</body>
+</html>
