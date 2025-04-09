@@ -10,7 +10,7 @@ const Home: React.FC = () => {
 	return (
 		<Container
 			className={css`
-				--distance: 2rem;
+				--gap: 2.2rem;
 			`}>
 			<section>
 				<h1
@@ -23,7 +23,7 @@ const Home: React.FC = () => {
 				<FlickerList
 					style={{
 						// fiddle
-						marginTop: "calc(-1.7rem - 2px + var(--distance))",
+						marginTop: "calc(-1rem + var(--gap))",
 						marginLeft: "-0.1rem",
 						fontSize: "0.9rem",
 					}}
@@ -63,11 +63,11 @@ const Home: React.FC = () => {
 			<main
 				className={css`
 					/* fiddle */
-					margin-top: calc(-2.4rem + var(--distance));
+					margin-top: calc(-2.4rem + var(--gap));
 
 					display: flex;
 					flex-wrap: wrap;
-					gap: var(--distance);
+					gap: var(--gap);
 
 					& img {
 						image-rendering: pixelated;

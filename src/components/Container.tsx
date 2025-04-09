@@ -127,7 +127,7 @@ const Container: React.FC<{
 	return (
 		<div
 			className={css`
-				--cntr-pad-b-start: 10rem;
+				--cntr-pad-b-start: 12rem;
 				--cntr-pad-b-end: 8rem;
 				--cntr-pad-inline: 10vw;
 				--logo-size: 5rem;
@@ -166,9 +166,9 @@ const Container: React.FC<{
 						position: absolute;
 						/* prettier-ignore */
 						top: calc(
-							  var(--cntr-pad-b-start)
-							- var(--logo-size)
-							- 2rem
+							calc(var(--cntr-pad-b-start) / 2)
+							- calc(var(--logo-size) / 2)
+							+ 1rem
 						);
 						left: var(--cntr-pad-inline);
 						background: none;

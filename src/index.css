@@ -66,6 +66,7 @@ h2 {
 
 h1 {
 	font-size: min(15vw, 6rem);
+	line-height: 0.8em;
 }
 
 h2 {
