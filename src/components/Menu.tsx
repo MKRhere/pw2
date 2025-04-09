@@ -12,6 +12,7 @@ export const MENU = {
 } as const;
 
 export const MenuEntries = Object.entries(MENU);
+export const MenuPaths = Object.values(MENU);
 
 const desktopNav = css`
 	float: right;

@@ -5,7 +5,7 @@ import useLocation from "wouter/use-location";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
 import { get, getTimeout } from "../util";
-import Menu, { MenuEntries } from "./Menu";
+import Menu, { MenuEntries, MenuPaths } from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
 import { AnimateEntry } from "./AnimateEntry";
 
@@ -27,32 +27,6 @@ const Container: React.FC<{
 	const nextBtn = useRef<HTMLButtonElement>(null);
 
 	const [showMenu, setShowMenu] = useState(false);
-
-	useEffect(() => {
-		// scroll back to top when new page is loaded
-		window.scrollTo({ top: 0 });
-
-		if (highlightCircle.current) {
-			highlightCircle.current.classList.add("highlight");
-			timer(
-				() =>
-					highlightCircle.current &&
-					highlightCircle.current.classList.remove("highlight"),
-				1500,
-			);
-		}
-
-		if (nextBtn.current) {
-			nextBtn.current.style.width = "4rem";
-			timer(
-				() => nextBtn.current && (nextBtn.current.style.right = "10vw"),
-				300,
-			);
-		}
-
-		// cleanup
-		return clear;
-	}, []);
 
 	const handleResize = () => {
 		if (containerChild.current && logoContainer.current)
@@ -86,43 +60,63 @@ const Container: React.FC<{
 		} catch {}
 	};
 
-	const current = MenuEntries.findIndex(
-		([, path]) => location === path || location.startsWith(path + "/"),
-	);
-	const next = get.next(MenuEntries, current)[1];
-	const prev = get.prev(MenuEntries, current)[1];
-	const end = current === MenuEntries.length - 1;
-
 	const handlePrev = (e: MouseKb) => {
 		animateArrow(e);
-		timer(() => prev && navigate(prev), 300);
+
+		const current = MenuPaths.findIndex(path => location === path);
+		const index = (current - 1) % MenuPaths.length;
+		const prev = MenuPaths.at(index)!;
+		timer(() => navigate(prev), 300);
 	};
 
 	const handleNext = (e: MouseKb) => {
 		animateArrow(e);
-		timer(() => next && navigate(next), 300);
+
+		const current = MenuPaths.findIndex(path => location === path);
+		const index = (current + 1) % MenuPaths.length;
+		const next = MenuPaths.at(index)!;
+		timer(() => navigate(next), 300);
 	};
 
 	function kbnav(e: KeyboardEvent) {
 		if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
 
-		switch (e.key) {
-			case "ArrowLeft":
-				return handlePrev(e);
-			case "ArrowRight":
-				return handleNext(e);
-		}
+		if (e.key === "ArrowLeft") return handlePrev(e);
+		else if (e.key === "ArrowRight") return handleNext(e);
 	}
 
 	useEffect(() => {
+		// scroll back to top when new page is loaded
+		window.scrollTo({ top: 0 });
+
+		if (highlightCircle.current) {
+			highlightCircle.current.classList.add("highlight");
+			timer(
+				() =>
+					highlightCircle.current &&
+					highlightCircle.current.classList.remove("highlight"),
+				1500,
+			);
+		}
+
+		if (nextBtn.current) {
+			nextBtn.current.style.width = "3rem";
+			timer(
+				() => nextBtn.current && (nextBtn.current.style.right = "10vw"),
+				300,
+			);
+		}
+
 		window.addEventListener("keydown", kbnav);
 
 		// cleanup
-		return () => window.removeEventListener("keydown", kbnav);
-	}, []);
+		return () => (window.removeEventListener("keydown", kbnav), clear());
+	}, [location]);
 
 	// on first render
 	useLayoutEffect(handleResize, []);
+
+	const end = location === MenuEntries[MenuEntries.length - 1][1];
 
 	return (
 		<div
