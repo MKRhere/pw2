@@ -1,12 +1,12 @@
 import React from "react";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
 import Container from "../../components/Container";
-import { setupCursorTracking } from "../../util";
+import { setupCursorTracking } from "../../util/index.ts";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
-import { DraggableButton } from "../../components/DraggableButton";
-import { Flippable } from "../../components/Flippable";
-import { AnimateEntry } from "../../components/AnimateEntry";
+import { Flippable } from "../../components/Flippable.tsx";
+import { AnimateEntry } from "../../components/AnimateEntry.tsx";
+import { Draggable } from "../../draggable.attempts/6/Draggable2.tsx";
 
 const A = css`
 	text-decoration: none;
@@ -46,7 +46,7 @@ const CONTACT: Contact = {
 };
 
 // slightly random rotations within -20 to 20 degrees
-const cardRotations = Array.from({ length: 5 }, (_, i) => {
+const cardRotations = Array.from({ length: 1 }, () => {
 	const rotation = Math.random() * 40 - 20;
 	return rotation;
 });
@@ -109,19 +109,16 @@ const Contact: React.FC = () => {
 				</AnimateEntry>
 			)}
 			{cardRotations.map((rot, i) => (
-				<DraggableButton
+				<Draggable
 					key={i}
 					onOutsideViewport={() => setVisible(v => v - 1)}
 					className={css`
 						width: 22rem;
-						height: auto;
-						aspect-ratio: 3 / 2;
+						height: 14rem;
 
 						position: absolute;
 						bottom: 0;
 						left: 0;
-
-						rotate: ${rot}deg;
 
 						padding: 0;
 						background: transparent;
@@ -230,7 +227,7 @@ const Contact: React.FC = () => {
 							</main>
 						}
 					/>
-				</DraggableButton>
+				</Draggable>
 			))}
 		</Container>
 	);
