@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<style>
+			body {
+				width: 100vw;
+				height: 100vh;
+				margin: 40px;
+				padding: 0;
+			}
+			#rectangle {
+				width: 200px;
+				height: 120px;
+				background-color: #3498db;
+				cursor: grab;
+				user-select: none;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+				position: relative;
+			}
+			#handle {
+				width: 10px;
+				height: 10px;
+				background-color: #e74c3c;
+				border-radius: 50%;
+
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				margin-left: -5px;
+				margin-top: -5px;
+				pointer-events: none;
+			}
+			#reference {
+				width: 200px;
+				height: 120px;
+				position: absolute;
+				top: 0;
+				left: 0;
+				opacity: 0.2;
+				background-color: #2ecc71;
+				pointer-events: none;
+			}
+		</style>
+		<div id="rectangle">
+			<div id="handle"></div>
+		</div>
+		<div id="reference"></div>
+		<script type="module" src="mod.ts"></script>
+	</body>
+</html>
