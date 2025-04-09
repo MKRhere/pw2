@@ -88,6 +88,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 		state.dragging = true;
 		activePointerId = e.pointerId;
 		card.style.cursor = "grabbing";
+		document.body.style.cursor = "grabbing";
 		velocity = { x: 0, y: 0 };
 
 		const dx = e.pageX - center.x;
@@ -153,6 +154,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	const cancel = () => {
 		state.dragging = false;
 		activePointerId = null;
+		document.body.style.cursor = "";
 		card.style.cursor = "grab";
 		document.body.style.userSelect = "auto";
 		document.body.style.webkitUserSelect = "auto";
@@ -246,27 +248,25 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	card.style.touchAction = "none";
 
 	card.style.transform = `translate(0px, 0px) rotate(${rotation}rad)`;
+	card.style.willChange = "transform";
 
-	card.addEventListener("pointerdown", down, { passive: true });
-	window.addEventListener("pointermove", move, { passive: true });
-	window.addEventListener("pointerup", up, { passive: true });
-	window.addEventListener("pointercancel", up, { passive: true });
-	window.addEventListener("blur", up, { passive: true });
-	window.addEventListener("keydown", up, { passive: true });
+	const abort = new AbortController();
+	const evtOpts = { passive: true, signal: abort.signal };
+
+	card.addEventListener("pointerdown", down, evtOpts);
+	window.addEventListener("pointermove", move, evtOpts);
+	window.addEventListener("pointerup", up, evtOpts);
+	window.addEventListener("pointercancel", up, evtOpts);
+	window.addEventListener("blur", up, evtOpts);
+	window.addEventListener("keydown", up, evtOpts);
 	window.addEventListener("resize", handleResize);
 
 	render();
 
 	return function cleanup() {
+		abort.abort();
 		if (animationFrameId !== null) cancelAnimationFrame(animationFrameId);
-		card.removeEventListener("pointerdown", down);
-		window.removeEventListener("pointermove", move);
-		window.removeEventListener("pointerup", up);
-		window.removeEventListener("pointercancel", up);
-		window.removeEventListener("blur", up);
-		window.removeEventListener("keydown", up);
-		window.removeEventListener("resize", handleResize);
-		card.style.cursor = "";
+		document.body.style.cursor = "";
 		card.style.touchAction = "";
 		card.style.userSelect = "";
 	};

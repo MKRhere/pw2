@@ -53,7 +53,6 @@ export const Flippable: React.FC<FlippableProps> = ({
 					width: 100%;
 					height: 100%;
 					transform-style: preserve-3d;
-					cursor: pointer;
 					transition: rotate 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 					rotate: ${isFlipped ? "y 180deg" : "y 0deg"};
 
