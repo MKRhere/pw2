@@ -92,6 +92,7 @@ const Home: React.FC = () => {
 						margin-top: -0.4rem;
 						display: flex;
 						flex-direction: column;
+						gap: 0.2rem;
 					`}>
 					<p>
 						Welcome to the web home of{" "}
@@ -138,7 +139,7 @@ const Home: React.FC = () => {
 								display: flex;
 								align-items: center;
 								gap: 1rem;
-								padding: 1rem 2rem;
+								padding: 0.6rem 0.9rem;
 							}
 
 							& a:hover {
@@ -148,7 +149,7 @@ const Home: React.FC = () => {
 						ref={setupCursorTracking}>
 						<div className="dynamic-gradient" />
 						<a href="https://mkr.pw/resume" target="_blank">
-							Download Resume
+							Download my resume
 							<Arrow />
 						</a>
 					</button>

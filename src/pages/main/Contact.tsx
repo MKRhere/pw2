@@ -119,8 +119,9 @@ const Contact: React.FC = () => {
 					onViewportEnter={() => setVisible(v => v + 1)}
 					initialRotation={rot}
 					className={css`
-						width: 22rem;
-						height: 14rem;
+						width: 17rem;
+						height: 11rem;
+						font-size: 0.8rem;
 
 						position: absolute;
 						bottom: 0;
@@ -148,7 +149,7 @@ const Contact: React.FC = () => {
 									align-items: center;
 									justify-content: center;
 									gap: 1rem;
-									font-size: 1rem;
+									font-size: inherit;
 
 									padding: 1rem 2.8em;
 
