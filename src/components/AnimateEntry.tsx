@@ -33,11 +33,11 @@ export const AnimateEntry = forwardRef<HTMLDivElement, AnimateEntryProps>(
 						@keyframes slideIn {
 							from {
 								opacity: 0;
-								transform: translateY(3rem);
+								translate: 0 3rem;
 							}
 							to {
 								opacity: 1;
-								transform: translateY(0);
+								translate: 0 0;
 							}
 						}
 					`,
