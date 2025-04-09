@@ -50,19 +50,45 @@ export const getTimeout = () => {
 	return [timeout, clearTimers] as const;
 };
 
-export function debounce<T extends (...args: any[]) => void>(
-	func: T,
+export function debounce<Fn extends (...args: any[]) => void>(
+	func: Fn,
 	wait: number,
-): T {
+): Fn {
 	let timeoutId: number | null = null;
-	return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+	return function (this: ThisParameterType<Fn>, ...args: Parameters<Fn>) {
 		if (timeoutId !== null) clearTimeout(timeoutId);
 		timeoutId = window.setTimeout(() => {
 			func.apply(this, args);
 			timeoutId = null;
 		}, wait);
-	} as T;
+	} as Fn;
 }
+
+export const throttle = <Fn extends (...args: any[]) => void>(
+	fn: Fn,
+	wait: number,
+): Fn => {
+	let inThrottle = false;
+	let lastFn: ReturnType<typeof setTimeout> | undefined = undefined;
+	let lastTime = 0;
+
+	return function (this: ThisParameterType<Fn>, ...args: Parameters<Fn>) {
+		const context = this;
+		if (!inThrottle) {
+			fn.apply(context, args);
+			lastTime = Date.now();
+			inThrottle = true;
+		} else {
+			clearTimeout(lastFn);
+			lastFn = setTimeout(function () {
+				if (Date.now() - lastTime >= wait) {
+					fn.apply(context, args);
+					lastTime = Date.now();
+				}
+			}, Math.max(wait - (Date.now() - lastTime), 0));
+		}
+	} as Fn;
+};
 
 export const ellipses = (text: string, length: number = 100) =>
 	text.length > length ? text.slice(0, length - 3) + "..." : text;

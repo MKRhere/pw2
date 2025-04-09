@@ -1,4 +1,9 @@
-import { clamp, debounce, normaliseAngleDifference } from "../../util/index.ts";
+import {
+	clamp,
+	debounce,
+	normaliseAngleDifference,
+	throttle,
+} from "../../util/index.ts";
 
 interface Vec2 {
 	x: number;
@@ -27,6 +32,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 	let rotation = opts.initialRotation ?? 0;
 	let dragging = false;
+	const state = { dragging };
 	let offsetLocal: Vec2 = { x: 0, y: 0 };
 
 	let velocity: Vec2 = { x: 0, y: 0 };
@@ -36,9 +42,14 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	const dampingFactor = 0.7;
 	const springFactor = 0.2;
 	const maxAngularVelocity = 0.95;
-	const momentumDampening = 0.98;
 	const RESIZE_DEBOUNCE_MS = 100;
 	const VIEWPORT_CHECK_INTERVAL_MS = 100;
+
+	// Adjust damping factors (base + velocity-dependent part)
+	const baseDamping = 0.98; // Base exponential damping
+	const angularVelocityDecay = 0.99;
+	const velocityDecay = 0.005;
+	const maxEffectiveSpeed = 50;
 
 	// --- State ---
 	let lastMousePosition: Vec2 = { x: 0, y: 0 };
@@ -48,9 +59,9 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 	// --- Helpers ---
 
-	const checkViewportExit = debounce(() => {
+	const checkViewportExit = throttle(() => {
 		// Don't check if we're dragging, user may still be able to move the card back into view
-		if (dragging) return;
+		if (state.dragging) return;
 
 		const rect = card.getBoundingClientRect();
 		const outside =
@@ -70,7 +81,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	const down = (e: PointerEvent) => {
 		if (activePointerId !== null) return;
 
-		dragging = true;
+		state.dragging = true;
 		activePointerId = e.pointerId;
 		card.style.cursor = "grabbing";
 		card.setPointerCapture(e.pointerId);
@@ -90,7 +101,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	};
 
 	const move = (e: PointerEvent) => {
-		if (!dragging || e.pointerId !== activePointerId) return;
+		if (!state.dragging || e.pointerId !== activePointerId) return;
 
 		const mx = e.pageX;
 		const my = e.pageY;
@@ -135,7 +146,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 	const up = (e: PointerEvent) => {
 		if (e.pointerId === activePointerId) {
-			dragging = false;
+			state.dragging = false;
 			activePointerId = null;
 			card.style.cursor = "grab";
 			// Momentum is handled in the render loop
@@ -179,21 +190,36 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 	// --- Render Loop ---
 	function render() {
-		if (!dragging) {
-			if (Math.abs(angularVelocity) > 0.01) {
+		if (!state.dragging) {
+			// --- Angular Momentum ---
+
+			if (Math.abs(angularVelocity) > 0.001) {
+				// Simple exponential damping
 				rotation += angularVelocity;
-				angularVelocity *= momentumDampening;
+				angularVelocity *= angularVelocityDecay;
 			} else angularVelocity = 0;
+
+			// --- Linear Momentum ---
 
 			const speed = Math.sqrt(
 				velocity.x * velocity.x + velocity.y * velocity.y,
 			);
 
 			if (speed > 0.01) {
-				center.x += velocity.x * 0.4;
-				center.y += velocity.y * 0.4;
-				velocity.x *= momentumDampening;
-				velocity.y *= momentumDampening;
+				// Calculate speed-dependent damping
+				// Clamp speed influence to avoid excessive damping
+				const speedInfluence =
+					Math.min(speed, maxEffectiveSpeed) / maxEffectiveSpeed;
+				const currentDamping =
+					baseDamping * (1 - speedInfluence * velocityDecay);
+				// Ensure damping doesn't go below a minimum or above 1
+				const effectiveDamping = clamp(currentDamping, 0.8, 0.995); // Adjust min/max clamp
+
+				velocity.x *= effectiveDamping;
+				velocity.y *= effectiveDamping;
+
+				center.x += velocity.x;
+				center.y += velocity.y;
 			} else velocity = { x: 0, y: 0 };
 		}
 
