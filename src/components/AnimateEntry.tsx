@@ -1,13 +1,12 @@
 import React, { forwardRef } from "react";
 import { css, cx } from "@emotion/css";
 
-export const AnimateEntry = forwardRef<
-	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement> & {
-		as?: React.ElementType;
-		delay?: number;
-	}
->(
+export interface AnimateEntryProps extends React.HTMLAttributes<any> {
+	as?: React.ElementType;
+	delay?: number;
+}
+
+export const AnimateEntry = forwardRef<HTMLDivElement, AnimateEntryProps>(
 	(
 		{ children, className, as: Component = "div", delay = 100, ...props },
 		ref,

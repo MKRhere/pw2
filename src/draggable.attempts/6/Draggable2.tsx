@@ -3,21 +3,36 @@ import { makeDraggable } from "./Draggable.ts";
 import { composeRefs } from "../../util/index.ts";
 import { css, cx } from "@emotion/css";
 
-export type DraggableProps = React.ComponentPropsWithRef<any> & {
+export type DraggableProps = React.HtmlHTMLAttributes<any> & {
 	as?: React.ElementType;
+	onViewportEnter?: () => void;
+	onViewportExit?: () => void;
 	children: React.ReactNode;
+	initialRotation?: number;
 };
 
 export const Draggable = forwardRef<HTMLElement, DraggableProps>(
 	(
-		{ as: Comp = "div", children, className, ...props }: DraggableProps,
+		{
+			as: Comp = "div",
+			children,
+			className,
+			onViewportEnter,
+			onViewportExit,
+			initialRotation,
+			...props
+		}: DraggableProps,
 		ref,
 	) => {
 		const cardRef = useRef<HTMLElement>(null);
 
 		useEffect(() => {
 			if (!cardRef.current) return;
-			return makeDraggable(cardRef.current);
+			return makeDraggable(cardRef.current, {
+				onViewportEnter,
+				onViewportExit,
+				initialRotation,
+			});
 		}, []);
 
 		return (

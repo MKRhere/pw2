@@ -50,6 +50,20 @@ export const getTimeout = () => {
 	return [timeout, clearTimers] as const;
 };
 
+export function debounce<T extends (...args: any[]) => void>(
+	func: T,
+	wait: number,
+): T {
+	let timeoutId: number | null = null;
+	return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+		if (timeoutId !== null) clearTimeout(timeoutId);
+		timeoutId = window.setTimeout(() => {
+			func.apply(this, args);
+			timeoutId = null;
+		}, wait);
+	} as T;
+}
+
 export const ellipses = (text: string, length: number = 100) =>
 	text.length > length ? text.slice(0, length - 3) + "..." : text;
 
@@ -103,4 +117,16 @@ export function setupCursorTracking(el: HTMLElement | null) {
 		el.style.setProperty("--x", x + "px");
 		el.style.setProperty("--y", y + "px");
 	});
+}
+
+export function clamp(value: number, min: number, max: number) {
+	return Math.min(Math.max(value, min), max);
+}
+
+export function normaliseAngleDifference(delta: number): number {
+	// Bring into range (-2PI, 2PI)
+	delta = delta % (2 * Math.PI);
+	if (delta > Math.PI) delta -= 2 * Math.PI;
+	else if (delta <= -Math.PI) delta += 2 * Math.PI;
+	return delta;
 }

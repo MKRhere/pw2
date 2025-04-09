@@ -45,15 +45,19 @@ const CONTACT: Contact = {
 	"Blog": { value: "→", link: "https://MKRhere.com" },
 };
 
+const CARD_COUNT = 5;
 // slightly random rotations within -20 to 20 degrees
-const cardRotations = Array.from({ length: 1 }, () => {
-	const rotation = Math.random() * 40 - 20;
+const CARD_ROTATION_VARIANCE = 20 * (Math.PI / 180);
+
+const contactCards = Array.from({ length: CARD_COUNT }, () => {
+	const rotation =
+		Math.random() * CARD_ROTATION_VARIANCE - CARD_ROTATION_VARIANCE / 2;
 	return rotation;
 });
 
 const Contact: React.FC = () => {
 	const [contact, setContact] = useState<Contact>(CONTACT);
-	const [visible, setVisible] = useState(cardRotations.length);
+	const [visible, setVisible] = useState(contactCards.length);
 
 	useEffect(() => {
 		const deob = () => {
@@ -108,10 +112,12 @@ const Contact: React.FC = () => {
 					<a href="/">Start over?</a>
 				</AnimateEntry>
 			)}
-			{cardRotations.map((rot, i) => (
+			{contactCards.map((rot, i) => (
 				<Draggable
 					key={i}
-					onOutsideViewport={() => setVisible(v => v - 1)}
+					onViewportExit={() => setVisible(v => v - 1)}
+					onViewportEnter={() => setVisible(v => v + 1)}
+					initialRotation={rot}
 					className={css`
 						width: 22rem;
 						height: 14rem;
@@ -125,7 +131,7 @@ const Contact: React.FC = () => {
 					`}
 					ref={setupCursorTracking}>
 					<Flippable
-						defaultFlipped={i !== cardRotations.length - 1}
+						defaultFlipped={i !== contactCards.length - 1}
 						front={
 							<main
 								className={css`

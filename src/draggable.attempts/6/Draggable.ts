@@ -1,28 +1,19 @@
+import { clamp, debounce, normaliseAngleDifference } from "../../util/index.ts";
+
 interface Vec2 {
 	x: number;
 	y: number;
 }
 
-// --- Debounce Utility ---
-function debounce<T extends (...args: any[]) => void>(
-	func: T,
-	wait: number,
-): T {
-	let timeoutId: number | null = null;
-	return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
-		if (timeoutId !== null) {
-			clearTimeout(timeoutId);
-		}
-		timeoutId = window.setTimeout(() => {
-			func.apply(this, args);
-			timeoutId = null; // Clear after execution
-		}, wait);
-	} as T;
+export interface DraggableOpts {
+	initialRotation?: number;
+	onViewportExit?: () => void;
+	onViewportEnter?: () => void;
 }
 
-export function makeDraggable(card: HTMLElement) {
+export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	// --- Initial Setup ---
-	const calculateInitialCenter = () => {
+	const calculateInitialCenter = (): Vec2 => {
 		const rect = card.getBoundingClientRect();
 		return {
 			x: rect.left + rect.width / 2,
@@ -34,11 +25,11 @@ export function makeDraggable(card: HTMLElement) {
 	let initialCenter = calculateInitialCenter();
 	let center = { ...initialCenter };
 
-	let rotation = 0;
+	let rotation = opts.initialRotation ?? 0;
 	let dragging = false;
-	let offsetLocal = { x: 0, y: 0 };
+	let offsetLocal: Vec2 = { x: 0, y: 0 };
 
-	let velocity = { x: 0, y: 0 };
+	let velocity: Vec2 = { x: 0, y: 0 };
 	let angularVelocity = 0;
 
 	// --- Constants ---
@@ -46,25 +37,34 @@ export function makeDraggable(card: HTMLElement) {
 	const springFactor = 0.2;
 	const maxAngularVelocity = 0.95;
 	const momentumDampening = 0.98;
-	const RESIZE_DEBOUNCE_MS = 100; // Debounce time for resize
+	const RESIZE_DEBOUNCE_MS = 100;
+	const VIEWPORT_CHECK_INTERVAL_MS = 100;
 
 	// --- State ---
-	let lastMousePosition = { x: 0, y: 0 };
+	let lastMousePosition: Vec2 = { x: 0, y: 0 };
 	let activePointerId: number | null = null;
 	let animationFrameId: number | null = null;
+	let isOutsideViewport = false;
 
 	// --- Helpers ---
-	function clamp(value: number, min: number, max: number) {
-		return Math.min(Math.max(value, min), max);
-	}
 
-	function normaliseAngleDifference(delta: number): number {
-		// Bring into range (-2PI, 2PI)
-		delta = delta % (2 * Math.PI);
-		if (delta > Math.PI) delta -= 2 * Math.PI;
-		else if (delta <= -Math.PI) delta += 2 * Math.PI;
-		return delta;
-	}
+	const checkViewportExit = debounce(() => {
+		// Don't check if we're dragging, user may still be able to move the card back into view
+		if (dragging) return;
+
+		const rect = card.getBoundingClientRect();
+		const outside =
+			rect.right < 0 ||
+			rect.bottom < 0 ||
+			rect.left > window.innerWidth ||
+			rect.top > window.innerHeight;
+
+		if (outside !== isOutsideViewport) {
+			isOutsideViewport = outside;
+			if (isOutsideViewport) opts.onViewportExit?.();
+			else opts.onViewportEnter?.();
+		}
+	}, VIEWPORT_CHECK_INTERVAL_MS);
 
 	// --- Event Handlers ---
 	const down = (e: PointerEvent) => {
@@ -86,7 +86,6 @@ export function makeDraggable(card: HTMLElement) {
 		};
 
 		lastMousePosition = { x: e.pageX, y: e.pageY };
-		// Stop momentum on new grab
 		angularVelocity = 0;
 	};
 
@@ -109,7 +108,6 @@ export function makeDraggable(card: HTMLElement) {
 		const targetRotation =
 			Math.atan2(my - center.y, mx - center.x) - Math.atan2(py, px);
 
-		// Apply spring physics to rotation
 		const shortestAngleDifference = normaliseAngleDifference(
 			targetRotation - rotation,
 		);
@@ -146,7 +144,6 @@ export function makeDraggable(card: HTMLElement) {
 
 	// Debounced Resize Handler using the Reset-Reflow-Recalculate-Reapply strategy
 	const handleResize = debounce(() => {
-		console.log("handle resize triggered");
 		// 1. Store current visual state relative to the *old* initialCenter
 		const currentDeltaX = center.x - initialCenter.x;
 		const currentDeltaY = center.y - initialCenter.y;
@@ -186,9 +183,7 @@ export function makeDraggable(card: HTMLElement) {
 			if (Math.abs(angularVelocity) > 0.01) {
 				rotation += angularVelocity;
 				angularVelocity *= momentumDampening;
-			} else {
-				angularVelocity = 0;
-			}
+			} else angularVelocity = 0;
 
 			const speed = Math.sqrt(
 				velocity.x * velocity.x + velocity.y * velocity.y,
@@ -199,9 +194,7 @@ export function makeDraggable(card: HTMLElement) {
 				center.y += velocity.y * 0.4;
 				velocity.x *= momentumDampening;
 				velocity.y *= momentumDampening;
-			} else {
-				velocity = { x: 0, y: 0 };
-			}
+			} else velocity = { x: 0, y: 0 };
 		}
 
 		const deltaX = center.x - initialCenter.x;
@@ -212,6 +205,7 @@ export function makeDraggable(card: HTMLElement) {
 			rotate(${rotation}rad)
 		`;
 
+		checkViewportExit();
 		animationFrameId = requestAnimationFrame(render);
 	}
 
