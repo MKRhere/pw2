@@ -1,16 +1,21 @@
 import React from "react";
-import Container from "../../components/Container";
 import FlickerList, { Tooltip } from "../../components/FlickerList";
 import { ReactComponent as Arrow } from "../../assets/arrow-thin.svg";
 import { css } from "@emotion/css";
 import { setupCursorTracking } from "../../util";
 import { Emoji } from "../../components/Emoji";
+import { AnimateEntry } from "../../components/AnimateEntry";
 
 const Home: React.FC = () => {
 	return (
-		<Container
+		<AnimateEntry
+			as="main"
+			delay={200}
 			className={css`
 				--gap: 2.2rem;
+				display: flex;
+				flex-direction: column;
+				gap: var(--gap);
 			`}>
 			<section>
 				<h1
@@ -155,7 +160,7 @@ const Home: React.FC = () => {
 					</button>
 				</article>
 			</main>
-		</Container>
+		</AnimateEntry>
 	);
 };
 

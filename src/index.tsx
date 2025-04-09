@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import useLocation from "wouter/use-location";
 
 import { normalise } from "./util";
+import Container from "./components/Container";
 
 const Home = lazy(() => import("./pages/main/Home"));
 const Exp = lazy(() => import("./pages/main/Exp"));
@@ -34,8 +35,10 @@ function App() {
 
 createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<Suspense>
-			<App />
-		</Suspense>
+		<Container>
+			<Suspense>
+				<App />
+			</Suspense>
+		</Container>
 	</React.StrictMode>,
 );

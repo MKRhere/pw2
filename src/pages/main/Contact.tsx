@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
-import Container from "../../components/Container";
 import { setupCursorTracking } from "../../util/index.ts";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import { Flippable } from "../../components/Flippable.tsx";
@@ -96,11 +95,11 @@ const Contact: React.FC = () => {
 	}, []);
 
 	return (
-		<Container>
+		<>
 			<h1>MKRhere</h1>
 			{visible < 1 && (
 				<AnimateEntry as="article" delay={500}>
-					<p>Great, You've distributed all the cards!</p>
+					<p>Great. You've distributed all the cards!</p>
 					<p>What now?</p>
 					<br />
 					<a href="/">Start over?</a>
@@ -246,7 +245,7 @@ const Contact: React.FC = () => {
 					</Draggable>
 				))}
 			</AnimateEntry>
-		</Container>
+		</>
 	);
 };
 

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { css, cx } from "@emotion/css";
-import Container from "../../components/Container";
 import { ExpUnit } from "../../components/Exp/Unit";
 import { age, experience } from "./data/experience";
 import { offscreenWidth } from "../../components/constants";
@@ -36,7 +35,7 @@ const Exp: React.FC = () => {
 	}, []);
 
 	return (
-		<Container>
+		<>
 			<h2>
 				I’m a {age} year old developer from
 				<br />
@@ -94,7 +93,7 @@ const Exp: React.FC = () => {
 						/>
 					))}
 			</div>
-		</Container>
+		</>
 	);
 };
 

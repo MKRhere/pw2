@@ -1,6 +1,5 @@
 import React from "react";
 import { css, cx } from "@emotion/css";
-import Container from "../../components/Container";
 import { otherProjects, projects, type Project } from "./data/project";
 
 const styles = {
@@ -138,7 +137,7 @@ const otherProjectsStyle = css`
 
 const Exp: React.FC = () => {
 	return (
-		<Container>
+		<>
 			<h2>Things I've built</h2>
 			<p>A few projects I'm proud of:</p>
 			<div
@@ -203,7 +202,7 @@ const Exp: React.FC = () => {
 					))}
 				</tbody>
 			</table>
-		</Container>
+		</>
 	);
 };
 
