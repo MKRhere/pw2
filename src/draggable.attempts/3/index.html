@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Cursor Position in Transformed Element</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				background-color: #f5f5f5;
+			}
+
+			.container {
+				margin: 50px;
+				position: relative;
+				width: 600px;
+				height: 400px;
+				border: 1px solid #ccc;
+				background-color: #fff;
+			}
+
+			#transformed-element {
+				position: absolute;
+				width: 200px;
+				height: 150px;
+				background-color: rgba(100, 150, 250, 0.5);
+				border: 2px solid #4080ff;
+				top: 125px;
+				left: 200px;
+				transform-origin: center center;
+				transform: rotate(30deg) scale(1.2, 0.9);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-weight: bold;
+				color: #333;
+			}
+
+			#position-indicator {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				background-color: rgba(255, 255, 255, 0.8);
+				padding: 5px 10px;
+				border-radius: 5px;
+				font-family: monospace;
+				font-size: 14px;
+			}
+
+			#cursor-dot {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 6px;
+				height: 6px;
+				background-color: red;
+				border-radius: 50%;
+				margin-left: -3px;
+				margin-top: -3px;
+				pointer-events: none;
+			}
+
+			#controls {
+				margin-bottom: 20px;
+				display: flex;
+				gap: 20px;
+				align-items: center;
+			}
+
+			.control-group {
+				display: flex;
+				flex-direction: column;
+				gap: 5px;
+			}
+
+			label {
+				font-size: 12px;
+				color: #666;
+			}
+
+			.status {
+				margin-top: 15px;
+				font-size: 14px;
+				font-weight: bold;
+			}
+
+			#inside-status {
+				margin-left: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Cursor Position in Transformed Element</h1>
+
+		<div id="controls">
+			<div class="control-group">
+				<label for="rotation">Rotation (degrees)</label>
+				<input
+					type="range"
+					id="rotation"
+					min="-180"
+					max="180"
+					value="30"
+					step="5"
+				/>
+			</div>
+
+			<div class="control-group">
+				<label for="scale-x">Scale X</label>
+				<input
+					type="range"
+					id="scale-x"
+					min="0.5"
+					max="2"
+					value="1.2"
+					step="0.1"
+				/>
+			</div>
+
+			<div class="control-group">
+				<label for="scale-y">Scale Y</label>
+				<input
+					type="range"
+					id="scale-y"
+					min="0.5"
+					max="2"
+					value="0.9"
+					step="0.1"
+				/>
+			</div>
+
+			<div class="control-group">
+				<label for="translate-x">Translate X</label>
+				<input
+					type="range"
+					id="translate-x"
+					min="-100"
+					max="100"
+					value="0"
+					step="0.1"
+				/>
+			</div>
+
+			<div class="control-group">
+				<label for="translate-y">Translate Y</label>
+				<input
+					type="range"
+					id="translate-y"
+					min="-100"
+					max="100"
+					value="0"
+					step="0.1"
+				/>
+			</div>
+		</div>
+
+		<div class="status">
+			Element coordinates: <span id="coords"></span>
+			<span id="inside-status">Outside element</span>
+		</div>
+
+		<div class="container">
+			<div id="position-indicator">Position: (0, 0)</div>
+			<div id="transformed-element">
+				Transformed Element
+				<div id="cursor-dot"></div>
+			</div>
+		</div>
+
+		<script>
+			/**
+			 * Calculate cursor position relative to a transformed DOM element's original coordinate system
+			 *
+			 * @param {MouseEvent} event - The mouse event containing cursor position
+			 * @param {HTMLElement} element - The transformed DOM element
+			 * @returns {Object} - The x,y coordinates relative to the element's internal coordinate system
+			 */
+			function getCursorPositionRelativeToElement(event, element) {
+				// Get the mouse coordinates in client space
+				const clientX = event.clientX;
+				const clientY = event.clientY;
+
+				// Get the element's current bounding box (includes transformation effects)
+				const boundingRect = element.getBoundingClientRect();
+
+				// If no transform is applied, do simple calculation
+				const computedStyle = window.getComputedStyle(element);
+				const transformValue =
+					computedStyle.transform ||
+					computedStyle.webkitTransform ||
+					computedStyle.mozTransform;
+
+				if (transformValue === "none" || !transformValue) {
+					return {
+						x: clientX - boundingRect.left,
+						y: clientY - boundingRect.top,
+					};
+				}
+
+				// Create a matrix from the transform string
+				const matrix = new DOMMatrix(transformValue);
+
+				// Get the element's dimensions
+				const width = element.offsetWidth;
+				const height = element.offsetHeight;
+
+				// Calculate the center of the transformed element
+				const centerX = boundingRect.left + boundingRect.width / 2;
+				const centerY = boundingRect.top + boundingRect.height / 2;
+
+				// Calculate mouse position relative to the element's transformed center
+				const relativeToCenter = {
+					x: clientX - centerX,
+					y: clientY - centerY,
+				};
+
+				// Create the inverse of the transformation matrix
+				const inverseMatrix = matrix.inverse();
+
+				// Remove the translation components from the inverse matrix
+				inverseMatrix.e = 0;
+				inverseMatrix.f = 0;
+
+				// Apply the inverse transformation (rotation and scaling only)
+				const transformedPoint = {
+					x:
+						relativeToCenter.x * inverseMatrix.a +
+						relativeToCenter.y * inverseMatrix.c,
+					y:
+						relativeToCenter.x * inverseMatrix.b +
+						relativeToCenter.y * inverseMatrix.d,
+				};
+
+				// Convert from center-relative to top-left-relative coordinates
+				return {
+					x: transformedPoint.x + width / 2,
+					y: transformedPoint.y + height / 2,
+				};
+			}
+
+			// DOM elements
+			const element = document.getElementById("transformed-element");
+			const indicator = document.getElementById("position-indicator");
+			const cursorDot = document.getElementById("cursor-dot");
+			const coordsDisplay = document.getElementById("coords");
+			const insideStatus = document.getElementById("inside-status");
+
+			// Control elements
+			const rotationControl = document.getElementById("rotation");
+			const scaleXControl = document.getElementById("scale-x");
+			const scaleYControl = document.getElementById("scale-y");
+			const translateXControl = document.getElementById("translate-x");
+			const translateYControl = document.getElementById("translate-y");
+
+			// Update transform based on controls
+			function updateTransform() {
+				const rotation = rotationControl.value;
+				const scaleX = scaleXControl.value;
+				const scaleY = scaleYControl.value;
+				const translateX = translateXControl.value;
+				const translateY = translateYControl.value;
+
+				element.style.transform = `rotate(${rotation}deg) scale(${scaleX}, ${scaleY}) translate(${translateX}px, ${translateY}px)`;
+			}
+
+			// Listen to control changes
+			rotationControl.addEventListener("input", updateTransform);
+			scaleXControl.addEventListener("input", updateTransform);
+			scaleYControl.addEventListener("input", updateTransform);
+			translateXControl.addEventListener("input", updateTransform);
+			translateYControl.addEventListener("input", updateTransform);
+
+			// Track mouse movement
+			document.addEventListener("mousemove", event => {
+				// Show cursor dot
+				// cursorDot.style.left = `${event.clientX}px`;
+				// cursorDot.style.top = `${event.clientY}px`;
+
+				// Get relative position
+				const relativePos = getCursorPositionRelativeToElement(event, element);
+
+				// Round values for display
+				const x = Math.round(relativePos.x);
+				const y = Math.round(relativePos.y);
+
+				// Update position indicator
+				indicator.textContent = `Position: (${x}, ${y})`;
+				coordsDisplay.textContent = `(${x}, ${y})`;
+
+				// Check if cursor is within original element dimensions
+				const isInside =
+					relativePos.x >= 0 &&
+					relativePos.x <= element.offsetWidth &&
+					relativePos.y >= 0 &&
+					relativePos.y <= element.offsetHeight;
+
+				// Update status indicators
+				if (isInside) {
+					insideStatus.textContent = "Inside element";
+					insideStatus.style.color = "green";
+					coordsDisplay.style.color = "green";
+
+					cursorDot.style.transform = `translate(${relativePos.x}px, ${relativePos.y}px)`;
+					cursorDot.style.opacity = "1";
+				} else {
+					insideStatus.textContent = "Outside element";
+					insideStatus.style.color = "red";
+					coordsDisplay.style.color = "red";
+
+					cursorDot.style.transform = `translate(0px, 0px)`;
+					cursorDot.style.opacity = "0";
+				}
+			});
+		</script>
+	</body>
+</html>
