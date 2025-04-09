@@ -127,7 +127,9 @@ const Container: React.FC<{
 	return (
 		<div
 			className={css`
-				padding-block-start: 15rem;
+				--content-padding-top: min(15rem, 22vh);
+				--logo-size: 5rem;
+				padding-block-start: var(--content-padding-top);
 				padding-block-end: 8rem;
 				padding-inline: 10vw;
 				overflow: hidden;
@@ -160,7 +162,7 @@ const Container: React.FC<{
 					ref={logoContainer}
 					className={css`
 						position: absolute;
-						top: 8rem;
+						top: calc(var(--content-padding-top) - var(--logo-size) - 2rem);
 						left: 5rem;
 						background: none;
 						border: 0;
@@ -175,8 +177,8 @@ const Container: React.FC<{
 							css`
 								position: absolute;
 								left: 0;
-								height: 5rem;
-								width: 5rem;
+								height: var(--logo-size);
+								width: var(--logo-size);
 								border-radius: 100%;
 								border: 0;
 								background: none;
