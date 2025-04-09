@@ -6,7 +6,7 @@ import { visualizer as visualiser } from "rollup-plugin-visualizer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	server: { port: 10000 },
+	server: { port: 10000, allowedHosts: ["dev.mkr.thefeathers.co"] },
 	plugins: [
 		react(),
 		Object.assign(svgr({ ref: true, svgo: false }), {

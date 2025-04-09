@@ -16,25 +16,24 @@
 		]
 	},
 	"dependencies": {
-		"@emotion/css": "^11.11.2",
+		"@emotion/css": "^11.13.5",
 		"date-fns": "^2.30.0",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
 		"wouter": "^2.12.1"
 	},
 	"devDependencies": {
 		"@svgr/rollup": "^8.1.0",
-		"@types/gm": "^1.25.3",
+		"@types/gm": "^1.25.4",
 		"@types/marked": "^5.0.2",
-		"@types/node": "^20.8.7",
-		"@types/react": "^18.2.30",
-		"@types/react-dom": "^18.2.14",
-		"@vitejs/plugin-react": "^4.1.0",
-		"gm": "^1.25.0",
+		"@types/react": "^18.3.20",
+		"@types/react-dom": "^18.3.6",
+		"@vitejs/plugin-react": "^4.3.4",
+		"gm": "^1.25.1",
 		"imagen": "github:MKRhere/imagen",
-		"marked": "^9.1.2",
-		"rollup-plugin-visualizer": "^5.12.0",
-		"typescript": "^5.2.2",
-		"vite": "^4.5.0"
+		"marked": "^9.1.6",
+		"rollup-plugin-visualizer": "^5.14.0",
+		"typescript": "^5.8.3",
+		"vite": "^6.2.5"
 	}
 }
