@@ -88,7 +88,6 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 		state.dragging = true;
 		activePointerId = e.pointerId;
 		card.style.cursor = "grabbing";
-		card.setPointerCapture(e.pointerId);
 		velocity = { x: 0, y: 0 };
 
 		const dx = e.pageX - center.x;
@@ -148,13 +147,17 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 		};
 	};
 
-	const up = (e: PointerEvent) => {
-		if (e.pointerId === activePointerId) {
-			state.dragging = false;
-			activePointerId = null;
-			card.style.cursor = "grab";
-			// Momentum is handled in the render loop
-		}
+	const cancel = () => {
+		state.dragging = false;
+		activePointerId = null;
+		card.style.cursor = "grab";
+		// Momentum is handled in the render loop
+	};
+
+	const up = (e: PointerEvent | FocusEvent | KeyboardEvent) => {
+		if ("pointerId" in e && e.pointerId === activePointerId) return cancel();
+		else if ("key" in e && e.key === "Escape") return cancel();
+		else return cancel();
 	};
 
 	// Debounced Resize Handler using the Reset-Reflow-Recalculate-Reapply strategy
@@ -244,6 +247,8 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	window.addEventListener("pointermove", move, { passive: true });
 	window.addEventListener("pointerup", up, { passive: true });
 	window.addEventListener("pointercancel", up, { passive: true });
+	window.addEventListener("blur", up, { passive: true });
+	window.addEventListener("keydown", up, { passive: true });
 	window.addEventListener("resize", handleResize);
 
 	render();
@@ -254,6 +259,8 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 		window.removeEventListener("pointermove", move);
 		window.removeEventListener("pointerup", up);
 		window.removeEventListener("pointercancel", up);
+		window.removeEventListener("blur", up);
+		window.removeEventListener("keydown", up);
 		window.removeEventListener("resize", handleResize);
 		card.style.cursor = "";
 		card.style.touchAction = "";

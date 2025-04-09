@@ -19,11 +19,11 @@ export const Flippable: React.FC<FlippableProps> = ({
 	const mouseDownTime = useRef<number>(0);
 	const DRAG_THRESHOLD = 250; // milliseconds
 
-	const handleMouseDown = () => {
+	const down = () => {
 		mouseDownTime.current = Date.now();
 	};
 
-	const handleClick = () => {
+	const up = () => {
 		if (Date.now() - mouseDownTime.current < DRAG_THRESHOLD) {
 			setIsFlipped(prev => !prev);
 
@@ -45,9 +45,8 @@ export const Flippable: React.FC<FlippableProps> = ({
 	return (
 		<div
 			ref={ref}
-			onClick={handleClick}
-			onMouseDown={handleMouseDown}
-			onTouchStart={handleMouseDown}
+			onPointerUp={up}
+			onPointerDown={down}
 			className={cx(
 				css`
 					position: relative;
@@ -66,8 +65,13 @@ export const Flippable: React.FC<FlippableProps> = ({
 						-webkit-backface-visibility: hidden; /* Safari */
 					}
 
+					.card-front {
+						pointer-events: ${isFlipped ? "none" : "auto"};
+					}
+
 					.card-back {
 						rotate: y 180deg;
+						pointer-events: ${isFlipped ? "auto" : "none"};
 					}
 				`,
 				className,
