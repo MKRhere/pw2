@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no"
+		/>
+		<style>
+			html,
+			body {
+				margin: 0;
+				width: 100vw;
+				height: 100vh;
+				background: #111;
+				overflow: hidden;
+			}
+			#card {
+				width: 24rem;
+				height: 16rem;
+				background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+				border-radius: 20px;
+				position: absolute;
+				left: 0;
+				top: 0;
+				box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+				transform-origin: center center;
+				cursor: grab;
+				/* touch-action: none; */
+			}
+		</style>
+	</head>
+	<body>
+		<div id="card"></div>
+		<script>
+			const card = document.getElementById("card");
+
+			function makeDraggable(card) {
+				const rect = card.getBoundingClientRect();
+				let center = {
+					x: rect.left + rect.width / 2,
+					y: rect.top + rect.height / 2,
+				};
+
+				let rotation = 0;
+				let dragging = false;
+				let offsetLocal = { x: 0, y: 0 };
+
+				let velocity = { x: 0, y: 0 };
+				let angularVelocity = 0;
+
+				const dampingFactor = 0.7;
+				const springFactor = 0.2;
+				const maxAngularVelocity = 0.95;
+				const momentumDampening = 0.98;
+
+				let lastMousePosition = { x: 0, y: 0 };
+				let activePointerId = null;
+
+				function clamp(value, min, max) {
+					return Math.min(Math.max(value, min), max);
+				}
+
+				const down = e => {
+					if (activePointerId !== null) return;
+
+					dragging = true;
+					activePointerId = e.pointerId;
+
+					card.setPointerCapture(e.pointerId);
+
+					velocity = { x: 0, y: 0 };
+
+					const dx = e.pageX - center.x;
+					const dy = e.pageY - center.y;
+
+					const cos = Math.cos(-rotation);
+					const sin = Math.sin(-rotation);
+
+					offsetLocal = {
+						x: dx * cos - dy * sin,
+						y: dx * sin + dy * cos,
+					};
+
+					console.log(offsetLocal);
+
+					lastMousePosition = { x: e.pageX, y: e.pageY };
+				};
+
+				const move = e => {
+					if (!dragging || e.pointerId !== activePointerId) return;
+
+					const mx = e.pageX;
+					const my = e.pageY;
+
+					velocity = {
+						x: mx - lastMousePosition.x,
+						y: my - lastMousePosition.y,
+					};
+
+					lastMousePosition = { x: mx, y: my };
+
+					const px = offsetLocal.x;
+					const py = offsetLocal.y;
+
+					const targetRotation =
+						Math.atan2(my - center.y, mx - center.x) - Math.atan2(py, px);
+
+					angularVelocity += (targetRotation - rotation) * springFactor;
+					angularVelocity *= dampingFactor;
+					angularVelocity = clamp(
+						angularVelocity,
+						-maxAngularVelocity,
+						maxAngularVelocity,
+					);
+
+					rotation += angularVelocity;
+
+					const cos = Math.cos(rotation);
+					const sin = Math.sin(rotation);
+
+					const rx = px * cos - py * sin;
+					const ry = px * sin + py * cos;
+
+					center = {
+						x: mx - rx,
+						y: my - ry,
+					};
+				};
+
+				const up = e => {
+					if (e.pointerId === activePointerId) {
+						dragging = false;
+						activePointerId = null;
+					}
+				};
+
+				card.addEventListener("pointerdown", down, { passive: false });
+				window.addEventListener("pointermove", move, { passive: false });
+				window.addEventListener("pointerup", up, { passive: false });
+
+				function render() {
+					if (!dragging) {
+						if (Math.abs(angularVelocity) > 0.01) {
+							rotation += angularVelocity;
+							angularVelocity *= momentumDampening;
+						}
+
+						const speed = Math.sqrt(
+							velocity.x * velocity.x + velocity.y * velocity.y,
+						);
+
+						if (speed > 0.01) {
+							center.x += velocity.x * 0.4;
+							center.y += velocity.y * 0.4;
+							velocity.x *= momentumDampening;
+							velocity.y *= momentumDampening;
+						}
+					}
+
+					card.style.transform = `
+						translate(${center.x}px, ${center.y}px)
+						translate(-50%, -50%)
+						rotate(${rotation}rad)
+					`;
+
+					requestAnimationFrame(render);
+				}
+
+				render();
+			}
+
+			makeDraggable(card);
+		</script>
+	</body>
+</html>
