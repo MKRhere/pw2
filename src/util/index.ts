@@ -3,6 +3,20 @@ import useLocation from "wouter/use-location";
 
 export const sleep = (t: number) => new Promise(r => setTimeout(r, t));
 
+type Ref<T> =
+	| React.MutableRefObject<T | null>
+	| React.RefCallback<T | null>
+	| React.ForwardedRef<T>;
+
+export const composeRefs = <T>(...refs: Ref<T | null>[]) => {
+	return (el: T) => {
+		refs.forEach(ref => {
+			if (typeof ref === "function") ref(el);
+			else if (ref) ref.current = el;
+		});
+	};
+};
+
 export function* intersperse<T, U>(
 	xs: T[],
 	delim: (index: number) => U,
@@ -21,7 +35,7 @@ export function* intersperse<T, U>(
 }
 
 export const getTimeout = () => {
-	const clearables = new Set<number>();
+	const clearables = new Set<ReturnType<typeof setTimeout>>();
 
 	const timeout = (f: (...attr: any[]) => any, t: number) => {
 		const self = setTimeout(() => (f(), clearables.delete(self)), t);
