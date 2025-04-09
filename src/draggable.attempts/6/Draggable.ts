@@ -12,8 +12,8 @@ interface Vec2 {
 
 export interface DraggableOpts {
 	initialRotation?: number;
-	onViewportExit?: () => void;
-	onViewportEnter?: () => void;
+	onPageExit?: () => void;
+	onPageEnter?: () => void;
 }
 
 export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
@@ -21,8 +21,8 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	const calculateInitialCenter = (): Vec2 => {
 		const rect = card.getBoundingClientRect();
 		return {
-			x: rect.left + rect.width / 2,
-			y: rect.top + rect.height / 2,
+			x: rect.left + rect.width / 2 + window.scrollX,
+			y: rect.top + rect.height / 2 + window.scrollY,
 		};
 	};
 
@@ -55,25 +55,29 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 	let lastMousePosition: Vec2 = { x: 0, y: 0 };
 	let activePointerId: number | null = null;
 	let animationFrameId: number | null = null;
-	let isOutsideViewport = false;
+	let isOutsideBounds = false;
 
 	// --- Helpers ---
 
-	const checkViewportExit = throttle(() => {
-		// Don't check if we're dragging, user may still be able to move the card back into view
+	const checkPageBounds = throttle(() => {
 		if (state.dragging) return;
 
 		const rect = card.getBoundingClientRect();
-		const outside =
-			rect.right < 0 ||
-			rect.bottom < 0 ||
-			rect.left > window.innerWidth ||
-			rect.top > window.innerHeight;
+		const pageLeft = rect.left + window.scrollX;
+		const pageTop = rect.top + window.scrollY;
+		const pageRight = rect.right + window.scrollX;
+		const pageBottom = rect.bottom + window.scrollY;
 
-		if (outside !== isOutsideViewport) {
-			isOutsideViewport = outside;
-			if (isOutsideViewport) opts.onViewportExit?.();
-			else opts.onViewportEnter?.();
+		const outside =
+			pageRight < 0 ||
+			pageBottom < 0 ||
+			pageLeft > document.documentElement.scrollWidth ||
+			pageTop > document.documentElement.scrollHeight;
+
+		if (outside !== isOutsideBounds) {
+			isOutsideBounds = outside;
+			if (isOutsideBounds) opts.onPageExit?.();
+			else opts.onPageEnter?.();
 		}
 	}, VIEWPORT_CHECK_INTERVAL_MS);
 
@@ -158,10 +162,8 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 		// 1. Store current visual state relative to the *old* initialCenter
 		const currentDeltaX = center.x - initialCenter.x;
 		const currentDeltaY = center.y - initialCenter.y;
-		const currentRotation = rotation; // Rotation doesn't depend on initialCenter
 
 		// 2. Temporarily remove the transform
-		card.style.transition = "none"; // Disable transitions during adjustment
 		card.style.transform = "none";
 
 		// 3. Force browser reflow to get the *untouched* layout position
@@ -180,10 +182,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 
 		// 6. Reapply the transform immediately before the next paint
 		// Use the *stored* delta and rotation to put it back visually where it was
-		card.style.transform = `translate(${currentDeltaX}px, ${currentDeltaY}px) rotate(${currentRotation}rad)`;
-
-		// 7. Re-enable transitions if they were used
-		card.style.transition = ""; // Or restore previous transition style if needed
+		card.style.transform = `translate(${currentDeltaX}px, ${currentDeltaY}px) rotate(${rotation}rad)`;
 
 		// The render loop will continue from this adjusted state.
 	}, RESIZE_DEBOUNCE_MS); // Apply debouncing
@@ -231,7 +230,7 @@ export function makeDraggable(card: HTMLElement, opts: DraggableOpts = {}) {
 			rotate(${rotation}rad)
 		`;
 
-		checkViewportExit();
+		checkPageBounds();
 		animationFrameId = requestAnimationFrame(render);
 	}
 

@@ -5,8 +5,8 @@ import { css, cx } from "@emotion/css";
 
 export type DraggableProps = React.HtmlHTMLAttributes<any> & {
 	as?: React.ElementType;
-	onViewportEnter?: () => void;
-	onViewportExit?: () => void;
+	onPageEnter?: () => void;
+	onPageExit?: () => void;
 	children: React.ReactNode;
 	initialRotation?: number;
 };
@@ -17,8 +17,8 @@ export const Draggable = forwardRef<HTMLElement, DraggableProps>(
 			as: Comp = "div",
 			children,
 			className,
-			onViewportEnter,
-			onViewportExit,
+			onPageEnter,
+			onPageExit,
 			initialRotation,
 			...props
 		}: DraggableProps,
@@ -29,8 +29,8 @@ export const Draggable = forwardRef<HTMLElement, DraggableProps>(
 		useEffect(() => {
 			if (!cardRef.current) return;
 			return makeDraggable(cardRef.current, {
-				onViewportEnter,
-				onViewportExit,
+				onPageEnter,
+				onPageExit,
 				initialRotation,
 			});
 		}, []);
