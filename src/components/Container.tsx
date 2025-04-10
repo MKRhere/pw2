@@ -4,7 +4,7 @@ import useLocation from "wouter/use-location";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
-import { get, getTimeout } from "../util";
+import { getTimeout } from "../util";
 import Menu, { MenuEntries, MenuPaths } from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
 import { AnimateEntry } from "./AnimateEntry";
@@ -281,6 +281,7 @@ const Container: React.FC<{
 			<AnimateEntry
 				delay={delay}
 				className={cx(
+					"container",
 					css`
 						width: 100%;
 						max-width: 62rem;

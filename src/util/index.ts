@@ -123,15 +123,6 @@ export function comparePaths(p1: string, p2: string) {
 	return normalise(p1) === normalise(p2);
 }
 
-export const get = {
-	next<X>(xs: X[], i: number) {
-		return xs.at((i + 1) % xs.length)!;
-	},
-	prev<X>(xs: X[], i: number) {
-		return xs.at((i - 1) % xs.length)!;
-	},
-};
-
 // required css is inlined in index.html
 export function setupCursorTracking(el: HTMLElement | null) {
 	if (!el) return;
