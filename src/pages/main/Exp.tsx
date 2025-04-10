@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { css, cx } from "@emotion/css";
 import { ExpUnit } from "../../components/Exp/Unit";
 import { age, experience } from "./data/experience";
@@ -6,6 +6,7 @@ import { offscreenWidth } from "../../components/constants";
 import { Tags } from "../../components/Exp/Tags";
 import useSearchParams from "../../util/useSearchParams";
 import useLocation from "wouter/use-location";
+import { AnimateEntry } from "../../components/AnimateEntry";
 
 const exp_route = /^\/experience\/?[^\/]*$/;
 const slug_replace = /^\/experience\/?/;
@@ -13,6 +14,11 @@ const slug_replace = /^\/experience\/?/;
 const Exp: React.FC = () => {
 	const [location, navigate] = useLocation();
 	const tags = useSearchParams("tag");
+	const [entryDelay, setEntryDelay] = useState(true);
+
+	useEffect(() => {
+		if (tags.size) setEntryDelay(false);
+	}, [tags]);
 
 	if (!exp_route.test(location)) {
 		navigate("/experience", { replace: true });
@@ -51,13 +57,13 @@ const Exp: React.FC = () => {
 				</span>
 				:
 			</p>
-			<section>
-				<Tags
-					tags={["Programming", "Design", "Architecture", "Writing"]}
-					selected={tags}
-				/>
-			</section>
-			<div
+			<Tags
+				tags={["Programming", "Design", "Architecture", "Writing"]}
+				selected={tags}
+			/>
+			<AnimateEntry
+				as="section"
+				delay={entryDelay ? 150 : 0}
 				className={cx(
 					css`
 						width: 100%;
@@ -92,7 +98,7 @@ const Exp: React.FC = () => {
 							}}
 						/>
 					))}
-			</div>
+			</AnimateEntry>
 		</>
 	);
 };

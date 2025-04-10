@@ -1,6 +1,7 @@
 import React from "react";
 import { css, cx } from "@emotion/css";
 import { otherProjects, projects, type Project } from "./data/project";
+import { AnimateEntry } from "../../components/AnimateEntry";
 
 const styles = {
 	project: css`
@@ -140,7 +141,8 @@ const Exp: React.FC = () => {
 		<>
 			<h2>Things I've built</h2>
 			<p>A few projects I'm proud of:</p>
-			<div
+			<AnimateEntry
+				as="section"
 				className={css`
 					display: grid;
 					grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
@@ -150,7 +152,7 @@ const Exp: React.FC = () => {
 				{projects.map(unit => (
 					<ProjectUnit {...unit} key={unit.title} />
 				))}
-			</div>
+			</AnimateEntry>
 			<hr />
 			<p>
 				Apart from the above, I've also built some other interesting stuff over
@@ -163,7 +165,7 @@ const Exp: React.FC = () => {
 						<th>Description</th>
 					</tr>
 				</thead>
-				<tbody>
+				<AnimateEntry as="tbody">
 					{otherProjects.map(unit => (
 						<tr key={unit.title}>
 							<td
@@ -200,7 +202,7 @@ const Exp: React.FC = () => {
 							</td>
 						</tr>
 					))}
-				</tbody>
+				</AnimateEntry>
 			</table>
 		</>
 	);
