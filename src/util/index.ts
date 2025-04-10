@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useLocation from "wouter/use-location";
 
 export const sleep = (t: number) => new Promise(r => setTimeout(r, t));
@@ -146,4 +146,19 @@ export function normaliseAngleDifference(delta: number): number {
 	if (delta > Math.PI) delta -= 2 * Math.PI;
 	else if (delta <= -Math.PI) delta += 2 * Math.PI;
 	return delta;
+}
+
+export interface Toggle {
+	on: boolean;
+	toggle: () => void;
+	set: (value: boolean) => void;
+}
+
+export function useToggle(initial: boolean): Toggle {
+	const [state, setState] = useState(initial);
+	return {
+		on: state,
+		toggle: () => setState(s => !s),
+		set: (value: boolean) => setState(value),
+	};
 }

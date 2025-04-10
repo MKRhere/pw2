@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useRef, useLayoutEffect, useContext } from "react";
 import { css, cx } from "@emotion/css";
 import useLocation from "wouter/use-location";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
-import { getTimeout } from "../util";
+import { getTimeout, useToggle } from "../util";
 import Menu, { MenuEntries, MenuPaths } from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
 import { AnimateEntry } from "./AnimateEntry";
+import ContactForm from "./ContactForm";
+import { AppContext } from "../AppContext";
 
 const [timer, clear] = getTimeout();
 
@@ -26,7 +28,7 @@ const Container: React.FC<{
 	const containerChild = useRef<HTMLDivElement>(null);
 	const nextBtn = useRef<HTMLButtonElement>(null);
 
-	const [showMenu, setShowMenu] = useState(false);
+	const context = useContext(AppContext);
 
 	const handleResize = () => {
 		if (containerChild.current && logoContainer.current)
@@ -79,6 +81,7 @@ const Container: React.FC<{
 	};
 
 	function kbnav(e: KeyboardEvent) {
+		if (context.contact.on) return;
 		if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
 
 		if (e.key === "ArrowLeft") return handlePrev(e);
@@ -111,7 +114,7 @@ const Container: React.FC<{
 
 		// cleanup
 		return () => (window.removeEventListener("keydown", kbnav), clear());
-	}, [location]);
+	}, [location, context.contact.on]);
 
 	// on first render
 	useLayoutEffect(handleResize, []);
@@ -132,6 +135,7 @@ const Container: React.FC<{
 				min-height: 100vh;
 				position: relative;
 			`}>
+			<ContactForm toggle={context.contact} />
 			<div
 				aria-hidden
 				className={cx(
@@ -148,7 +152,7 @@ const Container: React.FC<{
 							rgba(0, 0, 0, 0) 0%,
 							rgba(0, 0, 0, 1) 100%
 						);
-						z-index: 1000;
+						z-index: 800;
 						pointer-events: none;
 					`,
 				)}
@@ -169,8 +173,8 @@ const Container: React.FC<{
 						border: 0;
 						font-size: 1rem;
 					`}
-					onMouseOver={() => !mobile && setShowMenu(true)}
-					onMouseOut={() => !mobile && setShowMenu(false)}>
+					onMouseOver={() => !mobile && context.menu.set(true)}
+					onMouseOut={() => !mobile && context.menu.set(false)}>
 					<button
 						aria-label={mobile ? "Tap to show menu" : "Back to home"}
 						ref={highlightCircle}
@@ -234,10 +238,10 @@ const Container: React.FC<{
 						)}>
 						<Logo
 							viewBox="0 0 264 264"
-							onClick={() => (mobile ? setShowMenu(true) : navigate("/"))}
+							onClick={() => (mobile ? context.menu.set(true) : navigate("/"))}
 						/>
 					</button>
-					<Menu show={showMenu} setShowMenu={setShowMenu} />
+					<Menu show={context.menu.on} setShowMenu={context.menu.set} />
 				</span>
 			)}
 			<button
@@ -248,7 +252,7 @@ const Container: React.FC<{
 					position: fixed;
 					right: 14vw;
 					bottom: 10vh;
-					z-index: 500;
+					z-index: 900;
 					background: none;
 					padding: 0;
 					font-weight: 500;

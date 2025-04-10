@@ -2,8 +2,9 @@ import React, { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import useLocation from "wouter/use-location";
 
-import { normalise } from "./util";
+import { normalise, useToggle } from "./util";
 import Container from "./components/Container";
+import { AppContext } from "./AppContext";
 
 const Home = lazy(() => import("./pages/main/Home"));
 const Exp = lazy(() => import("./pages/main/Exp"));
@@ -22,23 +23,40 @@ function App() {
 		return null;
 	}
 
-	if (normalised === "/") return <Home />;
-	if (normalised === "/experience") return <Exp />;
-	if (normalised.startsWith("/experience/")) return <Exp />;
-	if (normalised === "/work") return <Work />;
-	if (normalised === "/contact") return <Contact />;
+	let child: React.ReactNode;
+
+	if (normalised === "/") child = <Home />;
+	else if (normalised === "/experience") child = <Exp />;
+	else if (normalised.startsWith("/experience/")) child = <Exp />;
+	else if (normalised === "/work") child = <Work />;
+	else if (normalised === "/contact") child = <Contact />;
 	// if (normalised === "/live") return <Live />;
 	// if (normalised === "/blog") return <BlogHome />;
 	// if (location.startsWith("/blog")) return <BlogPost />;
-	return <NotFound />;
+	else child = <NotFound />;
+
+	return (
+		<Container>
+			<Suspense>{child}</Suspense>
+		</Container>
+	);
 }
+
+const ContextApp = () => {
+	const context: AppContext = {
+		menu: useToggle(false),
+		contact: useToggle(false),
+	};
+
+	return (
+		<AppContext.Provider value={context}>
+			<App />
+		</AppContext.Provider>
+	);
+};
 
 createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<Container>
-			<Suspense>
-				<App />
-			</Suspense>
-		</Container>
+		<ContextApp />
 	</React.StrictMode>,
 );

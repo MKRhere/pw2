@@ -1,12 +1,16 @@
-import React from "react";
-import FlickerList, { Tooltip } from "../../components/FlickerList";
+import React, { useContext } from "react";
+import FlickerList, { Tooltip } from "../../components/FlickerList.tsx";
 import { ReactComponent as Arrow } from "../../assets/arrow-thin.svg";
 import { css } from "@emotion/css";
-import { setupCursorTracking } from "../../util";
-import { Emoji } from "../../components/Emoji";
-import { AnimateEntry } from "../../components/AnimateEntry";
+import { setupCursorTracking } from "../../util/index.ts";
+import { Emoji } from "../../components/Emoji.tsx";
+import { AnimateEntry } from "../../components/AnimateEntry.tsx";
+import { AppContext } from "../../AppContext.ts";
+import { Button } from "../../components/ButtonOrAnchor.tsx";
 
 const Home: React.FC = () => {
+	const context = useContext(AppContext);
+
 	return (
 		<AnimateEntry
 			as="main"
@@ -126,38 +130,49 @@ const Home: React.FC = () => {
 						I'm looking for work!
 						<Emoji emoji="tada" baseline />
 					</p>
-					<button
+					<div
 						className={css`
-							background: var(--card-tags);
-							border: 0;
-							border-radius: 0.5rem;
-							width: fit-content;
-							color: var(--text-colour);
-							cursor: pointer;
-							font-size: 1rem;
-							margin-top: 0.4rem;
+							display: flex;
+							gap: 0.8rem;
+							flex-wrap: wrap;
+							margin-top: 0.8rem;
 
-							position: relative;
-							z-index: 0;
-
-							& a {
-								display: flex;
-								align-items: center;
-								gap: 1rem;
-								padding: 0.6rem 0.9rem;
+							& > * {
+								min-width: fit-content;
 							}
+						`}>
+						<Button
+							className={css`
+								width: fit-content;
+								z-index: 0;
 
-							& a:hover {
-								color: inherit;
-							}
-						`}
-						ref={setupCursorTracking}>
-						<div className="dynamic-gradient" />
-						<a href="https://mkr.pw/resume" target="_blank">
-							Download my resume
-							<Arrow />
-						</a>
-					</button>
+								& a {
+									display: flex;
+									align-items: center;
+									gap: 1rem;
+									width: 100%;
+									height: 100%;
+									min-width: max-content;
+								}
+
+								& a:hover {
+									color: inherit;
+								}
+							`}
+							ref={setupCursorTracking}>
+							<div className="dynamic-gradient" />
+							<a href="https://mkr.pw/resume" target="_blank">
+								Download my resume
+								<Arrow />
+							</a>
+						</Button>
+						<Button
+							styled="anchor"
+							className="contact-button"
+							onClick={() => context.contact.set(true)}>
+							Let's talk!
+						</Button>
+					</div>
 				</article>
 			</main>
 		</AnimateEntry>

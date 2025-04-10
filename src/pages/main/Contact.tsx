@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { css } from "@emotion/css";
 import { useEffect, useState } from "react";
 import { setupCursorTracking } from "../../util/index.ts";
@@ -6,6 +6,7 @@ import { ReactComponent as Logo } from "../../assets/logo.svg";
 import { Flippable } from "../../components/Flippable.tsx";
 import { AnimateEntry } from "../../components/AnimateEntry.tsx";
 import { Draggable } from "../../draggable.attempts/6/Draggable2.tsx";
+import { AppContext } from "../../AppContext.ts";
 
 const A = css`
 	text-decoration: none;
@@ -54,7 +55,20 @@ const contactCards = Array.from({ length: CARD_COUNT }, () => {
 	return rotation;
 });
 
+const formButtonStyle = css`
+	background: var(--card-tags);
+	border: 0;
+	border-radius: 0.5rem;
+	width: fit-content;
+	padding: 0.6rem 0.9rem;
+	color: var(--text-colour);
+	font-size: 1rem;
+	font-weight: 600;
+`;
+
 const Contact: React.FC = () => {
+	const context = useContext(AppContext);
+
 	const [contact, setContact] = useState<Contact>(CONTACT);
 	const [visible, setVisible] = useState(contactCards.length);
 
@@ -97,6 +111,11 @@ const Contact: React.FC = () => {
 	return (
 		<>
 			<h1>MKRhere</h1>
+			<button
+				className={formButtonStyle}
+				onClick={() => context.contact.toggle()}>
+				Prefer a contact form?
+			</button>
 			{visible < 1 && (
 				<AnimateEntry as="article" delay={500}>
 					<p>Great. You've distributed all the cards!</p>
@@ -110,7 +129,7 @@ const Contact: React.FC = () => {
 				delay={200}
 				className={css`
 					width: 100%;
-					min-height: max(40vh, 11rem);
+					min-height: max(30vh, 11rem);
 					height: 100%;
 					position: relative;
 				`}>
