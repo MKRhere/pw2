@@ -89,7 +89,11 @@ const Menu: React.FC<{
 			<a
 				className={cx({ active })}
 				key={link}
-				onClick={e => (setShowMenu(false), navigate(link)(e))}
+				onClick={e => (
+					setShowMenu(false),
+					navigate(link)(e),
+					(e.target as HTMLAnchorElement).blur()
+				)}
 				href={link}>
 				{name}
 			</a>
