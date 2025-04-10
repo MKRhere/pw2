@@ -151,6 +151,7 @@ export const Story = ({ title, description, logo, active }: Experience) => {
 						css`
 							height: 4rem;
 							width: 4rem;
+							margin-inline-start: var(--padding);
 
 							background: rgba(40, 40, 40);
 							border-radius: 100%;

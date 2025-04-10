@@ -134,7 +134,7 @@ const Home: React.FC = () => {
 						className={css`
 							display: flex;
 							gap: 0.8rem;
-							flex-wrap: wrap;
+							flex-wrap: wrap-reverse;
 							margin-top: 0.8rem;
 
 							& > * {
