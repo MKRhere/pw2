@@ -8,6 +8,24 @@ import useSearchParams from "../../util/useSearchParams";
 import useLocation from "wouter/use-location";
 import { AnimateEntry } from "../../components/AnimateEntry";
 
+const units = css`
+	width: 100%;
+	--item-padding: 1.2rem;
+
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 20rem);
+	row-gap: 0.5rem;
+	column-gap: 1rem;
+
+	@media screen and (min-width: ${offscreenWidth}) {
+		transform: translateX(0);
+	}
+
+	& > * {
+		padding-top: 2.4rem;
+	}
+`;
+
 const exp_route = /^\/experience\/?[^\/]*$/;
 const slug_replace = /^\/experience\/?/;
 
@@ -64,25 +82,7 @@ const Exp: React.FC = () => {
 			<AnimateEntry
 				as="section"
 				delay={entryDelay ? 150 : 0}
-				className={cx(
-					css`
-						width: 100%;
-						--item-padding: 1.2rem;
-
-						display: grid;
-						grid-template-columns: repeat(auto-fit, 20rem);
-						row-gap: 0.5rem;
-						column-gap: 1rem;
-
-						@media screen and (min-width: ${offscreenWidth}) {
-							transform: translateX(0);
-						}
-
-						& > * {
-							padding-top: 2.4rem;
-						}
-					`,
-				)}>
+				className={cx(units)}>
 				{experience
 					.filter(unit => !tags.size || unit.tags.some(tag => tags.has(tag)))
 					.map((unit, i) => (

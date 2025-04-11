@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { css, cx } from "@emotion/css";
 import { ReactComponent as Close } from "../../assets/close.svg";
 import { Experience } from "./types";
@@ -138,66 +138,70 @@ const story = css`
 	}
 `;
 
+const story_logo = css`
+	height: 4rem;
+	width: 4rem;
+	margin-inline-start: var(--padding);
+
+	background: rgba(40, 40, 40);
+	border-radius: 100%;
+
+	& img {
+		height: 100%;
+		border-radius: 100%;
+	}
+`;
+
+const closer = css`
+	display: none;
+	appearance: none;
+	border: none;
+	background: var(--card-active);
+	color: var(--text-subdued);
+	width: 1.8rem;
+	height: 1.8rem;
+	padding: 0.2rem;
+	border-radius: 3rem;
+
+	& svg {
+		width: 0.8rem;
+		height: 0.8rem;
+	}
+
+	/* set in mobile mode */
+	/* display: flex; */
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	top: calc(1rem + var(--padding));
+	right: var(--padding);
+	cursor: pointer;
+
+	transform: rotate(90deg);
+`;
+
 export const Story = ({ title, description, logo, active }: Experience) => {
+	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (active) setTimeout(() => ref.current?.scrollIntoView(true), 300);
+	}, [active]);
+
 	return (
 		<div
+			ref={ref}
 			className={cx(story, "story")}
 			id={active ? "active-story" : undefined}>
 			<div aria-hidden className="story-handle" />
 			<div className="story-content">
-				<picture
-					className={cx(
-						"story-logo",
-						css`
-							height: 4rem;
-							width: 4rem;
-							margin-inline-start: var(--padding);
-
-							background: rgba(40, 40, 40);
-							border-radius: 100%;
-
-							& img {
-								height: 100%;
-								border-radius: 100%;
-							}
-						`,
-					)}>
+				<picture className={cx("story-logo", story_logo)}>
 					<source srcSet={`/assets/logos/` + logo + ".avif"} />
 					<img alt={title + " logo"} src={`/assets/logos/` + logo + ".png"} />
 				</picture>
 				<button
 					title="Close story"
-					className={cx(
-						"closer",
-						css`
-							display: none;
-							appearance: none;
-							border: none;
-							background: var(--card-active);
-							color: var(--text-subdued);
-							width: 1.8rem;
-							height: 1.8rem;
-							padding: 0.2rem;
-							border-radius: 3rem;
-
-							& svg {
-								width: 0.8rem;
-								height: 0.8rem;
-							}
-
-							/* set in mobile mode */
-							/* display: flex; */
-							justify-content: center;
-							align-items: center;
-
-							position: absolute;
-							top: calc(1rem + var(--padding));
-							right: var(--padding);
-							cursor: pointer;
-
-							transform: rotate(90deg);
-						`,
-					)}
+					className={cx("closer", closer)}
 					onClick={() => window.history.back()}>
 					<Close />
 				</button>

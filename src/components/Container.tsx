@@ -89,8 +89,9 @@ const Container: React.FC<{
 	}
 
 	useEffect(() => {
-		// scroll back to top when new page is loaded
-		window.scrollTo({ top: 0 });
+		const depth = location.split("/").length;
+		// scroll back to top when new page is loaded, only for top-level pages
+		if (depth === 1) window.scrollTo({ top: 0 });
 
 		if (highlightCircle.current) {
 			highlightCircle.current.classList.add("highlight");

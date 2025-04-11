@@ -258,11 +258,10 @@ export const experience = [
 					At Hugo's Way, I played a key role in stabilising their currency
 					exchange platform, ensuring smooth and reliable operations.
 					Recognising the imperative for scalability and adaptability, I
-					spearheaded the transition from a monolithic architecture to a more
-					agile and modular service-oriented one to achieve flexibility to
-					deploy as whitelabelled services. This structural overhaul not only
-					bolstered performance but also streamlined development cycles and
-					maintenance.
+					spearheaded the transition from a monolithic architecture to be more
+					agile and modular service-oriented to achieve flexibility to deploy
+					whitelabelled services. This structural overhaul not only improved
+					performance but also streamlined development cycles.
 				</p>
 
 				<p>
