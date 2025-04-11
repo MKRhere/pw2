@@ -4,7 +4,7 @@ import useLocation from "wouter/use-location";
 
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as Right } from "../assets/arrow-right.svg";
-import { getTimeout, useToggle } from "../util";
+import { getTimeout } from "../util";
 import Menu, { MenuEntries, MenuPaths } from "./Menu";
 import useMediaQuery from "../util/useMediaQuery";
 import { AnimateEntry } from "./AnimateEntry";

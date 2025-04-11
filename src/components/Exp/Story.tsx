@@ -185,7 +185,8 @@ export const Story = ({ title, description, logo, active }: Experience) => {
 	const ref = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (active) setTimeout(() => ref.current?.scrollIntoView(true), 300);
+		if (active)
+			setTimeout(() => ref.current?.scrollIntoView({ block: "end" }), 300);
 	}, [active]);
 
 	return (
