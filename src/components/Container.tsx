@@ -62,10 +62,12 @@ const Container: React.FC<{
 		} catch {}
 	};
 
+	const relevantLocation = location.split("/").slice(0, 2).join("/");
+
 	const handlePrev = (e: MouseKb) => {
 		animateArrow(e);
 
-		const current = MenuPaths.findIndex(path => location === path);
+		const current = MenuPaths.findIndex(path => relevantLocation === path);
 		const index = (current - 1) % MenuPaths.length;
 		const prev = MenuPaths.at(index)!;
 		timer(() => navigate(prev), 300);
@@ -74,7 +76,7 @@ const Container: React.FC<{
 	const handleNext = (e: MouseKb) => {
 		animateArrow(e);
 
-		const current = MenuPaths.findIndex(path => location === path);
+		const current = MenuPaths.findIndex(path => relevantLocation === path);
 		const index = (current + 1) % MenuPaths.length;
 		const next = MenuPaths.at(index)!;
 		timer(() => navigate(next), 300);
@@ -89,9 +91,8 @@ const Container: React.FC<{
 	}
 
 	useEffect(() => {
-		const depth = location.split("/").length;
 		// scroll back to top when new page is loaded, only for top-level pages
-		if (depth === 1) window.scrollTo({ top: 0 });
+		window.scrollTo({ top: 0 });
 
 		if (highlightCircle.current) {
 			highlightCircle.current.classList.add("highlight");
@@ -115,12 +116,12 @@ const Container: React.FC<{
 
 		// cleanup
 		return () => (window.removeEventListener("keydown", kbnav), clear());
-	}, [location, context.contact.on]);
+	}, [relevantLocation, context.contact.on]);
 
 	// on first render
 	useLayoutEffect(handleResize, []);
 
-	const end = location === MenuEntries[MenuEntries.length - 1][1];
+	const end = relevantLocation === MenuEntries[MenuEntries.length - 1][1];
 
 	return (
 		<div
