@@ -5,6 +5,7 @@ export type Project = {
 	cat: string;
 	tags: string[];
 	wip?: boolean;
+	private?: boolean;
 };
 
 export const projects: Project[] = [
@@ -21,7 +22,7 @@ export const projects: Project[] = [
 		description: "Suite of fast, reactive web-app development libraries.",
 		url: "https://github.com/codefeathers/hyperactive",
 		cat: "lib",
-		tags: ["reactive", "ui-framework"],
+		tags: ["reactive", "ui-framework", "typescript"],
 	},
 	{
 		title: "deno shims",
@@ -49,16 +50,6 @@ export const projects: Project[] = [
 		tags: ["hyperactive", "calendar"],
 	},
 	{
-		title: "Telecraft",
-		description: "Pluggable Minecraft server administration toolkit.",
-		url: "https://github.com/MadrasMC/telecraft",
-		cat: "cli",
-		tags: ["minecraft", "node"],
-	},
-];
-
-export const otherProjects: Project[] = [
-	{
 		title: "true-pg",
 		description:
 			"The most complete PostgreSQL schema generator for TypeScript, Kysely, Zod, and others.",
@@ -66,13 +57,54 @@ export const otherProjects: Project[] = [
 		cat: "lib",
 		tags: ["postgresql", "schema", "typescript", "kysely", "zod"],
 	},
+];
+
+export const otherProjects: Project[] = [
+	{
+		title: "Telecraft",
+		description: "Pluggable Minecraft server administration toolkit.",
+		url: "https://github.com/MadrasMC/telecraft",
+		cat: "cli",
+		tags: ["deno", "minecraft"],
+	},
 	{
 		title: "wiretap",
 		description:
-			"Extremely tiny debug logging utility for all JavaScript runtimes. Published as npm/yarn.",
+			"Extremely tiny universal debug logging utility for all JavaScript runtimes. Published as npm/w.",
 		url: "https://github.com/feathers-studio/wiretap",
 		cat: "lib",
-		tags: ["debug", "logging", "typescript"],
+		tags: ["typescript", "debug", "logging"],
+	},
+	{
+		title: "hyperweb",
+		description:
+			"An implementation of WebMentions and a self-hosted microblog. A distributed social hyperweb!",
+		url: "https://github.com/feathers-studio/hyperweb",
+		cat: "web",
+		tags: ["typescript", "webmentions", "microblog"],
+	},
+	{
+		title: "ts-parser",
+		description:
+			"A TypeScript definitions (d.ts) parser from scratch using parser-generators.",
+		url: "https://github.com/feathers-studio/ts-parser",
+		cat: "lib",
+		tags: ["typescript", "parser"],
+	},
+	{
+		title: "hypercss",
+		description: "A perfectly spec-compliant CSS parser for TypeScript.",
+		url: "https://github.com/feathers-studio/hypercss",
+		cat: "lib",
+		tags: ["typescript", "parser", "css"],
+	},
+	{
+		title: "zappymail",
+		description:
+			"A tiny proxy email server to reformat emails from a thirdparty utility.",
+		cat: "cli",
+		tags: ["typescript", "proxy", "email"],
+		private: true,
 	},
 	{
 		title: "storymap",
@@ -80,7 +112,7 @@ export const otherProjects: Project[] = [
 			"Reverse-engineered thirdparty map renderer for Vintage Story in Zig ⚡️",
 		url: "https://github.com/MadrasMC/storymap",
 		cat: "cli",
-		tags: ["vintage-story", "zig"],
+		tags: ["zig", "map-renderer", "vintage-story"],
 		wip: true,
 	},
 	{
@@ -88,14 +120,29 @@ export const otherProjects: Project[] = [
 		description: "TypeScript bindings for the i3 window manager.",
 		url: "https://github.com/feathers-studio/i3-ts",
 		cat: "lib",
-		tags: ["i3", "typescript", "bindings"],
+		tags: ["typescript", "bindings", "i3"],
+	},
+	{
+		title: "mkr/mail",
+		description:
+			"A personal utility to fetch new emails from an IMAP server and send them to Telegram.",
+		url: "https://github.com/MKRhere/mail",
+		cat: "bot",
+		tags: ["typescript", "imap", "telegram"],
 	},
 	{
 		title: "pg-extract",
-		description: "Extract data from PostgreSQL tables into a JSON array.",
+		description: "Extract data from PostgreSQL tables into a JSON collection.",
 		url: "https://github.com/feathers-studio/pg-extract",
 		cat: "lib",
 		tags: ["postgresql", "json", "data-extraction"],
+	},
+	{
+		title: "mkr/bin",
+		description: "A small personal bin.",
+		url: "https://github.com/MKRhere/bin",
+		cat: "web",
+		tags: ["typescript", "bin"],
 	},
 	{
 		title: window.location.hostname.split(".").slice(0, 2).join("."),

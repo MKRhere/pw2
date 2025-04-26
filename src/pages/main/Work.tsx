@@ -174,16 +174,19 @@ const Exp: React.FC = () => {
 								`}>
 								<a
 									className={cx(
-										unit.wip &&
+										(unit.wip || unit.private) &&
 											css`
 												color: var(--text-subdued);
 												cursor: default;
 											`,
 									)}
-									href={unit.wip ? undefined : unit.url}
+									href={unit.wip || unit.private ? undefined : unit.url}
 									target="_blank"
 									rel="noreferrer"
-									title={unit.title + (unit.wip ? " (WIP)" : "")}>
+									title={
+										unit.title +
+										(unit.wip ? " (WIP)" : unit.private ? " (private)" : "")
+									}>
 									{unit.title}
 								</a>
 							</td>
