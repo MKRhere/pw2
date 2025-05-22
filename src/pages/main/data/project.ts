@@ -18,19 +18,19 @@ export const projects: Project[] = [
 		tags: ["react", "vite"],
 	},
 	{
+		title: "comptime.ts",
+		description:
+			"A TypeScript compiler for compile-time expressions, for fewer runtime computations; similar to Zig comptime.",
+		url: "https://github.com/feathers-studio/comptime.ts",
+		cat: "compiler",
+		tags: ["typescript", "compiler", "comptime"],
+	},
+	{
 		title: "hyperactive",
 		description: "Suite of fast, reactive web-app development libraries.",
 		url: "https://github.com/codefeathers/hyperactive",
 		cat: "lib",
 		tags: ["reactive", "ui-framework", "typescript"],
-	},
-	{
-		title: "deno shims",
-		description:
-			"Node shims for Deno’s runtime API. Transferred to official denoland.",
-		url: "https://github.com/denoland/node_shims",
-		cat: "lib",
-		tags: ["deno", "shims"],
 	},
 	{
 		title: "Telegraf",
@@ -54,12 +54,20 @@ export const projects: Project[] = [
 		description:
 			"The most complete PostgreSQL schema generator for TypeScript, Kysely, Zod, and others.",
 		url: "https://github.com/feathers-studio/true-pg",
-		cat: "lib",
-		tags: ["postgresql", "schema", "typescript", "kysely", "zod"],
+		cat: "codegen",
+		tags: ["postgresql", "schema", "kysely", "zod"],
 	},
 ];
 
 export const otherProjects: Project[] = [
+	{
+		title: "deno shims",
+		description:
+			"Node shims for Deno’s runtime API. Transferred to official denoland.",
+		url: "https://github.com/denoland/node_shims",
+		cat: "lib",
+		tags: ["deno", "shims"],
+	},
 	{
 		title: "Telecraft",
 		description: "Pluggable Minecraft server administration toolkit.",
