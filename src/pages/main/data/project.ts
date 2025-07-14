@@ -61,6 +61,14 @@ export const projects: Project[] = [
 
 export const otherProjects: Project[] = [
 	{
+		title: "mkr/pdf (real name TBA)",
+		description: "A declarative Figma/flexbox-like layout engine from scratch, with a PDF backend. Allows designing PDFs in code. Canvas backend to be added in the future.",
+		url: "",
+		cat: "lib",
+		tags: [ "declarative", "layout", "pdf" ],
+		wip: true,
+	},
+	{
 		title: "deno shims",
 		description:
 			"Node shims for Deno’s runtime API. Transferred to official denoland.",
