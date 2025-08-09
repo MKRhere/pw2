@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import FlickerList, { Tooltip } from "../../components/FlickerList.tsx";
-import { ReactComponent as Arrow } from "../../assets/arrow-thin.svg";
-import { css } from "@emotion/css";
-import { setupCursorTracking } from "../../util/index.ts";
+import { css, cx } from "@emotion/css";
 import { Emoji } from "../../components/Emoji.tsx";
 import { AnimateEntry } from "../../components/AnimateEntry.tsx";
 import { AppContext } from "../../AppContext.ts";
-import { Button } from "../../components/ButtonOrAnchor.tsx";
+import { Anchor, Button } from "../../components/ButtonOrAnchor.tsx";
 
 const Home: React.FC = () => {
 	const context = useContext(AppContext);
@@ -69,6 +67,37 @@ const Home: React.FC = () => {
 					]}
 				/>
 			</section>
+
+			<article
+				className={css`
+					/* Makes it look visually consistently spaced, even though it's correctly spaced by gap already */
+					margin-top: -0.8rem;
+					display: flex;
+					flex-wrap: wrap;
+					white-space: nowrap;
+					gap: 0.5rem;
+					background: #ff6600;
+					padding: 0.5rem 1rem;
+					width: fit-content;
+					color: #fff;
+					font-weight: 700;
+					& a {
+						color: #fff;
+						font-weight: 500;
+						&:hover {
+							color: #fff;
+							text-decoration: underline;
+						}
+					}
+				`}>
+				<p>We made it to HackerNews!</p>
+				<Emoji emoji="tada" />
+				<Anchor href="https://news.ycombinator.com/item?id=44778898">
+					[comments]
+				</Anchor>
+				<Anchor href="https://comptime.js.org">[project]</Anchor>
+			</article>
+
 			<main
 				className={css`
 					/* fiddle */
@@ -101,32 +130,39 @@ const Home: React.FC = () => {
 						margin-top: -0.4rem;
 						display: flex;
 						flex-direction: column;
-						gap: 0.2rem;
+						gap: 1rem;
 					`}>
-					<p>
-						Welcome to the web home of{" "}
-						<Tooltip
-							description={
-								<>
-									For legal reasons, my name is <i>Anu Rahul Nandhan</i>, but I
-									generally go by my{" "}
-									<a
-										href="https://en.wiktionary.org/wiki/nom_de_guerre"
-										target="_blank"
-										rel="noreferrer">
-										nom-de-guerre
-									</a>{" "}
-									Muthu Kumar.
-								</>
-							}>
-							<b>Muthu Kumar</b>.
-						</Tooltip>
-					</p>
-					<p>
-						I'm from Chennai, South India
-						<Emoji emoji="ind" />
-					</p>
-					<p>
+					<div
+						className={css`
+							display: flex;
+							flex-direction: column;
+							gap: 0.2rem;
+						`}>
+						<p>
+							Welcome to the web home of{" "}
+							<Tooltip
+								description={
+									<>
+										For legal reasons, my name is <i>Anu Rahul Nandhan</i>, but
+										I generally go by my{" "}
+										<a
+											href="https://en.wiktionary.org/wiki/nom_de_guerre"
+											target="_blank"
+											rel="noreferrer">
+											nom-de-guerre
+										</a>{" "}
+										Muthu Kumar.
+									</>
+								}>
+								<b>Muthu Kumar</b>.
+							</Tooltip>
+						</p>
+						<p>
+							I'm from Chennai, South India
+							<Emoji emoji="ind" />
+						</p>
+					</div>
+					{/* <p>
 						I'm looking for work!
 						<Emoji emoji="tada" baseline />
 					</p>
@@ -166,13 +202,18 @@ const Home: React.FC = () => {
 								<Arrow />
 							</a>
 						</Button>
-						<Button
-							styled="anchor"
-							className="contact-button"
-							onClick={() => context.contact.set(true)}>
-							Let's talk!
-						</Button>
-					</div>
+					</div> */}
+					<Button
+						className={cx(
+							"contact-button",
+							css`
+								width: fit-content;
+								font-weight: 700;
+							`,
+						)}
+						onClick={() => context.contact.set(true)}>
+						Let's talk!
+					</Button>
 				</article>
 			</main>
 		</AnimateEntry>
