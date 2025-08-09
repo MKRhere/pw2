@@ -333,6 +333,30 @@ export const experience = [
 		),
 		logo: "FeathersStudio",
 	},
+	{
+		title: "Intensity Labs",
+		slug: "intensitylabs",
+		location: "Remote (US)",
+		position: "Telegram Bot Dev & QA",
+		year: "2025-present",
+		tags: ["Programming"],
+		description: (
+			<>
+				<p>
+					Helping rewrite a large scale Telegram bot, optimising for performance
+					and maintainability. My background as Telegraf's maintainer comes in
+					handy, since I've thought a lot about these problems before.
+				</p>
+				<p>
+					The project I work on, Shogun, allows fluently swapping between many
+					cryptocurrencies. It's an interesting and challenging project, and I'm
+					learning a lot about the intricacies of the crypto space.
+				</p>
+				<p>I'll probably have more to say about this soon.</p>
+			</>
+		),
+		logo: "IntensityLabs",
+	},
 ].reverse();
 
 const getAge = (date: string) => {
