@@ -95,6 +95,9 @@ const Home: React.FC = () => {
 				<Anchor href="https://news.ycombinator.com/item?id=44778898">
 					[comments]
 				</Anchor>
+				<Anchor href="https://news.ycombinator.com/front?day=2025-08-06#44778898">
+					[frontpage]
+				</Anchor>
 				<Anchor href="https://comptime.js.org">[project]</Anchor>
 			</article>
 
